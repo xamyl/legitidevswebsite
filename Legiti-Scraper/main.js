@@ -14,5 +14,9 @@ bot.on('message', (jsonMsg, position, sender, verified) => {
     console.log(jsonMsg.toString());
 })
 
-bot.on('kicked', console.log)
-bot.on('error', console.log)
+bot.on('kicked', () => {
+  console.log("The bot is probably banned. Please contact the Minecraft server administrator")
+})
+bot.on('error', () => {
+  console.log("The bot encountered a problem and can't continue. Please call submit the issue on github.")
+})

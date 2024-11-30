@@ -14,3 +14,10 @@ client.once(Events.ClientReady, readyClient => {
 
 // Log in to Discord with your client's token
 client.login(token);
+
+// It's a test, I don't know if this is working properly. Requires testing.
+client.on('message', function(message) {
+ if (message.content === 'ping') {
+  client.message.send(author, 'pong');
+ }
+});

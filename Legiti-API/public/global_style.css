@@ -1,4 +1,29 @@
+:root {
+    --main: #fff;
+    --secondary: #D1DAE4;
+    --tertiary: #27252c;
+    --accent: #a262ff;
+    --outline: #1a1d30;
+    --text-main: #000;
+}
+
 body {
     display: flex;
     flex-direction: column;
+}
+
+.navbar {
+    display: flex;
+    background-color: var(--main);
+    color: var(--text-main);
+
+    a, a:visited, a:active {
+        color: var(--text-main);
+        text-decoration: none;
+    }
+
+    a > img {
+        height: auto;
+        width: 60px;
+    }
 }

@@ -17,7 +17,7 @@ client.login(token);
 
 // It's a test, I don't know if this is working properly. Requires testing.
 client.on('message', function(message) {
- if (message.content === 'ping') {
+ if (message.content == 'ping') {
   client.message.send(author, 'pong');
  }
 });

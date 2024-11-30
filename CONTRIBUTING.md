@@ -1,7 +1,3 @@
-make everythin raw markdown
-ChatGPT said:
-ChatGPT
-
 # Legitimoose API
 A soon™-to-be API for managing [Legitimoose.com](https://store.legitimoose.com) worlds.
 

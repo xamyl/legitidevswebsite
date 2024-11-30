@@ -58,4 +58,4 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-client.login(DISCORD_TOKEN);
+client.login(token);

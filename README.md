@@ -1,5 +1,5 @@
 # Legitimoose API
-soon™ to be frontend implementation, pretty WIP
+soon™ to be a api for [legitimoose.com](https://store.legitimoose.com) worlds
 
 ## Set up dev environment
-After forking and cloning the repo, run `npm i` in the root directory of the project. Then, you can run `node .` to run it. Now go to [localhost:8080](http://localhost:8080) (or whatever port you've set).
+After forking/cloning, cd into the `Legiti-Scraper` directory and run `npm i`. Then, cd into `Legiti-API` and also run `npm i`. You can also install the GO programming language to run the discord bot.

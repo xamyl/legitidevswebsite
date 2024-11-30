@@ -28,16 +28,15 @@
     --main-light: #D1DAE4;
     --secondary-light: #fff;
     --tertiary-light: #27252c;
-    --accent-light: #a262ff;
-    --outline-light: #1a1d30;
     --text-main-light: #000;
 
     --main-dark: #1a1d30;
     --secondary-dark: #151827;
     --tertiary-dark: #131114;
-    --accent-dark: #a262ff;
-    --outline-dark: #1a1d30;
     --text-main-dark: #fff;
+
+    --accent: #a262ff;
+    --outline: #1a1d30;
 
     color-scheme: light dark;
 }
@@ -49,7 +48,7 @@ body {
     height: 100%;
     margin: 0;
     font-family: "Poppins";
-    font-size: 1.25em;
+    font-size: 1em;
 }
 
 img, svg, video, canvas, audio, iframe, embed, object {

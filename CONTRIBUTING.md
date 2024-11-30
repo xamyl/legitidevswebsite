@@ -2,8 +2,8 @@
 
 We welcome contributions! Follow these guidelines to ensure a smooth collaboration:
 
-1. **Create a Branch**  
-Always work on a separate branch instead of committing directly to the `master` branch. GitHub will require you to create a pull request (PR) to merge your changes.
+1. **Create a Branch / Fork**  
+Always work on a separate branch / fork instead of committing directly to the `master` branch. GitHub will require you to create a pull request (PR) to merge your changes.
 
 2. **Write Meaningful Commit Messages**  
 Be descriptive and precise in your commit messages. For example, instead of:

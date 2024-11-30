@@ -1,0 +1,81 @@
+/* HELLO TRPLNR HERE, IM WATCHING ARCANE PLZ NO TOUCHY TY!!!!!! */
+
+@font-face {
+    font-family: "Poppins";
+    src: url(../assets/fonts/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Poppins";
+    font-style: italic;
+    src: url(../assets/fonts/Poppins-Italic.ttf);
+}
+
+@font-face {
+    font-family: "Poppins";
+    font-weight: bold;
+    src: url(../assets/fonts/Poppins-Bold.ttf);
+}
+
+@font-face {
+    font-family: "Poppins";
+    font-weight: bold;
+    font-style: italic;
+    src: url(../assets/fonts/Poppins-BoldItalic.ttf);
+}
+
+:root {
+    --main-light: #D1DAE4;
+    --secondary-light: #fff;
+    --tertiary-light: #27252c;
+    --accent-light: #a262ff;
+    --outline-light: #1a1d30;
+    --text-main-light: #000;
+
+    --main-dark: #1a1d30;
+    --secondary-dark: #151827;
+    --tertiary-dark: #131114;
+    --accent-dark: #a262ff;
+    --outline-dark: #1a1d30;
+    --text-main-dark: #fff;
+
+    color-scheme: light dark;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    height: 100%;
+    margin: 0;
+    font-family: "Poppins";
+    font-size: 1.25em;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+  display: block;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    background-color: light-dark(var(--secondary-light), var(--secondary-dark));
+    color: light-dark(var(--text-main-light), -var(-text-main-dark));
+
+    :first-child {
+        margin-left: 10px;
+    }
+
+    a, a:visited, a:active {
+        color: light-dark(var(--text-main-light), var(--text-main-dark));
+        margin-block: 10px;
+        margin-right: 50px;
+        text-decoration: none;
+    }
+
+    a > img {
+        height: auto;
+        width: 50px;
+        border-radius: 5px;
+    }
+}

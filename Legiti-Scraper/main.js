@@ -18,5 +18,5 @@ bot.on('kicked', () => {
   console.log("The bot is probably banned. Please contact the Minecraft server administrator")
 })
 bot.on('error', () => {
-  console.log("The bot encountered a problem and can't continue. Please call submit the issue on github.")
+  console.log("The bot encountered a problem and can't continue. Please submit the issue on github.")
 })

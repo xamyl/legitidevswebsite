@@ -1,19 +1,33 @@
-const express = require("express");
-const config = require("./config.json");
-const path = require("node:path");
+import Fastify from "fastify";
+import fastifyStatic from "@fastify/static";
+import config from "./config.json" with { type: "json" };
+import path from "path";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-app.use(express.static("public"));
+const fastify = Fastify({
+  logger: true
+})
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "home.html"));
+fastify.register(fastifyStatic, {
+  root: path.join(__dirname, 'public'),
 });
 
-app.get("/browse", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "world-browser.html"));
+fastify.get("/", function (req, res) {
+  res.sendFile('home.html');
 });
 
-app.listen(config.port, () => {
-  console.log(`Running on port ${config.port}`);
+fastify.get("/browse", function (req, res) {
+  res.sendFile('world-browser.html');
 });
+
+fastify.listen({ port: config.port }, function (err, address) {
+  if (err) {
+    fastify.log.error(err)
+    process.exit(1)
+  }
+  // Server is now listening on ${address}
+})

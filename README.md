@@ -4,9 +4,7 @@ soon™ to be a api for [legitimoose.com](https://store.legitimoose.com) worlds
 
 ![forthebadge](https://img.shields.io/github/forks/LegitiDevs/LegitimooseApi)
 
-![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)
-
-![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)
+[![works on my machine badge](https://cdn.jsdelivr.net/gh/nikku/works-on-my-machine@v0.4.0/badge.svg)](https://github.com/nikku/works-on-my-machine)
 
 
 

@@ -78,36 +78,3 @@ img, svg, video, canvas, audio, iframe, embed, object {
         border-radius: 5px;
     }
 }
-
-.footer-container {
-    display: flex;
-    flex-direction: column;
-    background-color: light-dark(var(--tertiary-light), var(--tertiary-dark));
-    color: var(--text-main-dark);
-    height: 30vmin;
-    padding: 25px 25px 50px 25px;
-
-    p {
-        margin-bottom: 0;
-    }
-
-    a, a:visited, a:active {
-        color: var(--text-main-dark);
-        margin-top: 30px;
-        text-decoration: none;
-    }
-
-    .links-container {
-        display: flex;
-        align-items: center;
-
-        > * {
-            margin-right: 30px;
-        }
-    }
-
-    .links-container > a > img {
-        height: auto;
-        width: 50px;
-    }
-}

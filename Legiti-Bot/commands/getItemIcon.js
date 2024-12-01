@@ -40,7 +40,11 @@ module.exports = {
       await interaction.reply({ embeds: [itemEmbed] });
     } catch (error) {
       await interaction.reply({
-        content: `${error.message}`,
+        const :errorEmbed = new EmbedBuilder()
+          .setColor("Red")
+          .setTitle("Error")
+          .setDescription("Cant find the item you specified"),
+        embeds: [errorEmbed],
         ephemeral: true
       });
     }

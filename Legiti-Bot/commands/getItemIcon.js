@@ -39,7 +39,10 @@ module.exports = {
         .setImage(icon);
       await interaction.reply({ embeds: [itemEmbed] });
     } catch (error) {
-      await interaction.reply(`${error.message}`);
+      await interaction.reply({
+        content: `${error.message}`,
+        ephemeral: true
+      });
     }
   },
 };

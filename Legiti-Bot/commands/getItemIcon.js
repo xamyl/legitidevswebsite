@@ -43,7 +43,7 @@ module.exports = {
         const :errorEmbed = new EmbedBuilder()
           .setColor("Red")
           .setTitle("Error")
-          .setDescription("Cant find the item you specified"),
+          .setDescription("Cannot find the item you specified"),
         embeds: [errorEmbed],
         ephemeral: true
       });

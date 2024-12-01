@@ -1,21 +1,26 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 async function getItemIcon(item_id) {
-  let final = item_id.substring(10).split("_");
+  let final = item_id.replace(/^\w+:/, "").split("_");
   final = final
-    .map((word) => `${word[0].toUpperCase()}${word.slice(1)}`)
-    .join("_");
+      .map((word) => `${word[0].toUpperCase()}${word.slice(1)}`)
+      .join("_");
 
-  let pngUrl = `https://minecraft.wiki/w/Special:FilePath/${final}.png`;
+  const pngUrl = `https://minecraft.wiki/w/Special:FilePath/${final}.png`;
   const pngResponse = await fetch(pngUrl);
-  pngUrl = pngResponse.url;
 
-  if (pngResponse.status != 404) {
-    return pngUrl;
-  } else {
-    let gifUrl = `https://minecraft.wiki/w/Special:FilePath/${final}.gif`;
-    return gifUrl;
+  if (pngResponse.ok) {
+      return pngResponse.url;
   }
+
+  const gifUrl = `https://minecraft.wiki/w/Special:FilePath/${final}.gif`;
+  const gifResponse = await fetch(gifUrl);
+
+  if (gifResponse.ok) {
+      return gifResponse.url;
+  }
+
+  throw new SyntaxError(`'${item_id}' is not a valid item id.`);
 }
 
 module.exports = {

@@ -1,34 +1,43 @@
 import Fastify from "fastify";
 import fastifyStatic from "@fastify/static";
-import config from "./config.json" with { type: "json" };
+import CONFIG from "./config.json" with { type: "json" };
 import path from "path";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
+import { readdirSync, readFileSync } from "node:fs"
+import { Stream } from "node:stream";
+import { parse } from "node-html-parser"
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = import.meta.dirname;
+const PUBLIC_FOLDER = path.join(__dirname, "public");
 
 const fastify = Fastify({
     logger: false,
 });
 
 fastify.register(fastifyStatic, {
-    root: path.join(__dirname, "public"),
+    root: PUBLIC_FOLDER,
 });
 
-fastify.get("/", function (req, res) {
-    res.sendFile("home.html");
-});
+// The whole purpose of this is to get rid of the ugly .html extension lol.
+// You can now specify the main page using configs.
+function routePages() {
+    const pages = readdirSync(path.join(PUBLIC_FOLDER, "pages")).map((page) => page.replace(".html", ""));
+    
+    for (let page of pages) {
+        if (page == CONFIG.mainPage) {
+            fastify.get(`/`, (req, res) => {
+                res.sendFile(`pages/${page}.html`)
+            })
+        } else {
+            fastify.get(`/${page}`, (req, res) => {
+                res.sendFile(`pages/${page}.html`)
+            })
+        }
+    }
+}
 
-fastify.get("/browse", function (req, res) {
-    res.sendFile("world-browser.html");
-});
+routePages()
 
-fastify.get("/api", function (req, res) {
-    res.sendFile("api.html");
-});
-
-fastify.listen({ port: config.port }, function (err, address) {
+fastify.listen({ port: CONFIG.port }, function (err, address) {
     if (err) {
         fastify.log.error(err);
         process.exit(1);

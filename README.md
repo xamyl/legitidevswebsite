@@ -12,8 +12,10 @@ To get started with the project, follow these steps:
 1. Clone or fork the repository.
 `git clone https://github.com/LegitiDevs/website.git`
 2. Run the following commands
-```cd website
-npm install```
+```
+cd website
+npm install
+```
 
 ---
 

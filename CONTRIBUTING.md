@@ -25,5 +25,4 @@ If you're unsure about a change or its impact, create a PR for review. Even if y
 
 ---
 
-Contributions are what make this project great. Thank you for helping improve the Legitidevs Website!  
-
+Contributions are what make this project great. Thank you for helping improve the Legitidevs website!  

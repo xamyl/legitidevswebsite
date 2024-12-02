@@ -1,7 +1,7 @@
-# Legitimoose API
-A soon™-to-be API for managing [Legitimoose.com](https://store.legitimoose.com) worlds.
+# LegitiDevs Website
+The website for LegitiDevs
 
-![GitHub forks badge](https://img.shields.io/github/forks/LegitiDevs/LegitimooseApi) ![Works on my machine badge](https://cdn.jsdelivr.net/gh/nikku/works-on-my-machine@v0.4.0/badge.svg)
+![GitHub forks badge](https://img.shields.io/github/forks/LegitiDevs/website) ![Works on my machine badge](https://cdn.jsdelivr.net/gh/nikku/works-on-my-machine@v0.4.0/badge.svg)
 
 ---
 
@@ -10,21 +10,13 @@ A soon™-to-be API for managing [Legitimoose.com](https://store.legitimoose.com
 To get started with the project, follow these steps:
 
 1. Clone or fork the repository.
-2. Navigate into the `Legiti-Scraper` directory and install dependencies:
-
-cd Legiti-Scraper npm install
-
-3. Repeat the process for the `Legiti-API` directory:
-
-cd ../Legiti-API npm install
-
-4. Similarly, set up the `Legiti-Bot` directory:
-
-cd ../Legiti-Bot npm install
-
+`git clone https://github.com/LegitiDevs/website.git`
+2. Run the following commands
+```cd website
+npm install```
 
 ---
 
 ## How to Contribute
 
-Please refer to [CONTRIBUTING.md](https://github.com/LegitiDevs/LegitimooseApi/blob/master/CONTRIBUTING.md)
+Please refer to [CONTRIBUTING.md](https://github.com/LegitiDevs/website/blob/master/CONTRIBUTING.md)

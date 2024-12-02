@@ -10,7 +10,9 @@ The website for LegitiDevs
 To get started with the project, follow these steps:
 
 1. Clone or fork the repository.
+
 `git clone https://github.com/LegitiDevs/website.git`
+
 2. Run the following commands
 ```
 cd website

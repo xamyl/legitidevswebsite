@@ -8,7 +8,7 @@ DEMO_BUTTON.addEventListener('click', async () => {
     try {
         const response = await fetch(`https://api.omrih.me${inputValue}`)
         const json = await response.json();
-        DEMO_RESULT.textContent = json
+        DEMO_RESULT.textContent = JSON.stringify(json)
     } catch (err) {
         DEMO_RESULT.textContent = `There was an error trying while trying to call 'https://api.omrih.me${inputValue}': \n  ${err}`
     }

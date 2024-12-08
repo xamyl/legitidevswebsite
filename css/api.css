@@ -5,7 +5,38 @@
     min-height: 100vmin;
     align-items: center;
 
-    p {
-        max-width: 500px;
+    p.centered { text-align: center; }
+
+    div.section {
+        max-width: 600px;
+        margin-block: 5px;
+    }
+
+    div.text-block {
+        max-width: 100%;
+        margin-block: 30px;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    div.demo-container {
+        display: flex;
+        flex-direction: column;   
+
+        div.input-field { width: 100%; }
+
+        #demo-input, #demo-fetch {
+            all: unset;
+            color: black;
+            background-color: #e8f0fe;
+            padding-block: 10px;
+            padding-inline: 15px;
+            outline: var(--accent) 2px solid;
+            border-radius: 2px;
+        }
+
+        #demo-input::placeholder { color: rgb(100, 100, 100) }
     }
 }

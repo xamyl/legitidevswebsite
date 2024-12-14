@@ -1,22 +1,38 @@
-# LegitiDevs Website
-The website for LegitiDevs
+# sv
 
-![GitHub forks badge](https://img.shields.io/github/forks/LegitiDevs/website) ![Works on my machine badge](https://cdn.jsdelivr.net/gh/nikku/works-on-my-machine@v0.4.0/badge.svg)
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
----
+## Creating a project
 
-## Set Up Development Environment
+If you're seeing this, you've probably already done this step. Congrats!
 
-To get started with the project, follow these steps:
+```bash
+# create a new project in the current directory
+npx sv create
 
-1. Clone or fork the repository.
+# create a new project in my-app
+npx sv create my-app
+```
 
-`git clone https://github.com/LegitiDevs/website.git`
+## Developing
 
-2. If you use VS Code as your code editor, you can install the [Live Server](https://marketplace.visualstudio.com/items?itemName=yandeu.five-server) extension.
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
----
+```bash
+npm run dev
 
-## How to Contribute
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
 
-Please refer to [CONTRIBUTING.md](https://github.com/LegitiDevs/website/blob/master/CONTRIBUTING.md)
+## Building
+
+To create a production version of your app:
+
+```bash
+npm run build
+```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.

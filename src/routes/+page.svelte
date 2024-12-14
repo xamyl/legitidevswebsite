@@ -1,4 +1,21 @@
-.hero-container {
+<div class="main-container">
+    <div class="title-container">
+        <img
+            src="/img/legitimoose-api-logo.png"
+            alt="Legitimoose API Logo"
+        />
+        <p>
+            The unofficial API made by the community to get world data from the hit Minecraft server 'legitimoose.com'!
+        </p>
+    </div>
+    <div class="button-container">
+        <a href="/browse">World Browser -&gt;</a>
+        <a href="/api">Usage & Docs -&gt;</a>
+    </div>
+</div>
+
+<style>
+    .main-container {
     display: flex;
     flex-direction: row;
     background-color: light-dark(var(--main-light), var(--main-dark));
@@ -45,3 +62,4 @@
         }
     }
 }
+</style>

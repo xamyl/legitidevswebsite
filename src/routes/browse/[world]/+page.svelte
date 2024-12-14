@@ -6,11 +6,11 @@
 
 <div class="main-container">
     {#await getItemIcon(data.icon)}
-        <img src="/img/unknown_icon.png" alt="World Icon" class="icon">
+        <img src="/img/error/unknown_icon.png" alt="World Icon" class="icon">
     {:then url} 
         <img src="{url}" alt="World Icon" class="icon">
     {:catch}
-        <img src="/img/unknown_icon.png" alt="World Icon" class="icon">
+        <img src="/img/error/unknown_icon.png" alt="World Icon" class="icon">
     {/await}
     <h1>{data.name}</h1>
     <h2>{data.description}</h2>

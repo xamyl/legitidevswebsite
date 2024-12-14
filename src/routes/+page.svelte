@@ -1,2 +1,65 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<div class="main-container">
+    <div class="title-container">
+        <img
+            src="/img/legitimoose-api-logo.png"
+            alt="Legitimoose API Logo"
+        />
+        <p>
+            The unofficial API made by the community to get world data from the hit Minecraft server 'legitimoose.com'!
+        </p>
+    </div>
+    <div class="button-container">
+        <a href="/browse">World Browser -&gt;</a>
+        <a href="/api">Usage & Docs -&gt;</a>
+    </div>
+</div>
+
+<style>
+    .main-container {
+    display: flex;
+    flex-direction: row;
+    background-color: light-dark(var(--main-light), var(--main-dark));
+    justify-content: center;
+    align-items: center;
+    height: 100vmin;
+
+    > * {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-inline: 80px;
+    }
+
+    .title-container {
+        text-align: center;
+
+        > p {
+            width: 500px;
+        }
+
+        > img {
+            height: auto;
+            width: 750px;
+        }
+    }
+
+    .button-container {
+        > a, a:visited, a:active {
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            background-color: var(--accent);
+            color: var(--text-main-dark);
+            padding-block: 5px;
+            padding-inline: 15px;
+            border: 5px solid var(--outline);
+            border-radius: 10px;
+            box-shadow: 0 5px rgb(0, 0, 0, 0.5);
+        }
+
+        :last-child {
+            margin-top: 50px;
+        }
+    }
+}
+</style>

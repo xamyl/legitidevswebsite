@@ -1,5 +1,10 @@
 <script>
+	import { onMount } from 'svelte';
   import '$lib/global_style.css'
+
+  onMount(async () => {
+    await import('$lib/minecraft-text')
+  })
 	let { children } = $props();
 </script>
 

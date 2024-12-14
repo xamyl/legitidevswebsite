@@ -33,6 +33,17 @@
     src: url(/fonts/RobotoMono-Italic-VariableFont_wght.ttf);
 }
 
+@font-face {
+    font-family: "Crafted";
+    src: url(/fonts/Minecraft-Seven_v2.ttf);
+}
+
+@font-face {
+    font-family: "Crafted";
+    font-weight: bold;
+    src: url(/fonts/Minecraft-Seven_v2.ttf);
+}
+
 body {
     display: flex;
     flex-direction: column;

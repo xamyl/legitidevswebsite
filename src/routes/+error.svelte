@@ -11,11 +11,18 @@
         "can you suggest more messages here?",
     ]
 
+    const ERROR_ICONS = [
+        "/img/error/evilreefgif.webp",
+        "/img/error/reefsob.webp",
+        "/img/error/unknown_icon.png",
+    ]
+
     const PICKED_ERROR_MESSAGE = ERROR_MESSAGES[Math.floor(Math.random() * ERROR_MESSAGES.length)]
+    const PICKED_ERROR_ICON = ERROR_ICONS[Math.floor(Math.random() * ERROR_ICONS.length)]
 </script>
 
 <div class="main-container">
-    <img src="/img/evilreefgif.webp" alt="evilreefgif">
+    <img src="{PICKED_ERROR_ICON}" alt="evilreefgif">
     <h1>Oh no! <code>{$page.status} {$page.error.message}</code></h1>
     <h2>{PICKED_ERROR_MESSAGE}</h2>
 </div>
@@ -27,6 +34,7 @@
 
     img {
         height: auto;
+        image-rendering: pixelated;
         width: 200px;
     }
 

@@ -13,7 +13,11 @@ To get started with the project, follow these steps:
 
 `git clone https://github.com/LegitiDevs/website.git`
 
-2. If you use VS Code as your code editor, you can install the [Live Server](https://marketplace.visualstudio.com/items?itemName=yandeu.five-server) extension.
+2. Run the following commands:
+
+`npm install`
+
+`npm run dev`
 
 ---
 

@@ -7,7 +7,7 @@
         "what did you do this time",
         "actually maybe its our fault? idk.",
         "fakekdeer is here",
-        "we all know koori did this",
+        "\"we all know koori did this\" - max",
         "can you suggest more messages here?",
     ]
 

@@ -15,7 +15,7 @@
 </script>
 
 <div class="main-container">
-    <img src="https://cdn.discordapp.com/emojis/778385740236193842.webp?size=96&animated=true" alt="evilreefgif">
+    <img src="/img/evilreefgif.webp" alt="evilreefgif">
     <h1>Oh no! <code>{$page.status} {$page.error.message}</code></h1>
     <h2>{PICKED_ERROR_MESSAGE}</h2>
 </div>

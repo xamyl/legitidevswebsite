@@ -7,7 +7,7 @@ let iconCache = {}
 //     "emerald_block": "Block_of_Emerald",
 //     "bamboo_block": "Block_of_Bamboo",
 // }
-export async function getItemIcon(item_id) {
+export const getItemIcon = async (item_id) => {
     if (iconCache[item_id]) {
         return iconCache[item_id]
     }
@@ -35,4 +35,11 @@ export async function getItemIcon(item_id) {
     }
 
     throw new SyntaxError(`'${item_id}' is not a valid item id.`);
+}
+
+export const getOwnerName = async (uuid) => {
+    const res = await fetch(`https://api.ashcon.app/mojang/v2/user/${uuid}`);
+    const profile = await res.json()
+
+    return profile.username
 }

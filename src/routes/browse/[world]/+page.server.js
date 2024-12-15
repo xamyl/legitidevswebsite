@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit'
-import { getItemIcon } from '$lib/getItemIcon.js';
+import { getItemIcon } from '$lib/utils.js';
 
 export const load = async ({ params }) => {
     const worldDataRes = await fetch(`https://api.omrih.me/world/${params.world}`)

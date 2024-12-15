@@ -1,20 +1,13 @@
 <script>
-	import { getItemIcon } from "$lib/getItemIcon";
+	import { getItemIcon, getOwnerName } from "$lib/utils.js";
 
     let { data } = $props();
-    const worldCommand = `/world ${data.world.world_uuid}`
-
-    const getOwnerName = async (uuid) => {
-        const res = await fetch(`https://api.ashcon.app/mojang/v2/user/${data.world.owner_uuid}`);
-        const profile = await res.json()
-
-        return profile.username
-    }
+    const worldCommand = `/world ${data.world.world_uuid}` 
 </script>
 
 <div class="main-container">
     <div class="main-wrapper">
-        <button class="back-button" onclick={history.back()}>&lt; Go back</button>
+        <a class="back-button" href="/browse">&lt; Go back</a>
         <div class="header-container">
             <div class="title-container">
                 {#await getItemIcon(data.world.icon)}
@@ -79,6 +72,7 @@
     }
 
     .main-wrapper {
+        margin-top: 15px;
         align-self: center;
     }
 
@@ -100,7 +94,7 @@
 
         > * {
             margin-right: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
     }
 
@@ -186,15 +180,15 @@
         font-size: 3.5em;
         margin: 0;
         margin-bottom: 20px;
-        /* paint-order: stroke fill;
-        -webkit-text-stroke: #000 15px; */
+        paint-order: stroke fill;
+        -webkit-text-stroke: black 10px;
     }
 
     .description {
         font-size: 1.75em;
         margin: 0;
-        /* paint-order: stroke fill;
-        -webkit-text-stroke: #000 10px; */
+        paint-order: stroke fill;
+        -webkit-text-stroke: black 5px;
     }
 
     .owner-name {
@@ -204,9 +198,8 @@
         font-size: 1.2em;
     }
 
-    .back-button {
-        all: unset;
-        margin-top: 15px;
+    .back-button, .back-button:visited {
+        text-decoration: none;
         color: light-dark(rgb(0, 0, 0, 0.5), rgb(255, 255, 255, 0.5));
         font-style: italic;
         font-size: 1.2em;
@@ -227,11 +220,6 @@
         &.on {
             background-color: #70ff44;
             box-shadow: 0px 5px #1eaf2f;
-        }
-
-        &.off {
-            background-color: light-dark(#f1f0f5, #2b2b2f);
-            box-shadow: 0px 5px light-dark(#9FA0AD, #111113);
         }
 
         &.hidden {

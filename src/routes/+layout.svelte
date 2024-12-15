@@ -1,12 +1,22 @@
 <script>
 	import { onMount } from 'svelte';
-  import '$lib/global_style.css'
+  	import '$lib/global_style.css'
+	import { page } from '$app/stores';
 
   onMount(async () => {
     await import('$lib/minecraft-text')
   })
+
 	let { children } = $props();
 </script>
+
+<svelte:head>
+	{#if $page.status >= 400}
+		<title>{$page.status} {$page.error.message} | LegitiDevs</title>
+	{:else}
+		<title>{$page.data?.page?.title ?? "Unknown"} | LegitiDevs</title>
+	{/if}
+</svelte:head>
 
 <div class="navbar">
 	<a href="/">

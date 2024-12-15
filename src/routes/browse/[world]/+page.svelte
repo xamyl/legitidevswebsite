@@ -2,10 +2,10 @@
 	import { getItemIcon } from "$lib/getItemIcon";
 
     let { data } = $props();
-    const worldCommand = `/world ${data.world_uuid}`
+    const worldCommand = `/world ${data.world.world_uuid}`
 
     const getOwnerName = async (uuid) => {
-        const res = await fetch(`https://api.ashcon.app/mojang/v2/user/${data.owner_uuid}`);
+        const res = await fetch(`https://api.ashcon.app/mojang/v2/user/${data.world.owner_uuid}`);
         const profile = await res.json()
 
         return profile.username
@@ -17,7 +17,7 @@
         <button class="back-button" onclick={history.back()}>&lt; Go back</button>
         <div class="header-container">
             <div class="title-container">
-                {#await getItemIcon(data.icon)}
+                {#await getItemIcon(data.world.icon)}
                     <img src="/img/error/unknown_icon.png" alt="World Icon" class="icon">
                 {:then url} 
                     <img src="{url}" alt="World Icon" class="icon">
@@ -25,9 +25,9 @@
                     <img src="/img/error/unknown_icon.png" alt="World Icon" class="icon">
                 {/await}
                 <div class="title-wrapper">
-                    <minecraft-text class="title">{data.raw_name}</minecraft-text>
-                    <minecraft-text class="description">{data.raw_description}</minecraft-text>
-                    {#await getOwnerName(data.owner_uuid)}
+                    <minecraft-text class="title">{data.world.raw_name}</minecraft-text>
+                    <minecraft-text class="description">{data.world.raw_description}</minecraft-text>
+                    {#await getOwnerName(data.world.owner_uuid)}
                         <p class="owner-name">By ...</p>  
                     {:then name}
                         <p class="owner-name">By {name}</p> 
@@ -37,34 +37,34 @@
                 </div>
             </div>
             <div class="status-container">
-                {#if !data.locked}
+                {#if !data.world.locked}
                     <p class="info hidden">Offline</p>
                 {:else}
-                    <p class="info on">{data.player_count} players online</p>
+                    <p class="info on">{data.world.player_count} players online</p>
                 {/if}
-                {#if data.whitelisted}
+                {#if data.world.whitelisted}
                     <p class="info warning">Whitelisted!</p>
                 {/if}
             </div>
         </div>
         <div class="info-container">
-            <p class="info">{data.votes} votes</p>
-            <p class="info">{data.visits} visits</p>
-            {#if data.resource_pack_url !== ""}
+            <p class="info">{data.world.votes} votes</p>
+            <p class="info">{data.world.visits} visits</p>
+            {#if data.world.resource_pack_url !== ""}
                 <p class="info special">Has resource pack</p>
             {/if}
         </div>
         <div class="button-container">
             <button class="button" onclick={ async () => { await navigator.clipboard.writeText(worldCommand) } }>Copy /world command</button>
-            {#if data.resource_pack_url !== ""}
-                <a class="button" href="{data.resource_pack_url}" target="_blank">Download resource pack</a>
+            {#if data.world.resource_pack_url !== ""}
+                <a class="button" href="{data.world.resource_pack_url}" target="_blank">Download resource pack</a>
             {/if}
         </div>
         <div class="hidden-info-container">
-            <p>World UUID: {data.world_uuid}</p>
-            <p>Version: {data.version}</p>
-            <p>Created on {data.creation_date} PST</p>
-            <p>This data was last scraped on {new Intl.DateTimeFormat('en-US', { timeStyle: "short" }).format(data.creation_date_unix_seconds)}</p>
+            <p>World UUID: {data.world.world_uuid}</p>
+            <p>Version: {data.world.version}</p>
+            <p>Created on {data.world.creation_date} PST</p>
+            <p>This data was last scraped on {new Intl.DateTimeFormat('en-US', { timeStyle: "short" }).format(data.world.creation_date_unix_seconds)}</p>
         </div>
     </div>
 </div>

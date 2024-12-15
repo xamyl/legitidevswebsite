@@ -24,7 +24,7 @@
 <div class="main-container">
     <img src="{PICKED_ERROR_ICON}" alt="evilreefgif">
     <h1>{$page.status}</h1>
-    <code> {$page.error.message}</code>
+    <code>{$page.error.message}</code>
     <h2>{PICKED_ERROR_MESSAGE}</h2>
 </div>
 

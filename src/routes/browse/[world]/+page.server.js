@@ -6,5 +6,10 @@ export const load = async ({ params }) => {
     let worldData = await worldDataRes.json();
     if (!worldData) error(404, { message: `Invalid world UUID.` })
 
-    return worldData
+    return {
+        page: {
+            title: worldData.name
+        },
+        world: worldData
+    }
 }

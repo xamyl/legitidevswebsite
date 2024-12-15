@@ -23,26 +23,42 @@
 
 <div class="main-container">
     <img src="{PICKED_ERROR_ICON}" alt="evilreefgif">
-    <h1>Oh no! <code>{$page.status} {$page.error.message}</code></h1>
+    <h1>{$page.status}</h1>
+    <code>{$page.error.message}</code>
     <h2>{PICKED_ERROR_MESSAGE}</h2>
 </div>
 
 <style>
+    h1 {
+        font-size: 10em;
+        margin: 0;
+
+        &::after {
+            all: unset;
+        }
+    }
+
+    code {
+        margin: 0;
+        font-size: 2em;
+    }
+
     h1, h2 {
         max-width: 80vw;
+        text-align: center;
     }
 
     img {
         height: auto;
         image-rendering: pixelated;
-        width: 200px;
+        width: 150px;
     }
 
     .main-container {
         display: flex;
 		flex-direction: column;
 		background-color: light-dark(var(--main-light), var(--main-dark));
-		min-height: 100vmin;
+		min-height: 80vmin;
 		align-items: center;
         justify-content: center;
     }

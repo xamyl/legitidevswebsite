@@ -87,16 +87,18 @@
 					/>
 					<button id="demo-fetch" onclick={fetchData}>Fetch!</button>
 				</div>
-				<code id="demo-result" class="language-js code-block">
-                    {#if fetching}
-                        Fetching...
-                    {:else}
-                        {@html result}
-                    {/if}
-                    {#if !result}
-                        Waiting for input...
-                    {/if}
-                </code>
+				<div class="code-container">
+					<code id="demo-result" class="language-js code-block">
+						{#if fetching}
+							Fetching...
+						{:else}
+							{@html result}
+						{/if}
+						{#if !result}
+							Waiting for input...
+						{/if}
+					</code>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -123,34 +125,36 @@
 
 		<div class="text-block">
 			<p>Each world is structured like this:</p>
-			<code class="language-js code-block">
-                {#await codeToHtml(`
-{
-    "world_uuid": "3253a682-3a74-413d-8917-0edd92a792db",
-    "name": "BLOCKS 'N PROPS v2",
-    "description": "Chicken Volleyball out now!",
-    "raw_name": "{\\"text\\":\\"\\",\\"extra\\":[{\\"text\\":\\"B\\",\\"color\\":\\"#00FBFF\\"},{\\"text\\":\\"L\\",\\"color\\":\\"#0CF8FC\\"},{\\"text\\":\\"O\\",\\"color\\":\\"#18F5F9\\"},{\\"text\\":\\"C\\",\\"color\\":\\"#24F3F6\\"},{\\"text\\":\\"K\\",\\"color\\":\\"#30F0F3\\"},{\\"text\\":\\"S\\",\\"color\\":\\"#3CEDF0\\"},{\\"text\\":\\" \\",\\"color\\":\\"#48EAED\\"},{\\"text\\":\\"'\\",\\"color\\":\\"#54E8EA\\"},{\\"text\\":\\"N\\",\\"color\\":\\"#60E5E7\\"},{\\"text\\":\\" \\",\\"color\\":\\"#6CE2E4\\"},{\\"text\\":\\"P\\",\\"color\\":\\"#78DFE1\\"},{\\"text\\":\\"R\\",\\"color\\":\\"#84DDDE\\"},{\\"text\\":\\"O\\",\\"color\\":\\"#90DADB\\"},{\\"text\\":\\"P\\",\\"color\\":\\"#9CD7D8\\"},{\\"text\\":\\"S\\",\\"color\\":\\"#A8D4D5\\"},{\\"text\\":\\" \\",\\"color\\":\\"#B4D2D2\\"},{\\"text\\":\\"v\\",\\"color\\":\\"#C0CFCF\\"},{\\"text\\":\\"2\\",\\"color\\":\\"#CCCCCC\\"}],\\"italic\\":false,\\"bold\\":true}",
-    "raw_description": "{\\"text\\":\\"\\",\\"extra\\":[{\\"text\\":\\"Chicken Volleyball\\",\\"color\\":\\"green\\"},\\" out now!\\"],\\"italic\\":false,\\"color\\":\\"gray\\"}",
-    "icon": "minecraft:recovery_compass",
-    "votes": 353,
-    "visits": 3889,
-    "owner_uuid": "79ffd566-c9db-4159-8bd6-97c18ffd3c66",
-    "player_count": 0,
-    "creation_date": "Dec 24, 2023, 10:26 AM",
-    "creation_date_unix_seconds": "	1703384760",
-    "resource_pack_url": "https://download.mc-packs.net/pack/2e9d8315ec8df8bd81dc5a924deb5ff26b402cb0.zip",
-    "locked": false,
-    "version": "1.21.1",
-    "enforce_whitelist": false,
-    "whitelist_on_version_change": false,
-    "last_scraped": 1734160015,
-}
-                `, { lang: "json", theme: "dark-plus" })}
-                    Higlighting syntax...
-                {:then code} 
-                    {@html code}
-                {/await}
-            </code>
+			<div class="code-container">
+				<code class="language-js code-block">
+					{#await codeToHtml(`
+	{
+		"world_uuid": "3253a682-3a74-413d-8917-0edd92a792db",
+		"name": "BLOCKS 'N PROPS v2",
+		"description": "Chicken Volleyball out now!",
+		"raw_name": "{\\"text\\":\\"\\",\\"extra\\":[{\\"text\\":\\"B\\",\\"color\\":\\"#00FBFF\\"},{\\"text\\":\\"L\\",\\"color\\":\\"#0CF8FC\\"},{\\"text\\":\\"O\\",\\"color\\":\\"#18F5F9\\"},{\\"text\\":\\"C\\",\\"color\\":\\"#24F3F6\\"},{\\"text\\":\\"K\\",\\"color\\":\\"#30F0F3\\"},{\\"text\\":\\"S\\",\\"color\\":\\"#3CEDF0\\"},{\\"text\\":\\" \\",\\"color\\":\\"#48EAED\\"},{\\"text\\":\\"'\\",\\"color\\":\\"#54E8EA\\"},{\\"text\\":\\"N\\",\\"color\\":\\"#60E5E7\\"},{\\"text\\":\\" \\",\\"color\\":\\"#6CE2E4\\"},{\\"text\\":\\"P\\",\\"color\\":\\"#78DFE1\\"},{\\"text\\":\\"R\\",\\"color\\":\\"#84DDDE\\"},{\\"text\\":\\"O\\",\\"color\\":\\"#90DADB\\"},{\\"text\\":\\"P\\",\\"color\\":\\"#9CD7D8\\"},{\\"text\\":\\"S\\",\\"color\\":\\"#A8D4D5\\"},{\\"text\\":\\" \\",\\"color\\":\\"#B4D2D2\\"},{\\"text\\":\\"v\\",\\"color\\":\\"#C0CFCF\\"},{\\"text\\":\\"2\\",\\"color\\":\\"#CCCCCC\\"}],\\"italic\\":false,\\"bold\\":true}",
+		"raw_description": "{\\"text\\":\\"\\",\\"extra\\":[{\\"text\\":\\"Chicken Volleyball\\",\\"color\\":\\"green\\"},\\" out now!\\"],\\"italic\\":false,\\"color\\":\\"gray\\"}",
+		"icon": "minecraft:recovery_compass",
+		"votes": 353,
+		"visits": 3889,
+		"owner_uuid": "79ffd566-c9db-4159-8bd6-97c18ffd3c66",
+		"player_count": 0,
+		"creation_date": "Dec 24, 2023, 10:26 AM",
+		"creation_date_unix_seconds": "	1703384760",
+		"resource_pack_url": "https://download.mc-packs.net/pack/2e9d8315ec8df8bd81dc5a924deb5ff26b402cb0.zip",
+		"locked": false,
+		"version": "1.21.1",
+		"enforce_whitelist": false,
+		"whitelist_on_version_change": false,
+		"last_scraped": 1734160015,
+	}
+					`, { lang: "json", theme: "dark-plus" })}
+						Higlighting syntax...
+					{:then code} 
+						{@html code}
+					{/await}
+				</code>
+			</div>
 			<ul>
 				<li><p><code>"world_uuid"</code> - The world's UUID.</p></li>
 				<li><p><code>"name"</code> - The world's name in plaintext.</p></li>
@@ -247,8 +251,12 @@
 		background-color: light-dark(var(--main-light), var(--main-dark));
 		min-height: 100vmin;
 		align-items: center;
+		padding: 20px;
 
 		div.section {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
 			max-width: 600px;
 			margin-block: 5px;
 		}
@@ -285,5 +293,9 @@
 				color: rgb(100, 100, 100);
 			}
 		}
+	}
+
+	.code-container{
+		display: flex;
 	}
 </style>

@@ -8,50 +8,56 @@
 <div class="main-container">
     <div class="main-wrapper">
         <a class="back-button" href="/browse">&lt; Go back</a>
-        <div class="header-container">
-            <div class="title-container">
-                {#await getItemIcon(data.world.icon)}
-                    <img src="/img/error/unknown_icon.png" alt="World Icon" class="icon">
-                {:then url} 
-                    <img src="{url}" alt="World Icon" class="icon">
-                {:catch}
-                    <img src="/img/error/unknown_icon.png" alt="World Icon" class="icon">
-                {/await}
-                <div class="title-wrapper">
-                    <minecraft-text class="title">{data.world.raw_name}</minecraft-text>
-                    <minecraft-text class="description">{data.world.raw_description}</minecraft-text>
-                    {#await getOwnerName(data.world.owner_uuid)}
-                        <p class="owner-name">By ...</p>  
-                    {:then name}
-                        <p class="owner-name">By {name}</p> 
+        <div class="center-flex-wrapper">
+            <div class="header-container">
+                <div class="title-container">
+                    {#await getItemIcon(data.world.icon)}
+                        <img src="/img/error/unknown_icon.png" alt="World Icon" class="icon">
+                    {:then url} 
+                        <img src="{url}" alt="World Icon" class="icon">
                     {:catch}
-                        <p class="owner-name">We couldn't find the owner of this world.</p>
+                        <img src="/img/error/unknown_icon.png" alt="World Icon" class="icon">
                     {/await}
+                    <div class="title-wrapper">
+                        <minecraft-text class="title">{data.world.raw_name}</minecraft-text>
+                        <minecraft-text class="description">{data.world.raw_description}</minecraft-text>
+                        {#await getOwnerName(data.world.owner_uuid)}
+                            <p class="owner-name">By ...</p>  
+                        {:then name}
+                            <p class="owner-name">By {name}</p> 
+                        {:catch}
+                            <p class="owner-name">We couldn't find the owner of this world.</p>
+                        {/await}
+                    </div>
+                </div>
+                <div class="status-container">
+                    {#if !data.world.locked}
+                        <p class="info hidden">Offline</p>
+                    {:else}
+                        <p class="info on">{data.world.player_count} players online</p>
+                    {/if}
+                    {#if data.world.whitelisted}
+                        <p class="info warning">Whitelisted!</p>
+                    {/if}
                 </div>
             </div>
-            <div class="status-container">
-                {#if !data.world.locked}
-                    <p class="info hidden">Offline</p>
-                {:else}
-                    <p class="info on">{data.world.player_count} players online</p>
-                {/if}
-                {#if data.world.whitelisted}
-                    <p class="info warning">Whitelisted!</p>
+        </div>
+        <div class="center-flex-wrapper">
+            <div class="info-container">
+                <p class="info">{data.world.votes} votes</p>
+                <p class="info">{data.world.visits} visits</p>
+                {#if data.world.resource_pack_url !== ""}
+                    <p class="info special">Has resource pack</p>
                 {/if}
             </div>
         </div>
-        <div class="info-container">
-            <p class="info">{data.world.votes} votes</p>
-            <p class="info">{data.world.visits} visits</p>
-            {#if data.world.resource_pack_url !== ""}
-                <p class="info special">Has resource pack</p>
-            {/if}
-        </div>
-        <div class="button-container">
-            <button class="button" onclick={ async () => { await navigator.clipboard.writeText(worldCommand) } }>Copy /world command</button>
-            {#if data.world.resource_pack_url !== ""}
-                <a class="button" href="{data.world.resource_pack_url}" target="_blank">Download resource pack</a>
-            {/if}
+        <div class="center-flex-wrapper">
+            <div class="button-container">
+                <button class="button" onclick={ async () => { await navigator.clipboard.writeText(worldCommand) } }>Copy /world command</button>
+                {#if data.world.resource_pack_url !== ""}
+                    <a class="button" href="{data.world.resource_pack_url}" target="_blank">Download resource pack</a>
+                {/if}
+            </div>
         </div>
         <div class="hidden-info-container">
             <p>World UUID: {data.world.world_uuid}</p>
@@ -76,13 +82,30 @@
         align-self: center;
     }
 
+    .center-flex-wrapper{
+        @media screen and (max-width: 576px){
+            display: flex;
+            justify-content: center;
+        }
+    }
+
     .header-container {
         display: flex;
         flex-direction: row;
+
+        @media screen and (max-width: 576px){
+            flex-direction: column;
+        }
+
         margin-top: 20px;
         width: 90vw;
         background-color: light-dark(#f1f0f5, #2b2b2f);
         padding-inline: 20px;
+
+        @media screen and (max-width: 576px){
+            padding-inline: 0px;
+        }
+
         padding-block: 10px;
         align-items: center;
         box-shadow: 0px 10px light-dark(#9FA0AD, #111113);
@@ -128,6 +151,11 @@
     .title-container {
         display: flex;
         flex-direction: row;
+
+        @media screen and (max-width: 576px){
+            flex-direction: column;
+        }
+
         align-items: center;
         width: 70%;
 

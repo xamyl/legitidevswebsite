@@ -87,7 +87,7 @@
 		color: var(--text-main-dark);
 		min-height: 30vmin;
 		padding: 25px 25px 50px 25px;
-
+		
 		p {
 			margin-bottom: 0;
 		}
@@ -106,6 +106,13 @@
 
 			> * {
 				margin-right: 30px;
+			}
+
+			@media screen and (max-width: 576px){
+				flex-direction: column;
+				> * {
+					margin-right: 0px;
+				}
 			}
 		}
 

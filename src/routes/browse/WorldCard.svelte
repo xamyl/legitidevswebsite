@@ -65,11 +65,21 @@
             scale: 1.02;
             outline: light-dark(rgb(0, 0, 0, 0.5), rgb(255, 255, 255, 0.5)) 2px solid;
         }
+
+        @media screen and (max-width: 680px){
+            width: 80vw;
+        }
     }
 
     .top, .bottom {
         display: flex;
         flex-direction: row;
+    }
+
+    @media screen and (max-width: 680px){
+        .top{
+            flex-direction: column;
+        }
     }
 
     .bottom > p {
@@ -100,6 +110,11 @@
         flex-direction: column;
         flex-grow: 1; 
         align-items: end;
+
+        @media screen and (max-width: 680px){
+            align-items: start;
+        }
+        
     }
 
     .icon {

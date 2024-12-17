@@ -82,6 +82,7 @@ h1 {
         );
         height: 5px;
         width: 120%;
+        max-width: 100vw;
     }
 }
 

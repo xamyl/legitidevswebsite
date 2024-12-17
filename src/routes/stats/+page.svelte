@@ -1,10 +1,11 @@
 
 <script>
     import { onMount } from "svelte";
+    import { apiData, drinkNames } from '/scripts/store.js';
     let container;
     let worldname = $state()
     onMount(async () => {
-        fetch("https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Bourbon")
+        fetch("https://api.omrih.me/top/1")
         .then(response => response.json())
         .then(data => {
 		console.log(data);

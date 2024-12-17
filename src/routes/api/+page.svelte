@@ -252,6 +252,8 @@
 		min-height: 100vmin;
 		align-items: center;
 		padding: 20px;
+		/* This is because the line after h1 is still overflowing slightly even though it's limited to 100vw, it can be removed if the cause of that is found and fixed */
+		overflow: hidden;
 
 		div.section {
 			display: flex;

@@ -67,8 +67,10 @@
 
 <style>
     .main-container {
+        display: flex;
 		background-color: light-dark(var(--main-light), var(--main-dark));
 		min-height: 100vmin;
+        width: 100vw;
 		align-items: center;
     }
 
@@ -85,6 +87,7 @@
         border-radius: 100px;
         cursor: pointer;
         transition: scale 0.2s ease;
+        max-width: 100%;
     }
 
     .sentinel:hover, .sentinel:focus {
@@ -103,6 +106,6 @@
         margin: 20px;
         display: grid;
         gap: 20px;
-        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
     }
 </style>

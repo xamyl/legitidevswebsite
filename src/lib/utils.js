@@ -38,8 +38,8 @@ export const getItemIcon = async (item_id) => {
 }
 
 export const getOwnerName = async (uuid) => {
-    const res = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`);
+    const res = await fetch(`https://api.ashcon.app/mojang/v2/user/${uuid}`);
     const profile = await res.json()
 
-    return profile.name
+    return profile.username
 }

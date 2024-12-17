@@ -41,5 +41,5 @@ export const getOwnerName = async (uuid) => {
     const res = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`);
     const profile = await res.json()
 
-    return profile.username
+    return profile.name
 }

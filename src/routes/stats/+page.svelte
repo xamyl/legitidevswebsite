@@ -1,21 +1,28 @@
-
 <script>
+    import { json } from "@sveltejs/kit";
+
+
     import { onMount } from "svelte";
-    import { apiData, drinkNames } from '/scripts/store.js';
-    let container;
-    let worldname = $state()
-    onMount(async () => {
-        fetch("https://api.omrih.me/top/1")
-        .then(response => response.json())
-        .then(data => {
-		console.log(data);
-        apiData.set(data);
-    }).catch(error => {
-        console.log(error);
-        return [];
-    });
-});
+
 </script>
+<head>
+    <script lang="js">
+        function fetchtop10(num) {
+            fetch("https://api.omrih.dev/top/{num}")
+                .then((response) => {
+                    return response.json()
+                })
+                .then ((data) => {
+                    let top = data
+
+                    
+                })
+        }
+        onMount(() => {
+            
+        })
+    </script>
+</head>
 
 <div class="main-container">
     <h1>Legitimoose Stats</h1>

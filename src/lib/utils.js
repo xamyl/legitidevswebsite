@@ -1,40 +1,30 @@
 let iconCache = {}
 
-// const SPECIAL_CASES_getItemIcon_LOOKUP = {
-//     "gold_block": "Block_of_Gold",
-//     "quartz_block": "Block_of_Quartz",
-//     "lapiz_block": "Block_of_Lapiz",
-//     "emerald_block": "Block_of_Emerald",
-//     "bamboo_block": "Block_of_Bamboo",
-// }
-export const getItemIcon = async (item_id) => {
-    if (iconCache[item_id]) {
-        return iconCache[item_id]
-    }
-    let final = item_id.replace(/^\w+:/, "").split("_");
-    final = final
-        .map((word) => `${word[0].toUpperCase()}${word.slice(1)}`)
-        .join("_")
-        .replace(/(?:_|^)(on|a|of|with)(?=_|$)/gi, (match) => match.toLowerCase())
-        .replace(/(?:_|^)tnt(?=_|$)/gi, (match) => match.toUpperCase());
+const SPECIAL_CASES_getItemIcon_LOOKUP = {
+    "calibrated_sculk_sensor": "0_2",
+    "chain_command_block": "0_10",
+    "command_block": "0_10",
+    "crimson_hyphae": "0_10",
+    "crimson_stem": "0_10",
+    "magma_block": "0_8",
+    "prismarine": "0_300",
+    "prismarine_slab": "0_300",
+    "prismarine_stairs": "0_300",
+    "prismarine_wall": "0_300",
+}
+export const getItemIcon = (item_id) => {
+    if (iconCache[item_id]) return iconCache[item_id]
+    let trimmedID = item_id.replace(/^\w+:/, "");
 
-    const pngUrl = `https://minecraft.wiki/w/Special:FilePath/${final}.png`;
-    const pngResponse = await fetch(pngUrl);
-
-    if (pngResponse.ok) {
-        iconCache[item_id] = pngResponse.url
-        return pngResponse.url;
+    if (trimmedID in SPECIAL_CASES_getItemIcon_LOOKUP) {
+        const img = `https://raw.githubusercontent.com/edayot/renders/refs/heads/renders/resourcepack/assets/minecraft/textures/render/items/${trimmedID}/${SPECIAL_CASES_getItemIcon_LOOKUP[trimmedID]}.png`;
+        iconCache[item_id] = img
+        return img
     }
 
-    const gifUrl = `https://minecraft.wiki/w/Special:FilePath/${final}.gif`;
-    const gifResponse = await fetch(gifUrl);
-
-    if (gifResponse.ok) {
-        iconCache[item_id] = gifResponse.url
-        return gifResponse.url;
-    }
-
-    throw new SyntaxError(`'${item_id}' is not a valid item id.`);
+    const img = `https://raw.githubusercontent.com/edayot/renders/refs/heads/renders/resourcepack/assets/minecraft/textures/render/items/${trimmedID}.png`;
+    iconCache[item_id] = img
+    return img
 }
 
 export const getOwnerName = async (uuid) => {

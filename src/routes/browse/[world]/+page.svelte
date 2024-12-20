@@ -1,8 +1,9 @@
 <script>
 	import { getItemIcon, getOwnerName } from "$lib/utils.js";
+	import ItemIcon from "../ItemIcon.svelte";
 
     let { data } = $props();
-    const worldCommand = `/world ${data.world.world_uuid}` 
+    const worldCommand = `/world ${data.world.world_uuid}`
 </script>
 
 <div class="main-container">
@@ -11,13 +12,9 @@
         <div class="center-flex-wrapper">
             <div class="header-container">
                 <div class="title-container">
-                    {#await getItemIcon(data.world.icon)}
-                        <img src="/img/error/unknown_icon.png" alt="World Icon" class="icon">
-                    {:then url} 
-                        <img src="{url}" alt="World Icon" class="icon">
-                    {:catch}
-                        <img src="/img/error/unknown_icon.png" alt="World Icon" class="icon">
-                    {/await}
+                    <div class="icon-wrapper">
+                        <ItemIcon item_id={data.world.icon} player_uuid={data.world.owner_uuid} />
+                    </div>
                     <div class="title-wrapper">
                         <minecraft-text class="title">{data.world.raw_name}</minecraft-text>
                         <minecraft-text class="description">{data.world.raw_description}</minecraft-text>
@@ -36,7 +33,7 @@
                     {:else}
                         <p class="info on">{data.world.player_count} players online</p>
                     {/if}
-                    {#if data.world.whitelisted}
+                    {#if data.world.enforce_whitelist}
                         <p class="info warning">Whitelisted!</p>
                     {/if}
                 </div>
@@ -63,7 +60,7 @@
             <p>World UUID: {data.world.world_uuid}</p>
             <p>Version: {data.world.version}</p>
             <p>Created on {data.world.creation_date} PST</p>
-            <p>This data was last scraped on {new Intl.DateTimeFormat('en-US', { timeStyle: "short" }).format(data.world.creation_date_unix_seconds)}</p>
+            <p>This data was last scraped on {new Intl.DateTimeFormat('en-US', { timeStyle: "short" }).format(data.world.last_scraped)}</p>
         </div>
     </div>
 </div>
@@ -158,10 +155,13 @@
 
         align-items: center;
         width: 70%;
+    }
 
-        > img {
-            margin-right: 20px;
-        }
+    .icon-wrapper {
+        display: flex;
+        height: auto;
+        width: 125px;
+        margin-right: 20px;
     }
 
     .status-container {
@@ -187,12 +187,6 @@
             margin: 0;
             margin-block: 10px;
         }
-    }
-
-    .icon {
-        image-rendering: pixelated;
-        height: auto;
-        width: 125px;
     }
 
     .title-wrapper {

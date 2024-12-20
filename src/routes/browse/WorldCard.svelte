@@ -1,20 +1,16 @@
 <script>
 	import { getItemIcon, getOwnerName } from "$lib/utils.js";
+	import ItemIcon from "./ItemIcon.svelte";
 
-    let { world_uuid, icon, raw_name, owner_uuid, votes, visits, resource_pack_url, locked, player_count, whitelisted } = $props();
+    let { world_uuid, icon, raw_name, owner_uuid, votes, visits, resource_pack_url, locked, player_count, enforce_whitelist } = $props();
+    const isScreenSmall = matchMedia('(max-width: 680px)')
 </script>
 
 <a class="world-card" href="/browse/{world_uuid}">
     <div class="top">
         <div class="title-container">
             <div class="icon-wrapper">
-                {#await getItemIcon(icon)}
-                    <img src="/img/error/unknown_icon.png" alt="World Icon" class="icon">
-                {:then url} 
-                    <img src="{url}" alt="World Icon" class="icon">
-                {:catch}
-                    <img src="/img/error/unknown_icon.png" alt="World Icon" class="icon">
-                {/await}
+                <ItemIcon item_id={icon} player_uuid={owner_uuid} />
             </div>
             
             <div class="title-wrapper">
@@ -34,7 +30,7 @@
             {:else}
                 <p class="info on">{player_count} players online</p>
             {/if}
-            {#if whitelisted}
+            {#if enforce_whitelist}
                 <p class="info warning">Whitelisted!</p>
             {/if}
         </div>
@@ -43,7 +39,7 @@
         <p class="info">{votes} votes</p>
         <p class="info">{visits} visits</p>
         {#if resource_pack_url !== ""}
-            <p class="info special">Has resource pack</p>
+            <p class="info special">{isScreenSmall ? "Has RP" : "Has resource pack"}</p>
         {/if}
     </div>
 </a>
@@ -66,8 +62,8 @@
             outline: light-dark(rgb(0, 0, 0, 0.5), rgb(255, 255, 255, 0.5)) 2px solid;
         }
 
-        @media screen and (max-width: 680px){
-            width: 80vw;
+        @media screen and (max-width: 680px) {
+            max-width: 80vw;
         }
     }
 
@@ -82,6 +78,10 @@
         }
     }
 
+    .bottom {
+        align-items: center;
+    }
+
     .bottom > p {
         margin-right: 10px;
     }
@@ -90,6 +90,10 @@
         display: flex;
         flex-direction: row;
         max-width: 70%;
+
+        @media screen and (max-width: 680px) {
+            max-width: 100%;
+        }
     }
 
     .title-wrapper {
@@ -101,7 +105,8 @@
     }
 
     .icon-wrapper {
-        aspect-ratio: 1/1;
+        display: flex;
+        height: auto;
         width: 100px;
     }
 
@@ -109,20 +114,23 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1; 
+        justify-content: center;
         align-items: end;
 
-        @media screen and (max-width: 680px){
-            align-items: start;
+        > p {
+            margin: 0;
+            &:not(:first-child) {
+                margin-top: 10px;
+            } 
         }
-        
-    }
 
-    .icon {
-        aspect-ratio: 1/1;
-        width: 100%;
-        image-rendering: pixelated;
-        object-fit: contain;
-        object-position: center;
+        @media screen and (max-width: 680px) {
+            align-items: start;
+            justify-content: left;
+            align-items: center;
+            flex-direction: row;
+            > p:first-child { margin-top: 10px; margin-right: 10px; }
+        }
     }
 
     .name {

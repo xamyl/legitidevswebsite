@@ -30,7 +30,7 @@
 
 <style>
     h1 {
-        font-size: 10em;
+        font-size: 5em;
         margin: 0;
 
         &::after {
@@ -44,7 +44,7 @@
     }
 
     h1, h2 {
-        max-width: 80vw;
+        max-width: 90vw;
         text-align: center;
     }
 
@@ -58,7 +58,7 @@
         display: flex;
 		flex-direction: column;
 		background-color: light-dark(var(--main-light), var(--main-dark));
-		min-height: 80vmin;
+		height: 100vh;
 		align-items: center;
         justify-content: center;
     }

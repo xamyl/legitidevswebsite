@@ -52,7 +52,7 @@
                 resource_pack_url={world.resource_pack_url}
                 locked={world.locked}
                 player_count={world.player_count}
-                whitelisted={world.whitelisted}
+                enforce_whitelist={world.enforce_whitelist}
             />
         {/each}
         <button bind:this={sentinel} class="sentinel" onclick={async () => { await fetchPage() }}>
@@ -103,9 +103,10 @@
     }
 
     .main-wrapper {
+        width: 100%;
         margin: 20px;
         display: grid;
         gap: 20px;
-        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
     }
 </style>

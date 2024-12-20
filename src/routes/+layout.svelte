@@ -8,10 +8,11 @@
   })
 
 	let { children } = $props();
+	const isError = $page.status >= 400;
 </script>
 
 <svelte:head>
-	{#if $page.status >= 400}
+	{#if isError}
 		<title>{$page.status} {$page.error.message} | LegitiDevs</title>
 		<meta property="og:title" content="{$page.status} {$page.error.message} | LegitiDevs" />
 	{:else}
@@ -20,38 +21,42 @@
 	{/if}
 </svelte:head>
 
-<div class="navbar">
-	<a href="/">
-		<img src="/img/legitimoose-api-mark.png" alt="Legitimoose API Mark" />
-	</a>
-	<a href="/">Home</a>
-	<a href="/api">API</a>
-	<a href="/browse">World Browser</a>
-</div>
+{#if !isError}
+	<div class="navbar">
+		<a href="/">
+			<img src="/img/legitimoose-api-mark.png" alt="Legitimoose API Mark" />
+		</a>
+		<a href="/">Home</a>
+		<a href="/api">API</a>
+		<a href="/browse">World Browser</a>
+	</div>
+{/if}
 
 {@render children()}
 
-<div class="footer-container">
-	<p>This is not an official Moose project and is made by the community.</p>
-	<p>We have no affiliation with any real-world brands.</p>
-	<p>Not affiliated with Mojang AB or Partners</p>
-	<div class="links-container">
-		<a href="https://github.com/LegitiDevs/">
-			<img src="/svg/github-mark-white.svg" alt="Github Logo" />
-		</a>
-		<a href="https://discord.gg/FQUmnbgV5S">
-			<img src="/svg/discord-mark-white.svg" alt="Discord Logo" />
-		</a>
-		<a href="https://store.legitimoose.com">store.legitimoose.com</a>
-
-		<a href="https://youtube.com/legitimoose">
-			<img src="/img/youtube.png" alt="Legitimoose's Youtube" />
-		</a>
-		<a href="https://bsky.app/profile/legitidevs.bsky.social">
-			<img src="/svg/bsky.svg" alt="LegitiDev BlueSky" />
-		</a>
+{#if !isError}
+	<div class="footer-container">
+		<p>This is not an official Moose project and is made by the community.</p>
+		<p>We have no affiliation with any real-world brands.</p>
+		<p>Not affiliated with Mojang AB or Partners</p>
+		<div class="links-container">
+			<a href="https://github.com/LegitiDevs/">
+				<img src="/svg/github-mark-white.svg" alt="Github Logo" />
+			</a>
+			<a href="https://discord.gg/FQUmnbgV5S">
+				<img src="/svg/discord-mark-white.svg" alt="Discord Logo" />
+			</a>
+			<a href="https://store.legitimoose.com">store.legitimoose.com</a>
+		
+			<a href="https://youtube.com/legitimoose">
+				<img src="/img/youtube.png" alt="Legitimoose's Youtube" />
+			</a>
+			<a href="https://bsky.app/profile/legitidevs.bsky.social">
+				<img src="/svg/bsky.svg" alt="LegitiDev BlueSky" />
+			</a>
+		</div>
 	</div>
-</div>
+{/if}
 
 <style>
 	.navbar {

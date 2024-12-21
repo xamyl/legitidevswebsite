@@ -19,23 +19,23 @@
 
     onMount(async () => { await fetchPage(pageIndex) });
 
-    // onMount(() => {
-    //     observer = new IntersectionObserver(async (entries) => {
-    //         if (entries[0].isIntersecting && !isLoading) {
-    //             await fetchPage(pageIndex)
-    //         }
-    //     }, {
-    //         root: null,
-    //         rootMargin: '0px',
-    //         threshold: 0.1,
-    //     });
+    onMount(() => {
+        observer = new IntersectionObserver(async (entries) => {
+            if (entries[0].isIntersecting && !isLoading) {
+                await fetchPage(pageIndex)
+            }
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1,
+        });
 
-    //     if (sentinel) observer.observe(sentinel)
+        if (sentinel) observer.observe(sentinel)
 
-    //     return () => {
-    //         if (sentinel) observer.unobserve(sentinel);
-    //     };
-    // })
+        return () => {
+            if (sentinel) observer.unobserve(sentinel);
+        };
+    })
 
 </script>
 
@@ -78,7 +78,7 @@
     .sentinel {
         font-family: 'Crafted', 'Poppins', Arial, Helvetica, sans-serif;
         text-decoration: none;
-        font-size: 1em;
+        font-size: 3em;
         text-align: center;
         background-color: unset;
         color: light-dark(rgb(0, 0, 0, 0.5), rgb(255, 255, 255, 0.5));
@@ -91,7 +91,7 @@
 
         > img {
             height: auto;
-            width: 100px;
+            width: 300px;
             image-rendering: pixelated;
             opacity: 0.5;
         }
@@ -103,7 +103,7 @@
 
     .main-wrapper {
         max-width: 100%;
-        margin-inline: 20px;
+        margin: 20px;
         display: grid;
         gap: 20px;
         grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));

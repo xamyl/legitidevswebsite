@@ -59,8 +59,8 @@
         <div class="hidden-info-container">
             <p>World UUID: {data.world.world_uuid}</p>
             <p>Version: {data.world.version}</p>
-            <p>Created on {data.world.creation_date} PST</p>
-            <p>This data was last scraped on {new Intl.DateTimeFormat('en-US', { timeStyle: "short" }).format(data.world.last_scraped)}</p>
+            <p>Created on {new Intl.DateTimeFormat('en-US', { dateStyle: "full", timeStyle: "long" }).format(data.world.creation_date_unix_seconds)}</p>
+            <p>This data was last scraped on {new Intl.DateTimeFormat('en-US', { timeStyle: "long" }).format(data.world.last_scraped)}</p>
         </div>
     </div>
 </div>

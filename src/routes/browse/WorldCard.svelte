@@ -3,7 +3,7 @@
 	import ItemIcon from "./ItemIcon.svelte";
 
     let { world_uuid, icon, raw_name, owner_uuid, votes, visits, resource_pack_url, locked, player_count, enforce_whitelist } = $props();
-    const isScreenSmall = matchMedia('(max-width: 680px)')
+    const isScreenSmall = window.innerWidth <= 680;
 </script>
 
 <a class="world-card" href="/browse/{world_uuid}">
@@ -63,7 +63,7 @@
         }
 
         @media screen and (max-width: 680px) {
-            max-width: 80vw;
+            max-width: 100vw;
         }
     }
 

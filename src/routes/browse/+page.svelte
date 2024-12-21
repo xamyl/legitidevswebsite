@@ -45,16 +45,19 @@
         if (searchQuery === '') {
             isSearching = false;
             searchedWorlds = [];
+            sentinel.style.display = 'block';
             return;
         }
+        sentinel.style.display = 'none';
         clearTimeout(debounceTimeout);
         debounceTimeout = setTimeout(async () => { 
             await fetchSearchedWorlds(searchQuery) 
-            console.log(debounceTimeout)
         }, 600);
     }
 
-    function observeSentinel() {
+    onMount(async () => { await fetchPage(pageIndex) });
+
+    onMount(() => {
         observer = new IntersectionObserver(async (entries) => {
             if (entries[0].isIntersecting && !isLoading) {
                 await fetchPage(pageIndex)
@@ -70,23 +73,20 @@
         return () => {
             if (sentinel) observer.unobserve(sentinel);
         };
-    }
-
-    onMount(async () => { await fetchPage(pageIndex) });
-    onMount(() => observeSentinel)
-
+    })
 </script>
 
 <div class="main-container">
     <div class="search-container">
         <input 
             type="text"
-            placeholder="search" 
+            placeholder="Search worlds..." 
             bind:value={searchQuery} 
             oninput={searchWorlds}
+            class="search-input"
         />
     </div>
-    <div class="main-wrapper">
+    <div class="world-container">
         {#if !isSearching}
             {#each worlds as world}
                 <WorldCard
@@ -119,18 +119,15 @@
             {/each}
         {/if}
     </div>
-    {#if !isSearching}
-        <button bind:this={sentinel} class="sentinel" onclick={async () => { await fetchPage() }} onloadcapture={observeSentinel}>
-            {#if isLoading}
-                <img src="/img/reefloading.gif" alt="Loading Icon" class="loading-icon">
-            {:else}
-                ...Load more...
-            {/if}
-        </button>
-    {:else}
+    <button bind:this={sentinel} class="sentinel" onclick={async () => { await fetchPage() }}>
         {#if isLoading}
             <img src="/img/reefloading.gif" alt="Loading Icon" class="loading-icon">
+        {:else}
+            ...Load more...
         {/if}
+    </button>
+    {#if isSearching && isLoading}
+        <img src="/img/reefloading.gif" alt="Loading Icon" class="loading-icon">
     {/if}
 </div>
 
@@ -142,6 +139,53 @@
 		min-height: 100vmin;
         max-width: 100vw;
 		align-items: center;
+    }
+
+    .search-container {
+        display: flex;
+        margin-top: 20px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    
+    .search-input {
+        background-color: #a09172;
+        color: white;
+        font-family: 'Crafted', 'Poppins', Arial, Helvetica, sans-serif;
+        font-size: 2em;
+        border: none;
+        box-shadow: 
+            -2px -2px 0px 2px #e0ca9f,
+            2px 2px 0px 2px #544c3b,
+            2px -2px 0px 2px #a09172,
+            -2px 2px 0px 2px #a09172,
+            -2px -2px 0px 6px var(--outline),
+            2px 2px 0px 6px var(--outline),
+            2px -2px 0px 6px var(--outline),
+            -2px 2px 0px 6px var(--outline);
+        text-shadow: 3px 3px rgb(0, 0, 0, 0.5);
+        padding-inline: 20px;
+        padding-block: 10px;
+
+        &:focus, &:focus-visible {
+            outline: none;
+        }
+
+        &::placeholder {
+            color: #d0c8b9;
+        }
+    }
+
+    .world-container {
+        max-width: 100%;
+        margin: 20px;
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+        @media screen and (max-width: 680px) {
+            grid-template-columns: 100%;
+        }
     }
 
     .sentinel {
@@ -170,16 +214,6 @@
         scale: 1.05;
     }
 
-    .main-wrapper {
-        max-width: 100%;
-        margin: 20px;
-        display: grid;
-        gap: 20px;
-        grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
-        @media screen and (max-width: 680px) {
-            grid-template-columns: 100%;
-        }
-    }
 
     @keyframes pulse {
         0% {

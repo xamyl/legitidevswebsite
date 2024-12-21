@@ -15,6 +15,8 @@
         "/img/error/evilreefgif.webp",
         "/img/error/reefsob.webp",
         "/img/error/unknown_icon.png",
+        "/img/loading.gif",
+        "/img/reefloading.gif",
     ]
 
     const PICKED_ERROR_MESSAGE = ERROR_MESSAGES[Math.floor(Math.random() * ERROR_MESSAGES.length)]

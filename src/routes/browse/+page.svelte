@@ -19,23 +19,23 @@
 
     onMount(async () => { await fetchPage(pageIndex) });
 
-    onMount(() => {
-        observer = new IntersectionObserver(async (entries) => {
-            if (entries[0].isIntersecting && !isLoading) {
-                await fetchPage(pageIndex)
-            }
-        }, {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1,
-        });
+    // onMount(() => {
+    //     observer = new IntersectionObserver(async (entries) => {
+    //         if (entries[0].isIntersecting && !isLoading) {
+    //             await fetchPage(pageIndex)
+    //         }
+    //     }, {
+    //         root: null,
+    //         rootMargin: '0px',
+    //         threshold: 0.1,
+    //     });
 
-        if (sentinel) observer.observe(sentinel)
+    //     if (sentinel) observer.observe(sentinel)
 
-        return () => {
-            if (sentinel) observer.unobserve(sentinel);
-        };
-    })
+    //     return () => {
+    //         if (sentinel) observer.unobserve(sentinel);
+    //     };
+    // })
 
 </script>
 
@@ -55,58 +55,75 @@
                 enforce_whitelist={world.enforce_whitelist}
             />
         {/each}
-        <button bind:this={sentinel} class="sentinel" onclick={async () => { await fetchPage() }}>
-            {#if isLoading}
-                Loading more worlds...
-            {:else}
-                Load more worlds
-            {/if}
-        </button>
     </div>
+    <button bind:this={sentinel} class="sentinel" onclick={async () => { await fetchPage() }}>
+        {#if isLoading}
+            <img src="/img/reefloading.gif" alt="Loading Icon">
+        {:else}
+            ...Load more...
+        {/if}
+    </button>
 </div>
 
 <style>
     .main-container {
         display: flex;
+        flex-direction: column;
 		background-color: light-dark(var(--main-light), var(--main-dark));
 		min-height: 100vmin;
-        width: 100vw;
+        max-width: 100vw;
 		align-items: center;
     }
 
     .sentinel {
-        font-family: inherit;
+        font-family: 'Crafted', 'Poppins', Arial, Helvetica, sans-serif;
         text-decoration: none;
-        font-size: 1.5em;
+        font-size: 1em;
         text-align: center;
-        background-color: var(--accent);
-        color: var(--text-main-dark);
-        padding-block: 8px;
-        padding-inline: 15px;
-        border: 3px solid var(--outline);
-        border-radius: 100px;
+        background-color: unset;
+        color: light-dark(rgb(0, 0, 0, 0.5), rgb(255, 255, 255, 0.5));
+        padding: 8px;
+        border: none;
         cursor: pointer;
-        transition: scale 0.2s ease;
-        max-width: 100%;
+        transition: all 0.2s ease;
+        margin-block: 20px;
+        animation: pulse 2s ease infinite forwards;
+
+        > img {
+            height: auto;
+            width: 100px;
+            image-rendering: pixelated;
+            opacity: 0.5;
+        }
     }
 
-    .sentinel:hover, .sentinel:focus {
+    .sentinel:hover, .sentinel:focus, .sentinel:active {
         scale: 1.05;
-        background-color: var(--outline);
-        border: 3px solid var(--accent);
-    }
-
-    .sentinel:active {
-        scale: 1.05;
-        background-color: var(--accent);
-        border: 3px solid var(--accent);
     }
 
     .main-wrapper {
-        width: 100%;
-        margin: 20px;
+        max-width: 100%;
+        margin-inline: 20px;
         display: grid;
         gap: 20px;
         grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+        @media screen and (max-width: 680px) {
+            grid-template-columns: 100%;
+        }
+    }
+
+    @keyframes pulse {
+        0% {
+            opacity: 0.5;
+            scale: 0.8;
+        }
+        50% {
+            opacity: 1;
+            scale: 1;
+        }
+        100% {
+            opacity: 0.5;
+            scale: 0.8;
+        }
     }
 </style>

@@ -63,7 +63,7 @@
         }
 
         @media screen and (max-width: 680px) {
-            max-width: 80vw;
+            max-width: 100vw;
         }
     }
 

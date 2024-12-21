@@ -21,16 +21,14 @@
 	{/if}
 </svelte:head>
 
-{#if !isError}
-	<div class="navbar">
-		<a href="/">
-			<img src="/img/legitimoose-api-mark.png" alt="Legitimoose API Mark" />
-		</a>
-		<a href="/">Home</a>
-		<a href="/api">API</a>
-		<a href="/browse">World Browser</a>
-	</div>
-{/if}
+<div class="navbar">
+	<a href="/">
+		<img src="/img/legitimoose-api-mark.png" alt="Legitimoose API Mark" />
+	</a>
+	<a href="/">Home</a>
+	<a href="/api">API</a>
+	<a href="/browse">World Browser</a>
+</div>
 
 {@render children()}
 
@@ -107,17 +105,11 @@
 
 		.links-container {
 			display: flex;
+			flex-wrap: wrap;
 			align-items: center;
 
 			> * {
 				margin-right: 30px;
-			}
-
-			@media screen and (max-width: 576px){
-				flex-direction: column;
-				> * {
-					margin-right: 0px;
-				}
 			}
 		}
 

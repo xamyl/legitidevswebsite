@@ -2,11 +2,19 @@
 	import { onMount } from 'svelte';
 	import WorldCard from './WorldCard.svelte';
 
+    // These stores all the worlds we fetched
     let worlds = $state([])
+    let searchedWorlds = $state([])
+
+    // Variables for searching
+    let searchQuery = $state('');
+    let isSearching = $state(false)
+    
+    // Variables for loading more pages
     let pageIndex = $state(0)
     let isLoading = $state(false)
     let observer
-    let sentinel
+    let sentinel = $state();
 
     async function fetchPage() {
         isLoading = true
@@ -16,10 +24,37 @@
         pageIndex++
         isLoading = false
     }
+    
+    async function fetchSearchedWorlds(query) {
+        searchedWorlds = [];
+        if (query === '') {
+            isSearching = false;
+            return;
+        }
 
-    onMount(async () => { await fetchPage(pageIndex) });
+        isLoading = true
+        isSearching = true
+        const res = await fetch(`https://api.omrih.me/search/${query}`)
+        const worldsMatched = await res.json()
+        searchedWorlds = worldsMatched;
+        isLoading = false
+    }
 
-    onMount(() => {
+    let debounceTimeout
+    function searchWorlds() {
+        if (searchQuery === '') {
+            isSearching = false;
+            searchedWorlds = [];
+            return;
+        }
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(async () => { 
+            await fetchSearchedWorlds(searchQuery) 
+            console.log(debounceTimeout)
+        }, 600);
+    }
+
+    function observeSentinel() {
         observer = new IntersectionObserver(async (entries) => {
             if (entries[0].isIntersecting && !isLoading) {
                 await fetchPage(pageIndex)
@@ -35,34 +70,68 @@
         return () => {
             if (sentinel) observer.unobserve(sentinel);
         };
-    })
+    }
+
+    onMount(async () => { await fetchPage(pageIndex) });
+    onMount(() => observeSentinel)
 
 </script>
 
 <div class="main-container">
-    <div class="main-wrapper">
-        {#each worlds as world}
-            <WorldCard
-                world_uuid={world.world_uuid} 
-                icon={world.icon} 
-                raw_name={world.raw_name}
-                owner_uuid={world.owner_uuid}
-                votes={world.votes}
-                visits={world.visits}
-                resource_pack_url={world.resource_pack_url}
-                locked={world.locked}
-                player_count={world.player_count}
-                enforce_whitelist={world.enforce_whitelist}
-            />
-        {/each}
+    <div class="search-container">
+        <input 
+            type="text"
+            placeholder="search" 
+            bind:value={searchQuery} 
+            oninput={searchWorlds}
+        />
     </div>
-    <button bind:this={sentinel} class="sentinel" onclick={async () => { await fetchPage() }}>
-        {#if isLoading}
-            <img src="/img/reefloading.gif" alt="Loading Icon">
+    <div class="main-wrapper">
+        {#if !isSearching}
+            {#each worlds as world}
+                <WorldCard
+                    world_uuid={world.world_uuid} 
+                    icon={world.icon} 
+                    raw_name={world.raw_name}
+                    owner_uuid={world.owner_uuid}
+                    votes={world.votes}
+                    visits={world.visits}
+                    resource_pack_url={world.resource_pack_url}
+                    locked={world.locked}
+                    player_count={world.player_count}
+                    enforce_whitelist={world.enforce_whitelist}
+                />
+            {/each}
         {:else}
-            ...Load more...
+            {#each searchedWorlds as world}
+                <WorldCard
+                    world_uuid={world.world_uuid} 
+                    icon={world.icon} 
+                    raw_name={world.raw_name}
+                    owner_uuid={world.owner_uuid}
+                    votes={world.votes}
+                    visits={world.visits}
+                    resource_pack_url={world.resource_pack_url}
+                    locked={world.locked}
+                    player_count={world.player_count}
+                    enforce_whitelist={world.enforce_whitelist}
+                />
+            {/each}
         {/if}
-    </button>
+    </div>
+    {#if !isSearching}
+        <button bind:this={sentinel} class="sentinel" onclick={async () => { await fetchPage() }} onloadcapture={observeSentinel}>
+            {#if isLoading}
+                <img src="/img/reefloading.gif" alt="Loading Icon" class="loading-icon">
+            {:else}
+                ...Load more...
+            {/if}
+        </button>
+    {:else}
+        {#if isLoading}
+            <img src="/img/reefloading.gif" alt="Loading Icon" class="loading-icon">
+        {/if}
+    {/if}
 </div>
 
 <style>
@@ -88,13 +157,13 @@
         transition: all 0.2s ease;
         margin-block: 20px;
         animation: pulse 2s ease infinite forwards;
+    }
 
-        > img {
-            height: auto;
-            width: 300px;
-            image-rendering: pixelated;
-            opacity: 0.5;
-        }
+    .loading-icon {
+        height: auto;
+        width: 300px;
+        image-rendering: pixelated;
+        opacity: 0.5;
     }
 
     .sentinel:hover, .sentinel:focus, .sentinel:active {

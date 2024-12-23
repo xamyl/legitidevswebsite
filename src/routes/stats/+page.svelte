@@ -1,37 +1,24 @@
 
 <script>
-    import { json } from "@sveltejs/kit";
-    import { onMount } from "svelte";
+    let top10Worlds = $state([]);
     
-    onMount(() => {
-        function fetchtop10(num) {
-            fetch('https://api.omrih.me/top/${num}')
-            .then((response) => {
-                return response.json()
-            })
-            .then ((data) => {
-                let top = data
-
-                let top_processed = '${top.name}'
-                return top_processed
-            })
-        }
-
-        for(var numrn = 1; numrn < 11; numrn++) {
-            try {
-                console.log(fetchtop10(numrn))
-            } catch {
-                console.log("smth happened idk")
-            }
-            
-        }
-    })
+    async function fetchTop10() {
+      const res = await fetch("https://api.omrih.me/top/10");
+      
+      if (res.status >= 400) throw new Error("fetch failed")
+      
+      const worlds = await res.json()
+      top10Worlds = worlds
+    }
+    
+    onMount(async () => { await fetchTop10() })
 </script>
-
+    
+{#each top10Worlds as world}
+    <div>{world.name}</div>
+{/each}
 <div class="main-container">
     <h1>Legitimoose Stats</h1>
     <h2>Top 10 Worlds</h2>
-    <ul id="top10">
-        
-    </ul>
+    
 </div>

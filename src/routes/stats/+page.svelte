@@ -1,33 +1,37 @@
+
 <script>
     import { json } from "@sveltejs/kit";
-
-
     import { onMount } from "svelte";
-
-</script>
-<head>
-    <script lang="js">
+    
+    onMount(() => {
         function fetchtop10(num) {
-            fetch("https://api.omrih.dev/top/{num}")
-                .then((response) => {
-                    return response.json()
-                })
-                .then ((data) => {
-                    let top = data
+            fetch('https://api.omrih.me/top/${num}')
+            .then((response) => {
+                return response.json()
+            })
+            .then ((data) => {
+                let top = data
 
-                    
-                })
+                let top_processed = '${top.name}'
+                return top_processed
+            })
         }
-        onMount(() => {
+
+        for(var numrn = 1; numrn < 11; numrn++) {
+            try {
+                console.log(fetchtop10(numrn))
+            } catch {
+                console.log("THIS ISN'T WORKING I WANT TO CONNECT A FORK TO A FUCKING WALL SOCKET")
+            }
             
-        })
-    </script>
-</head>
+        }
+    })
+</script>
 
 <div class="main-container">
     <h1>Legitimoose Stats</h1>
     <h2>Top 10 Worlds</h2>
-    <div id="top10">
+    <ul id="top10">
         
-    </div>
+    </ul>
 </div>

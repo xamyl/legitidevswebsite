@@ -23,6 +23,10 @@
     align-items: center;
     height: 100vmin;
 
+    @media screen and (max-width: 1060px){
+        flex-direction: column;
+    }
+
     > * {
         display: flex;
         flex-direction: column;
@@ -40,6 +44,17 @@
         > img {
             height: auto;
             width: 750px;
+        }
+        
+        @media screen and (max-width: 1060px){
+            > p {
+                width: 80vw;
+            }
+
+            > img {
+                height: auto;
+                width: 80vw;
+            }
         }
     }
 

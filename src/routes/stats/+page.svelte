@@ -16,11 +16,11 @@
     onMount(async () => { await fetchTop10() })
 </script>
     
-{#each top10Worlds as world}
-    <div>{world.name}</div>
-{/each}
+
 <div class="main-container">
     <h1>Legitimoose Stats</h1>
     <h2>Top 10 Worlds</h2>
-    
+    {#each top10Worlds as world}
+        <div>{world.name}</div>
+    {/each}
 </div>

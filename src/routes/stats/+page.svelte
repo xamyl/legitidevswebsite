@@ -18,9 +18,19 @@
     
 
 <div class="main-container">
-    <h1>Legitimoose Stats</h1>
+    <h1>World Stats (ALPHA)</h1>
     <h2>Top 10 Worlds</h2>
     {#each top10Worlds as world}
-        <div>{world.name}</div>
+        <minecraft-text>{world.raw_name}</minecraft-text>
     {/each}
 </div>
+
+<style>
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        background-color: light-dark(var(--main-light), var(--main-dark));
+        align-items: center;
+        height: 100vmin;
+    }
+</style>

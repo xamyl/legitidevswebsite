@@ -134,6 +134,8 @@
     }
 
     .name {
+        display: flex;
+        flex-wrap: wrap;
         font-size: 2em;
         margin: 0;
         margin-bottom: 10px;

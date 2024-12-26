@@ -19,7 +19,7 @@
                     <p class="owner-name">By ...</p>  
                 {:then name}
                     <p class="owner-name">By {name}</p> 
-                {:catch}
+                {:catch err}
                     <p class="owner-name">We couldn't find the owner of this world.</p>
                 {/await}
             </div>
@@ -134,9 +134,8 @@
     }
 
     .name {
-        font-size: 2em;
+        font-size: 3em;
         margin: 0;
-        margin-bottom: 10px;
         paint-order: stroke fill;
         -webkit-text-stroke: black 5px;
     }
@@ -145,12 +144,13 @@
         color: light-dark(rgb(0, 0, 0, 0.5), rgb(255, 255, 255, 0.5));
         font-style: italic;
         margin: 0;
-        font-size: 1.2em;
+        font-size: 1.5em;
     }
 
     .info {
         padding: 7px;
-        font-size: 1.25em;
+        padding-top: 0px;
+        font-size: 1.6em;
         color: black;
         background-color: #61a8f8;
         box-shadow: 0px 5px #4056e2;

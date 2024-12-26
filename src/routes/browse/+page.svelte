@@ -10,15 +10,26 @@
     let searchQuery = $state('');
     let isSearching = $state(false)
     
+    // Variables for sorting
+    let sort = $state('default')
+    let sortDirection = $state('ascending')
+    
     // Variables for loading more pages
     let pageIndex = $state(0)
     let isLoading = $state(false)
     let observer
     let sentinel = $state();
 
+    async function refreshWorlds() {
+        worlds = []
+        pageIndex = 0
+        await fetchPage()
+    }
+
     async function fetchPage() {
+        console.log(`https://api.omrih.me/page/${pageIndex}?sort=${sort}?sortDirection=${sortDirection}`)
         isLoading = true
-        const res = await fetch(`https://api.omrih.me/page/${pageIndex}`)
+        const res = await fetch(`https://api.omrih.me/page/${pageIndex}?sort=${sort}?sortDirection=${sortDirection}`)
         const newWorlds = await res.json()
         worlds = [...worlds, ...newWorlds]
         pageIndex++
@@ -34,7 +45,8 @@
 
         isLoading = true
         isSearching = true
-        const res = await fetch(`https://api.omrih.me/search/${query}`)
+        const sanitizedQuery = encodeURIComponent(query)
+        const res = await fetch(`https://api.omrih.me/search/${sanitizedQuery}`)
         const worldsMatched = await res.json()
         searchedWorlds = worldsMatched;
         isLoading = false
@@ -85,6 +97,17 @@
             oninput={searchWorlds}
             class="search-input"
         />
+        <!-- <select bind:value={sort} onchange={refreshWorlds}>
+            <option value="default">Online</option>
+            <option value="votes">Votes</option>
+            <option value="visits">Visits</option>
+            <option value="recently_created">Recently Created</option>
+            <option value="recently_scraped">Recently Scraped</option>
+        </select>
+        <div class="sort-direction-container">
+            <button onclick={() => {sortDirection = "ascending"; console.log(sortDirection)}}>^</button>
+            <button onclick={() => {sortDirection = "descending"; console.log(sortDirection)}}>&#8964;</button>
+        </div> -->
     </div>
     <div class="world-container">
         {#if !isSearching}
@@ -166,7 +189,7 @@
             -2px 2px 0px 6px var(--outline);
         text-shadow: 3px 3px rgb(0, 0, 0, 0.5);
         padding-inline: 20px;
-        padding-block: 10px;
+        padding-bottom: 10px;
 
         &:focus, &:focus-visible {
             outline: none;

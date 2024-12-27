@@ -89,23 +89,19 @@
     .header-container {
         display: flex;
         flex-direction: row;
-
-        @media screen and (max-width: 576px){
-            flex-direction: column;
-        }
-
         margin-top: 20px;
         width: 90vw;
         background-color: light-dark(#f1f0f5, #2b2b2f);
         padding-inline: 20px;
+        padding-block: 30px;
+        align-items: center;
+        box-shadow: 0px 10px light-dark(#9FA0AD, #111113);
 
         @media screen and (max-width: 576px){
             padding-inline: 0px;
+            flex-direction: column;
         }
-
-        padding-block: 10px;
-        align-items: center;
-        box-shadow: 0px 10px light-dark(#9FA0AD, #111113);
+    
     }
 
     .info-container, .button-container {
@@ -125,7 +121,7 @@
         text-align: center;
         background-color: var(--accent);
         color: var(--text-main-dark);
-        padding-block: 8px;
+        padding-bottom: 8px;
         padding-inline: 15px;
         border: 3px solid var(--outline);
         border-radius: 100px;
@@ -180,7 +176,7 @@
         padding-inline: 20px;
         background-color: light-dark(#f1f0f5, #2b2b2f);
         box-shadow: 0px 5px light-dark(#9FA0AD, #111113);
-        font-size: 1.2em;
+        font-size: 1.5em;
         color: light-dark(rgb(0, 0, 0, 0.5), rgb(255, 255, 255, 0.5));
 
         > p {
@@ -199,16 +195,15 @@
     }
 
     .title {
-        font-size: 3.5em;
+        font-size: 4em;
         margin: 0;
-        margin-bottom: 20px;
         paint-order: stroke fill;
         -webkit-text-stroke: black 10px;
     }
 
     .description {
-        font-size: 1.75em;
         margin: 0;
+        font-size: 1.75em;
         paint-order: stroke fill;
         -webkit-text-stroke: black 5px;
     }
@@ -217,7 +212,7 @@
         color: light-dark(rgb(0, 0, 0, 0.5), rgb(255, 255, 255, 0.5));
         font-style: italic;
         margin: 0;
-        font-size: 1.2em;
+        font-size: 1.5em;
     }
 
     .back-button, .back-button:visited {
@@ -233,8 +228,9 @@
     }
 
     .info {
-        padding: 8px;
-        font-size: 1.5em;
+        padding: 7px;
+        padding-top: 0px;
+        font-size: 1.6em;
         color: black;
         background-color: #61a8f8;
         box-shadow: 0px 5px #4056e2;

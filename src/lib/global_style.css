@@ -35,13 +35,13 @@
 
 @font-face {
     font-family: "Crafted";
-    src: url(/fonts/Minecraft-Seven_v2.ttf);
+    src: url(/fonts/Crafted-Regular.ttf);
 }
 
 @font-face {
     font-family: "Crafted";
     font-weight: bold;
-    src: url(/fonts/Minecraft-Seven_v2.ttf);
+    src: url(/fonts/Crafted-Bold.ttf);
 }
 
 body {

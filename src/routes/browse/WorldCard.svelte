@@ -19,7 +19,7 @@
                     <p class="owner-name">By ...</p>  
                 {:then name}
                     <p class="owner-name">By {name}</p> 
-                {:catch err}
+                {:catch}
                     <p class="owner-name">We couldn't find the owner of this world.</p>
                 {/await}
             </div>
@@ -134,7 +134,9 @@
     }
 
     .name {
-        font-size: 3em;
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 2em;
         margin: 0;
         paint-order: stroke fill;
         -webkit-text-stroke: black 5px;

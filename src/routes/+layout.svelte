@@ -28,6 +28,7 @@
 	<a href="/">Home</a>
 	<a href="/api">API</a>
 	<a href="/browse">World Browser</a>
+	<a href="/stats">Stats</a>
 </div>
 
 {@render children()}
@@ -59,6 +60,7 @@
 <style>
 	.navbar {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		background-color: light-dark(var(--secondary-light), var(--secondary-dark));
 		color: light-dark(var(--text-main-light), -var(-text-main-dark));
@@ -72,7 +74,7 @@
 		a:active {
 			color: light-dark(var(--text-main-light), var(--text-main-dark));
 			margin-block: 10px;
-			margin-right: 50px;
+			margin-left: 50px;
 			text-decoration: none;
 		}
 

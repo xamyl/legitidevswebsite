@@ -14,10 +14,8 @@
 <svelte:head>
 	{#if isError}
 		<title>{$page.status} {$page.error.message} | LegitiDevs</title>
-		<meta property="og:title" content="{$page.status} {$page.error.message} | LegitiDevs" />
 	{:else}
 		<title>{$page.data?.page?.title ?? "Unknown"} | LegitiDevs</title>
-		<meta property="og:title" content="{$page.data?.page?.title ?? "Unknown"} | LegitiDevs" />
 	{/if}
 </svelte:head>
 

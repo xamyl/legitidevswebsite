@@ -4,7 +4,15 @@
 
     let { data } = $props();
     const worldCommand = `/world ${data.world.world_uuid}`
+    const openGraphImage = data.world.icon === "minecraft:player_head" ? `https://mc-heads.net/head/${data.world.owner_uuid}/left` : getItemIcon(data.world.icon)
 </script>
+
+<svelte:head>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content={data.world.name}/>
+    <meta property="og:description" content={data.world.description}/>
+    <meta property="og:image" content={openGraphImage}>
+</svelte:head>
 
 <div class="main-container">
     <div class="main-wrapper">

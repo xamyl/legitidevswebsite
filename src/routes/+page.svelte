@@ -2,7 +2,7 @@
     <meta charset="UTF-8">
     <meta name="description" content="LegitimooseAPI">
     <meta name="keywords" content="An unofficial API made by the community to get world data from the hit Minecraft server 'legitimoose.com'!">
-    <meta name="author" content="LegitiDevs">
+    <meta name="author" content="LegitimooseAPI">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <div class="main-container">

@@ -7,13 +7,13 @@
 
     async function fetchData() {
         try {
-            const response = await fetch(`https://api.omrih.me${inputValue}`);
+            const response = await fetch(`https://api.legitimoose.net${inputValue}`);
             const json = await response.json();
             fetching = true
             result = await codeToHtml(JSON.stringify(json, null, 2), { lang: "json", theme: "dark-plus" });
             fetching = false
         } catch (err) {
-            result = `There was an error while trying to call 'https://api.omrih.me${inputValue}':\\n  ${err}`;
+            result = `There was an error while trying to call 'https://api.legitimoose.net${inputValue}':\\n  ${err}`;
         }
     }
 </script>
@@ -67,12 +67,7 @@
 		</div>
 
 		<div class="text-block">
-			<p>You can use these following links to call the API</p>
-			<ul>
-				<li><code>https://api.omrih.me/</code> (Recommended)</li>
-				<li><code>http://api.spaceinvadeer.com/</code></li>
-				<li><code>http://legitimooseapi.skye.host/</code></li>
-			</ul>
+			<p>You can use <code>https://api.legitimoose.net/</code> to call the API</p>
 		</div>
 
 		<div class="text-block">

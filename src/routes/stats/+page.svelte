@@ -33,4 +33,16 @@
         align-items: center;
         height: 100vmin;
     }
+
+    h1 {
+        font-size: 3rem; 
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    minecraft-text {
+        font-size: 2.5rem; 
+    }
 </style>

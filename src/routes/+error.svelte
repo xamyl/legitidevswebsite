@@ -3,12 +3,18 @@
     
     const ERROR_MESSAGES = [
         "Error!",
+        "UwU -Skye",
         "i'm 90% sure that this is not my fault and its yours probably i think.",
         "what did you do this time",
+        "NobleSkye was here",
+        ">:3",
+        "Neat domain right?... right?!! >:3",
         "actually maybe its our fault? idk.",
         "fakekdeer is here",
         "\"we all know koori did this\" - max",
         "can you suggest more messages here?",
+        "if we were moe UwU then this wouldn't have happened",
+        "Alright who used chatgpt... again",
     ]
 
     const ERROR_ICONS = [

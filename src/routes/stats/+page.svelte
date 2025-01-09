@@ -18,10 +18,10 @@
     
 
 <div class="main-container">
-    <h1>World Stats (ALPHA)</h1>
+    <h1>World Stats™ (ALPHA)</h1>
     <h2>Top 10 Worlds</h2>
     {#each top10Worlds as world}
-        <minecraft-text>{world.raw_name}</minecraft-text>
+        <a href="browse/{world.world_uuid}"><minecraft-text>{world.raw_name}</minecraft-text></a>
     {/each}
 </div>
 

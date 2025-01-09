@@ -21,7 +21,7 @@
     <h1>World Stats™ (ALPHA)</h1>
     <h2>Top 10 Worlds</h2>
     {#each top10Worlds as world}
-        <a href="https://legitimoose.net/browse/{world.world_uuid}"><minecraft-text>{world.raw_name}</minecraft-text></a>
+        <a href="browse/{world.world_uuid}"><minecraft-text>{world.raw_name}</minecraft-text></a>
     {/each}
 </div>
 

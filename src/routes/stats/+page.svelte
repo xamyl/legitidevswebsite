@@ -20,7 +20,7 @@
     <h1>World Stats™ (ALPHA)</h1>
     <h2>Top 10 Worlds</h2>
     {#each top10Worlds as world}
-        <span title="Open {world.raw_name}'s World Page' words"><a href="browse/{world.world_uuid}"><minecraft-text>{world.raw_name}</minecraft-text></a></span>
+        <span title="Open {world.name}'s World Page"><a href="browse/{world.world_uuid}"><minecraft-text>{world.raw_name}</minecraft-text></a></span>
     {/each}
 </div>
 

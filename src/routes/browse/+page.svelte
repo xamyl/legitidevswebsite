@@ -27,7 +27,6 @@
     }
 
     async function fetchPage() {
-        console.log(`https://api.legitimoose.net/page/${pageIndex}?sort=${sort}?sortDirection=${sortDirection}`)
         isLoading = true
         const res = await fetch(`https://api.legitimoose.net/page/${pageIndex}?sort=${sort}?sortDirection=${sortDirection}`)
         const newWorlds = await res.json()
@@ -87,6 +86,13 @@
         };
     })
 </script>
+
+<svelte:head>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="World Browser"/>
+    <meta property="og:description" content="Browse worlds from the legitimoose server here!"/>
+    <meta property="og:image" content="/img/legitimoose-api-mark.png">
+</svelte:head>
 
 <div class="main-container">
     <div class="search-container">

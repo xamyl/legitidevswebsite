@@ -1,22 +1,35 @@
 <script>
-    import { codeToHtml } from "shiki";
+	import { codeToHtml } from "shiki";
 
-    let inputValue = $state("");
-    let result = $state("");
-    let fetching = $state(false)
+	let inputValue = $state("");
+	let result = $state("");
+	let fetching = $state(false);
 
-    async function fetchData() {
-        try {
-            const response = await fetch(`https://api.legitimoose.net${inputValue}`);
-            const json = await response.json();
-            fetching = true
-            result = await codeToHtml(JSON.stringify(json, null, 2), { lang: "json", theme: "dark-plus" });
-            fetching = false
-        } catch (err) {
-            result = `There was an error while trying to call 'https://api.legitimoose.net${inputValue}':\\n  ${err}`;
-        }
-    }
+	async function fetchData() {
+		try {
+			const response = await fetch(`https://api.legitimoose.net${inputValue}`);
+			const json = await response.json();
+			fetching = true;
+			result = await codeToHtml(JSON.stringify(json, null, 2), {
+				lang: "json",
+				theme: "dark-plus",
+			});
+			fetching = false;
+		} catch (err) {
+			result = `There was an error while trying to call 'https://api.legitimoose.net${inputValue}':\\n  ${err}`;
+		}
+	}
 </script>
+
+<svelte:head>
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="API Usage & Docs" />
+	<meta
+		property="og:description"
+		content="Find out how to use the LegitimooseAPI here."
+	/>
+	<meta property="og:image" content="/img/legitimoose-api-mark.png" />
+</svelte:head>
 
 <div class="main-container">
 	<h1>API Usage & Docs</h1>
@@ -32,12 +45,11 @@
 		</h2>
 		<div class="text-block">
 			<p>
-				The API currently has five endpoints: 
-                <code>{`/world/<uuid>`}</code>,
+				The API currently has five endpoints:
+				<code>{`/world/<uuid>`}</code>,
 				<code>{`/page/<index>`}</code>,
 				<code>{`/top/<number>`}</code>,
-				<code>{`/search/<query>`}</code>,
-				and <code>/all</code>
+				<code>{`/search/<query>`}</code>, and <code>/all</code>
 			</p>
 		</div>
 
@@ -46,15 +58,17 @@
 				<code>{`/world/<uuid>`}</code> retrieves the data for the world with the
 				specified UUID.
 			</p>
-            <p>
-				<code>{`/page/<index>`}</code> retrieves the data for the 27 worlds in the specified page index. (Imagine a chest with 27 items)
+			<p>
+				<code>{`/page/<index>`}</code> retrieves the data for the 27 worlds in the
+				specified page index. (Imagine a chest with 27 items)
 			</p>
 			<p>
 				<code>{`/top/<number>`}</code> retrieves the data for the top
 				<code>&lt;number&gt;</code> worlds.
 			</p>
-            <p>
-				<code>{`/search/<query>`}</code> retrieves the data for the worlds that their name closely matches the query.
+			<p>
+				<code>{`/search/<query>`}</code> retrieves the data for the worlds that their
+				name closely matches the query.
 			</p>
 			<p>
 				<code>/top/0</code> retrieves the data for all worlds, sorted from the top-ranked
@@ -67,7 +81,38 @@
 		</div>
 
 		<div class="text-block">
-			<p>You can use <code>https://api.legitimoose.net/</code> to call the API</p>
+			<p>
+				There are also 2 optional arguments for the <code>/all</code>,
+				<code>{`/search/<query>`}</code>, and <code>{`/page/<index>`}</code> endpoints.
+			</p>
+			<br>
+			<p>These are:</p>
+			<p>
+				<code>{`?sort`}</code> - Sorts the world list depending on the value given.
+			</p>
+			<p>
+				Options:
+				<code>default|votes|visits|recently_scraped|recently_created</code>.
+				Defaults to <code>default</code> (Online worlds, then player count, then
+				votes)
+			</p>
+			<br />
+			<p>
+				<code>{`?sortDirection`}</code> - Sorts the direction of the world list depending
+				on the value given.
+			</p>
+			<p>
+				Options: <code>ascending|descending</code>.
+			</p>
+			<p>
+				Defaults to <code>ascending</code>
+			</p>
+		</div>
+
+		<div class="text-block">
+			<p>
+				You can use <code>https://api.legitimoose.net/</code> to call the API
+			</p>
 		</div>
 
 		<div class="text-block">
@@ -78,7 +123,7 @@
 						type="text"
 						id="demo-input"
 						placeholder="/world/uuid or etc..."
-                        bind:value={inputValue}
+						bind:value={inputValue}
 					/>
 					<button id="demo-fetch" onclick={fetchData}>Fetch!</button>
 				</div>
@@ -122,7 +167,7 @@
 			<p>Each world is structured like this:</p>
 			<div class="code-container">
 				<code class="language-js code-block">
-					{#await codeToHtml(`
+					{#await codeToHtml( `
 	{
 		"world_uuid": "3253a682-3a74-413d-8917-0edd92a792db",
 		"name": "BLOCKS 'N PROPS v2",
@@ -143,9 +188,9 @@
 		"whitelist_on_version_change": false,
 		"last_scraped": 1734160015,
 	}
-					`, { lang: "json", theme: "dark-plus" })}
+					`, { lang: "json", theme: "dark-plus" } )}
 						Higlighting syntax...
-					{:then code} 
+					{:then code}
 						{@html code}
 					{/await}
 				</code>
@@ -247,8 +292,6 @@
 		min-height: 100vmin;
 		align-items: center;
 		padding: 20px;
-		/* This is because the line after h1 is still overflowing slightly even though it's limited to 100vw, it can be removed if the cause of that is found and fixed */
-		overflow: hidden;
 
 		div.section {
 			display: flex;
@@ -292,7 +335,7 @@
 		}
 	}
 
-	.code-container{
+	.code-container {
 		display: flex;
 	}
 </style>

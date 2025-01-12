@@ -1,10 +1,10 @@
 <svelte:head>
-    <meta charset="UTF-8">
-    <meta name="description" content="LegitimooseAPI">
-    <meta name="keywords" content="An unofficial API made by the community to get world data from the hit Minecraft server 'legitimoose.com'!">
-    <meta name="author" content="LegitimooseAPI">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="LegitiDevs"/>
+    <meta property="og:description" content="The legitimoose community website made by the LegitiDevs!"/>
+    <meta property="og:image" content="/img/legitimoose-api-mark.png">
 </svelte:head>
+
 <div class="main-container">
     <div class="title-container">
         <img

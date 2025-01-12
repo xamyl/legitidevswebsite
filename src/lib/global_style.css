@@ -79,9 +79,7 @@ h1 {
             var(--secondary-light)
         );
         height: 5px;
-        width: 120%;
-        /* At 100vw this still causes overflow for some reason */
-        max-width: 100vw;
+        width: clamp(100%, 120%, 90vw);
     }
 }
 

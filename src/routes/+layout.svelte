@@ -3,12 +3,13 @@
   	import '$lib/global_style.css'
 	import { page } from '$app/stores';
 
-  onMount(async () => {
-    await import('$lib/minecraft-text')
-  })
+  	onMount(async () => {
+  	  await import('$lib/minecraft-text')
+  	})
 
 	let { children } = $props();
 	const isError = $page.status >= 400;
+
 </script>
 
 <svelte:head>

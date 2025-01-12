@@ -1,5 +1,4 @@
 import { error } from '@sveltejs/kit'
-import { getItemIcon } from '$lib/utils.js';
 
 export const load = async ({ params }) => {
     const worldDataRes = await fetch(`https://api.legitimoose.net/world/${params.world} `)
@@ -8,7 +7,7 @@ export const load = async ({ params }) => {
 
     return {
         page: {
-            title: worldData.name
+            title: worldData.name,
         },
         world: worldData
     }

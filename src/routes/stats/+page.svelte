@@ -1,4 +1,3 @@
-
 <script>
     import { onMount } from "svelte";
 
@@ -15,7 +14,13 @@
     
     onMount(async () => { await fetchTop10() })
 </script>
-    
+
+<svelte:head>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="World Stats"/>
+    <meta property="og:description" content="See various world info here."/>
+    <meta property="og:image" content="/img/legitimoose-api-mark.png">
+</svelte:head>
 
 <div class="main-container">
     <h1>World Stats™ (ALPHA)</h1>

@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit'
 
-export const load = async ({ params }) => {
+export const load = async ({ params, fetch }) => {
     const worldDataRes = await fetch(`https://api.legitimoose.net/world/${params.world} `)
     let worldData = await worldDataRes.json();
     if (!worldData) error(404, { message: `Invalid world UUID.` })

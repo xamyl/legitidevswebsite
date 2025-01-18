@@ -134,8 +134,6 @@
     }
 
     .name {
-        display: flex;
-        flex-wrap: wrap;
         font-size: 2em;
         margin: 0;
         paint-order: stroke fill;

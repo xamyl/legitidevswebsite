@@ -27,6 +27,7 @@
 	<a href="/">Home</a>
 	<a href="/api">API</a>
 	<a href="/browse">World Browser</a>
+	<a href="/stats">Stats</a>
 	<a href="/status">Status</a>
 </div>
 

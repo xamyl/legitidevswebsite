@@ -5,7 +5,7 @@ import * as fs from "fs"
 
 // type uptime = { status: 0 "good" | 1 "warning" | 2 "bad", time: unix timestamp }
 let scraperErrorFetchTries = 0;
-export const STATUS_FILE_PATH = path.join(import.meta.dirname, "status.json")
+export const STATUS_FILE_PATH = path.join("/tmp", "status.json")
 let CHECKING_INTERVAL
 
 export function main() {

@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import WorldCard from './WorldCard.svelte';
+	import { SITE_CONFIG } from '$lib/config';
 
     // These stores all the worlds we fetched
     let worlds = $state([])
@@ -28,7 +29,7 @@
 
     async function fetchPage() {
         isLoading = true
-        const res = await fetch(`https://api.legitimoose.net/page/${pageIndex}?sort=${sort}?sortDirection=${sortDirection}`)
+        const res = await fetch(`${SITE_CONFIG.API_ROOT}page/${pageIndex}?sort=${sort}?sortDirection=${sortDirection}`)
         const newWorlds = await res.json()
         worlds = [...worlds, ...newWorlds]
         pageIndex++
@@ -45,7 +46,7 @@
         isLoading = true
         isSearching = true
         const sanitizedQuery = encodeURIComponent(query)
-        const res = await fetch(`https://api.legitimoose.net/search/${sanitizedQuery}`)
+        const res = await fetch(`${SITE_CONFIG.API_ROOT}search/${sanitizedQuery}`)
         const worldsMatched = await res.json()
         searchedWorlds = worldsMatched;
         isLoading = false

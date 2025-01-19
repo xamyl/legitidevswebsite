@@ -1,4 +1,5 @@
 <script>
+	import { SITE_CONFIG } from "$lib/config";
 	import { codeToHtml } from "shiki";
 
 	let inputValue = $state("");
@@ -111,7 +112,7 @@
 
 		<div class="text-block">
 			<p>
-				You can use <code>https://api.legitimoose.net/</code> to call the API
+				You can use <code>{SITE_CONFIG.API_ROOT}</code> to call the API
 			</p>
 		</div>
 

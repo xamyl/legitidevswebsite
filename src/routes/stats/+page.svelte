@@ -1,10 +1,11 @@
 <script>
+	import { SITE_CONFIG } from "$lib/config";
     import { onMount } from "svelte";
 
     let top10Worlds = $state([]);
     
     async function fetchTop10() {
-      const res = await fetch("https://api.legitimoose.net/top/10");
+      const res = await fetch(`${SITE_CONFIG}top/10`);
       
       if (res.status >= 400) throw new Error("fetch failed")
       

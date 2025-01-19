@@ -37,7 +37,7 @@
         flex-direction: column;
         background-color: light-dark(var(--main-light), var(--main-dark));
         align-items: center;
-        height: 100vmin;
+        min-height: 100vmin;
     }
 
     h1 {

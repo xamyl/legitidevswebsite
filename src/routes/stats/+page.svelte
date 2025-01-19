@@ -5,7 +5,7 @@
     let top10Worlds = $state([]);
     
     async function fetchTop10() {
-      const res = await fetch(`${SITE_CONFIG}top/10`);
+      const res = await fetch(`${SITE_CONFIG.API_ROOT}top/10`);
       
       if (res.status >= 400) throw new Error("fetch failed")
       
@@ -37,7 +37,7 @@
         flex-direction: column;
         background-color: light-dark(var(--main-light), var(--main-dark));
         align-items: center;
-        height: 100vmin;
+        min-height: 100vmin;
     }
 
     h1 {

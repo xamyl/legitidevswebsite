@@ -66,20 +66,20 @@ async function checkAPIStatus() {
 
 async function checkScraperStatus() {
 	const scraperUptime = JSON.parse(fs.readFileSync(STATUS_FILE_PATH), "utf8").scraper;
-	const res = await fetch(`${SITE_CONFIG.API_ROOT}/top/1`);
-	const current_last_scraped = await res.json().last_scraped;
-    const last_scraped = scraperUptime[scraperUptime.length - 1]?.last_scraped ?? null;
+	const res = await fetch(`${SITE_CONFIG.API_ROOT}top/1`);
+    const current_last_scraped = (await res.json())[0].last_scraped;
+    const last_status = scraperUptime[scraperUptime.length - 1];
 
     let uptime = { status: 0, last_scraped: current_last_scraped, fetchTries: scraperErrorFetchTries, time: Date.now() }
 
     // If theres no last scraped entry on status data 🟢
-    if (!last_scraped) return uptime
+    if (!last_status) return uptime
     // If db last scraped does not equal our last scraped 🟢
-    if (current_last_scraped != last_scraped) {
+    if (current_last_scraped != last_status.last_scraped) {
         scraperErrorFetchTries = 0
         return uptime
     }
-    if (current_last_scraped == last_scraped) {
+    if (current_last_scraped == last_status.last_scraped) {
         scraperErrorFetchTries++
         // If db last scraped is equal to our last scraped, maybe we checked too early 🟡
         if (scraperErrorFetchTries == 1) {

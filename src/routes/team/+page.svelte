@@ -6,7 +6,7 @@
 
     let { data } = $props()
     const uptimes = data.uptimes
-    let statusMessage = $state("All systems operational.")
+    let statusMessage = $state("I am GOING To meat the teem")
     let statusMessageStatus = $state("good")
 
     for (const uptime in uptimes) {
@@ -23,17 +23,6 @@
         }
     }
 </script>
-
-<div class="main-container">
-    <div class="title-container">
-        <img src="/img/legitimoose-api-logo.png" alt="Legitimoose API Logo">
-    </div>
-    <div class="uptime-container">
-        <p class="status-message {statusMessageStatus}">{statusMessage}</p>
-        <UptimeDisplay title="API" description="Handles requests to get world data from our database." uptime_data={uptimes.api}></UptimeDisplay>
-        <UptimeDisplay title="Scraper" description="Handles info gathering on the server, Discord2MC & MC2Discord chat, and the Discord Bot." uptime_data={uptimes.scraper}></UptimeDisplay>
-    </div>
-</div>
 
 <style>
     .main-container {

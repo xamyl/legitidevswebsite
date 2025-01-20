@@ -29,6 +29,7 @@
 	<a href="/browse">World Browser</a>
 	<a href="/stats">Stats</a>
 	<a href="/status">Status</a>
+	<a href="/team">Meet The Team</a>
 </div>
 
 {@render children()}

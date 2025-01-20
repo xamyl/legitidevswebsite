@@ -1,29 +1,8 @@
-<script>
-    import { STATUS_CHECKING_CONFIG } from "$lib/config";
-    import * as fs from "fs"
-	import { onMount } from "svelte";
-	import UptimeDisplay from "./UptimeDisplay.svelte";
-
-    let { data } = $props()
-    const uptimes = data.uptimes
-    let statusMessage = $state("I am GOING To meat the teem")
-    let statusMessageStatus = $state("good")
-
-    for (const uptime in uptimes) {
-        let currentUptime = uptimes[uptime]
-        if (currentUptime[currentUptime.length - 1]?.status ?? 0 == 1) { 
-            statusMessage = "Some systems are having issues.";
-            statusMessageStatus = "warning" 
-            continue
-        }
-        if (currentUptime[currentUptime.length - 1]?.status ?? 0 == 2) { 
-            statusMessage = "Some systems are down";
-            statusMessageStatus = "bad" 
-            continue 
-        }
-    }
-</script>
-
+<div class="main-container">
+    <div class="title-container">
+        <h1>Meet the team!</h1>
+    </div>
+</div>
 <style>
     .main-container {
         display: flex;

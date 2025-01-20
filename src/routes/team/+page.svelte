@@ -1,25 +1,32 @@
 <script>
   let users = [
     {
-      pfp: 'https://placehold.co/400',
-      name: 'Alice',
-      discord: 'alice#1234',
+      pfp: '/img/pfps/hazel.png',
+      name: 'Hazel',
+      discord: '@xendyex',
       pronouns: '(she/her)',
-      quote: 'I like baguette.'
+      quote: "transed the gender too much i'm a female camera now (see pfp)"
     },
     {
       pfp: 'https://placehold.co/400',
-      name: 'Bob',
-      discord: 'bob#5678',
-      pronouns: '(he/him)',
-      quote: 'I Like chees.'
+      name: 'Placeholder',
+      discord: '@PleaseSomeoneReplaceThis',
+      pronouns: '(place/holder)',
+      quote: 'Placeholder'
     },
     {
       pfp: 'https://placehold.co/400',
-      name: 'Charlie',
-      discord: 'charlie#9101',
-      pronouns: '(they/them)',
-      quote: 'gender is a mere social construct'
+      name: 'Placeholder',
+      discord: '@PleaseSomeoneReplaceThis',
+      pronouns: '(place/holder)',
+      quote: 'Placeholder'
+    },
+    {
+      pfp: 'https://placehold.co/400',
+      name: 'Placeholder',
+      discord: '@PleaseSomeoneReplaceThis',
+      pronouns: '(place/holder)',
+      quote: 'Placeholder'
     }
   ];
 </script>

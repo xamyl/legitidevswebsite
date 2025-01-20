@@ -1,26 +1,15 @@
 <script>
 	import { onMount } from 'svelte';
-  import '$lib/global_style.css';
+  	import '$lib/global_style.css'
 	import { page } from '$app/stores';
 
-  onMount(async () => {
-    await import('$lib/minecraft-text');
-    darkMode = localStorage.getItem('darkMode') === 'true';
-    if (darkMode) {
-      document.documentElement.classList.add('dark-mode');
-    }
-  });
+  	onMount(async () => {
+  	  await import('$lib/minecraft-text')
+  	})
 
 	let { children } = $props();
 	const isError = $page.status >= 400;
 
-	let darkMode = false;
-
-	function toggleDarkMode() {
-		darkMode = !darkMode;
-		document.documentElement.classList.toggle('dark-mode', darkMode);
-		localStorage.setItem('darkMode', darkMode);
-	}
 </script>
 
 <svelte:head>
@@ -41,9 +30,6 @@
 	<a href="/stats">Stats</a>
 	<a href="/status">Status</a>
 	<a href="/team">Meet The Team</a>
-  <button class="dark-mode-toggle" on:click={toggleDarkMode}>
-    {darkMode ? 'Light Mode' : 'Dark Mode'}
-  </button>
 </div>
 
 {@render children()}
@@ -62,6 +48,7 @@
 				<img src="/svg/discord-mark-white.svg" alt="Discord Logo" />
 			</a>
 			<a href="https://store.legitimoose.com">store.legitimoose.com</a>
+		
 			<a href="https://youtube.com/legitimoose">
 				<img src="/img/youtube.png" alt="Legitimoose's Youtube" />
 			</a>
@@ -77,8 +64,8 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		background-color: var(--secondary-light);
-		color: var(--text-main-light);
+		background-color: light-dark(var(--secondary-light), var(--secondary-dark));
+		color: light-dark(var(--text-main-light), -var(-text-main-dark));
 
 		:first-child {
 			margin-left: 10px;
@@ -87,7 +74,7 @@
 		a,
 		a:visited,
 		a:active {
-			color: var(--text-main-light);
+			color: light-dark(var(--text-main-light), var(--text-main-dark));
 			margin-block: 10px;
 			margin-left: 50px;
 			text-decoration: none;
@@ -98,26 +85,16 @@
 			width: 50px;
 			border-radius: 5px;
 		}
-
-		button.dark-mode-toggle {
-			margin-left: auto;
-			padding: 10px 20px;
-			background-color: var(--tertiary-light);
-			color: var(--text-main-light);
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-		}
 	}
 
 	.footer-container {
 		display: flex;
 		flex-direction: column;
-		background-color: var(--tertiary-light);
+		background-color: light-dark(var(--tertiary-light), var(--tertiary-dark));
 		color: var(--text-main-dark);
 		min-height: 30vmin;
 		padding: 25px 25px 50px 25px;
-
+		
 		p {
 			margin-bottom: 0;
 		}
@@ -144,15 +121,5 @@
 			height: auto;
 			width: 50px;
 		}
-	}
-
-	html.dark-mode {
-		filter: invert(1) hue-rotate(180deg);
-		background-color: black;
-	}
-
-	html.dark-mode img,
-	html.dark-mode video {
-		filter: invert(1) hue-rotate(180deg);
 	}
 </style>

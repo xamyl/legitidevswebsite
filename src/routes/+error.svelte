@@ -15,6 +15,7 @@
         "can you suggest more messages here?",
         "if we were moe UwU then this wouldn't have happened",
         "Alright who used chatgpt... again",
+        "i has meeted the team"
     ]
 
     const ERROR_ICONS = [

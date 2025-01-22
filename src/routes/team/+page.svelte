@@ -15,18 +15,11 @@
       quote: 'does stuff (sometimes)'
     },
     {
-      pfp: 'https://placehold.co/400',
-      name: 'Placeholder',
-      discord: '@PleaseSomeoneReplaceThis',
-      pronouns: '(place/holder)',
-      quote: 'Placeholder'
-    },
-    {
-      pfp: 'https://placehold.co/400',
-      name: 'Placeholder',
-      discord: '@PleaseSomeoneReplaceThis',
-      pronouns: '(place/holder)',
-      quote: 'Placeholder'
+      pfp: '/img/pfps/omri.png',
+      name: 'Omri',
+      discord: '@omrih',
+      pronouns: '(he/him)',
+      quote: 'im gonna kill someone next time i have to configure nginx'
     }
   ];
 </script>

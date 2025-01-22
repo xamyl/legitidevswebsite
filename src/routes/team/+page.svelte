@@ -8,11 +8,11 @@
       quote: "transed the gender too much i'm a female camera now (see pfp) (im at the bottom)"
     },
     {
-      pfp: 'https://placehold.co/400',
-      name: 'Placeholder',
-      discord: '@PleaseSomeoneReplaceThis',
-      pronouns: '(place/holder)',
-      quote: 'Placeholder'
+      pfp: '/img/pfps/pilkey.png',
+      name: 'PilkeySEK',
+      discord: '@pilkeysek',
+      pronouns: '(he/him)',
+      quote: 'does stuff (sometimes)'
     },
     {
       pfp: 'https://placehold.co/400',

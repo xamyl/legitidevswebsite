@@ -20,6 +20,13 @@
       discord: '@omrih',
       pronouns: '(he/him)',
       quote: 'im gonna kill someone next time i have to configure nginx'
+    },
+    {
+      pfp: '/img/pfps/anjo.jpg',
+      name: 'Anjo1920',
+      discord: '@anjo1920_yt',
+      pronouns: '(he/him)',
+      quote: '*tf2 pyro speech*'
     }
   ];
 </script>

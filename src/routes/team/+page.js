@@ -1,4 +1,4 @@
-export const load = async ({ fetch }) => {
+export const load = async () => {
     return {
         page: {
             title: "Meet The Team"

@@ -8,7 +8,7 @@
 
 	async function fetchData() {
 		try {
-			const response = await fetch(`https://api.legitimoose.net${inputValue}`);
+			const response = await fetch(`${SITE_CONFIG.API_ROOT}${inputValue}`);
 			const json = await response.json();
 			fetching = true;
 			result = await codeToHtml(JSON.stringify(json, null, 2), {
@@ -17,7 +17,7 @@
 			});
 			fetching = false;
 		} catch (err) {
-			result = `There was an error while trying to call 'https://api.legitimoose.net${inputValue}':\\n  ${err}`;
+			result = `There was an error while trying to call '${SITE_CONFIG.API_ROOT}${inputValue}':\\n  ${err}`;
 		}
 	}
 </script>
@@ -47,16 +47,17 @@
 		<div class="text-block">
 			<p>
 				The API currently has five endpoints:
-				<code>{`/world/<uuid>`}</code>,
+				<code>{`/world/<world_uuid>`}</code>,
 				<code>{`/page/<index>`}</code>,
 				<code>{`/top/<number>`}</code>,
+				<code>{`/owner/<player_uuid>`}</code>,
 				<code>{`/search/<query>`}</code>, and <code>/all</code>
 			</p>
 		</div>
 
 		<div class="text-block">
 			<p>
-				<code>{`/world/<uuid>`}</code> retrieves the data for the world with the
+				<code>{`/world/<world_uuid>`}</code> retrieves the data for the world with the
 				specified UUID.
 			</p>
 			<p>
@@ -76,6 +77,9 @@
 				to the lowest-ranked.
 			</p>
 			<p>
+				<code>{`/owner/<player_uuid>`}</code> retrieves the data for each world made by the specified owner.
+			</p>
+			<p>
 				<code>/all</code> retrieves the data for all worlds, sorted by the most recently
 				updated.
 			</p>
@@ -84,7 +88,7 @@
 		<div class="text-block">
 			<p>
 				There are also 2 optional arguments for the <code>/all</code>,
-				<code>{`/search/<query>`}</code>, and <code>{`/page/<index>`}</code> endpoints.
+				<code>{`/search/<query>`}</code>, <code>{`/page/<index>`}</code>, and <code>{`/owner/<player_uuid>`}</code> endpoints.
 			</p>
 			<br>
 			<p>These are:</p>

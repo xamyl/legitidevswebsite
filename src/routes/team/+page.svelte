@@ -1,11 +1,11 @@
 <script>
   let users = [
     {
-      pfp: '/img/pfps/hazel.png',
-      name: 'Hazel',
-      discord: '@xendyex',
-      pronouns: '(she/her)',
-      quote: "transed the gender too much i'm a female camera now (see pfp) (im at the bottom)"
+      pfp: '/img/pfps/trplnr.png',
+      name: 'Trplnr',
+      discord: '@trplnr',
+      pronouns: '(he/him)',
+      quote: 'im basically head of website, I HAVE TOO MANY SIDE PROJECTS HELP ME-'
     },
     {
       pfp: '/img/pfps/pilkey.png',
@@ -22,12 +22,19 @@
       quote: 'im gonna kill someone next time i have to configure nginx'
     },
     {
+      pfp: '/img/pfps/hazel.png',
+      name: 'Hazel',
+      discord: '@xendyex',
+      pronouns: '(she/her)',
+      quote: "transed the gender too much i'm a female camera now (see pfp) (im at the bottom)"
+    },
+    {
       pfp: '/img/pfps/anjo.jpg',
       name: 'Anjo1920',
       discord: '@anjo1920_yt',
       pronouns: '(he/him)',
       quote: '*tf2 pyro speech*'
-    }
+    },
   ];
 </script>
 

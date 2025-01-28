@@ -35,6 +35,21 @@
       pronouns: '(he/him)',
       quote: '*tf2 pyro speech*'
     },
+    {
+      pfp: '/img/pfps/nobleskye.png',
+      name: 'NobleSkye',
+      discord: '@PrettySkye',
+      pronouns: '(She/her)',
+      quote: '*UwU... dont tell space.. >:3* - I also like host this...'
+    },
+    {
+      pfp: '/img/pfps/spaceinvadder.png',
+      name: 'NobleSkye',
+      discord: '@spaceinvadeer ',
+      pronouns: '(He/Him)',
+      quote: '*u followed by w followed by u*'
+    },
+
   ];
 </script>
 

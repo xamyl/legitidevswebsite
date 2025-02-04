@@ -95,7 +95,17 @@
     padding: 20px;
     width: 80%;
   }
+  @media (max-width: 768px) {
+    .users-container {
+      grid-template-columns: 1fr;
+    }
+  }
 
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .users-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
   .user-card {
     display: flex;
     flex-direction: column;

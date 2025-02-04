@@ -8,13 +8,16 @@
         "what did you do this time",
         "NobleSkye was here",
         ">:3",
+        "if your seeing this, you probably did something wrong",
+        "i'm not sure what happened but i'm sure it's not my fault",
+        "idk how you got here- but leave cuz this is a 404 page",
         "Neat domain right?... right?!! >:3",
         "actually maybe its our fault? idk.",
         "fakekdeer is here",
         "\"we all know koori did this\" - max",
         "can you suggest more messages here?",
         "if we were moe UwU then this wouldn't have happened",
-        "Alright who used chatgpt... again",
+        "Alright who used ChatGPT... again",
         "i has meeted the team"
     ]
 

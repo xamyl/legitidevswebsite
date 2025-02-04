@@ -113,6 +113,18 @@
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 10px;
+    transition: transform 0.3s ease-out;
+  }
+
+  @media (hover: hover) {
+    .pfp {
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .pfp:hover {
+      transform: rotate3d(1, 1, 0, 30deg);
+    }
   }
 
   h2 {

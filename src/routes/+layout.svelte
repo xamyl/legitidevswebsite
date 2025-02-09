@@ -30,6 +30,7 @@
 	<a href="/stats">Stats</a>
 	<a href="/status">Status</a>
 	<a href="/team">Meet The Team</a>
+	<a href="/donate">Donate</a>
 </div>
 
 {@render children()}

@@ -18,6 +18,7 @@
     <div class="button-container">
         <a href="/browse">World Browser -&gt;</a>
         <a href="/api">Usage & Docs -&gt;</a>
+        <a href="/donate">Donate -&gt;</a>
     </div>
 </div>
 
@@ -66,6 +67,10 @@
     }
 
     .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
         > a, a:visited, a:active {
             width: 100%;
             text-align: center;
@@ -77,10 +82,6 @@
             border: 5px solid var(--outline);
             border-radius: 10px;
             box-shadow: 0 5px rgb(0, 0, 0, 0.5);
-        }
-
-        :last-child {
-            margin-top: 50px;
         }
     }
 }

@@ -36,13 +36,19 @@ export async function main() {
 }
 
 async function checkStatus() {
-    console.log(`Checking status... (${Date.now()})`);
+	console.log(`Checking status... (${Date.now()})`);
 	await status.updateOne(
 		{},
 		{
 			$push: {
-				api_uptime: await checkAPIStatus(),
-				scraper_uptime: await checkScraperStatus(),
+				api_uptime: {
+					$each: [await checkAPIStatus()],
+					$slice: -50,
+				},
+				scraper_uptime: {
+					$each: [await checkScraperStatus()],
+					$slice: -50,
+				},
 			},
 		}
 	);

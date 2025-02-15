@@ -30,8 +30,8 @@
     </div>
     <div class="uptime-container">
         <p class="status-message {statusMessageStatus}">{statusMessage}</p>
-        <UptimeDisplay title="API" description="Handles requests to get world data from our database." uptime_data={uptimes.api}></UptimeDisplay>
-        <UptimeDisplay title="Scraper" description="Handles info gathering on the server, Discord2MC & MC2Discord chat, and the Discord Bot." uptime_data={uptimes.scraper}></UptimeDisplay>
+        <UptimeDisplay title="API" description="Handles requests to get world data from our database." uptime_data={uptimes.api_uptime}></UptimeDisplay>
+        <UptimeDisplay title="Scraper" description="Handles info gathering on the server, Discord2MC & MC2Discord chat, and the Discord Bot." uptime_data={uptimes.scraper_uptime}></UptimeDisplay>
     </div>
 </div>
 

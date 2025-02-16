@@ -43,11 +43,11 @@ async function checkStatus() {
 			$push: {
 				api_uptime: {
 					$each: [await checkAPIStatus()],
-					$slice: -50,
+					$slice: -STATUS_CHECKING_CONFIG.MAX_LENGTH_UNTIL_DATA_REMOVAL,
 				},
 				scraper_uptime: {
 					$each: [await checkScraperStatus()],
-					$slice: -50,
+					$slice: -STATUS_CHECKING_CONFIG.MAX_LENGTH_UNTIL_DATA_REMOVAL,
 				},
 			},
 		}

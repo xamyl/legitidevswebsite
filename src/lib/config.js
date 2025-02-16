@@ -1,6 +1,10 @@
 export const SITE_CONFIG = {
-    API_ROOT: "https://api.legitimoose.net/"
-}
+	API_ROOT: "https://api.legitimoose.net/",
+	MCAUTH: {
+		CLIENT_ID: "3547604672392987797",
+		REDIRECT_URI: "http://localhost:5173/profile/login",
+	},
+};
 
 export const STATUS_CHECKING_CONFIG = {
 	MILLISECONDS_TIL_NEXT_FETCH: 900000, // 15min = 900000ms

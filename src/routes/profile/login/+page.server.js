@@ -1,6 +1,7 @@
 import "dotenv/config"
 import { SITE_CONFIG } from "$lib/config";
 import { redirect } from "@sveltejs/kit";
+import { getProfileData, rehyphenateUUID } from "$lib/utils.js";
 
 const AUTH_REQ_URL =
 	`https://mc-auth.com/oAuth2/authorize` +
@@ -12,9 +13,17 @@ const AUTH_REQ_URL =
 export const load = async ({ url, cookies }) => {
     const RAW_SEARCH_PARAMS = url.href.split("?")[1]
     const SEARCH_PARAMS = new URLSearchParams(RAW_SEARCH_PARAMS)
-
     // Client has already logged in.
-    if (cookies.get("MCAUTH_ACCESS_TOKEN")) return redirect(302, "/profile")
+    if (cookies.get("MCAUTH_ACCESS_TOKEN")) { 
+        const profile_data = await getProfileData(cookies.get("MCAUTH_ACCESS_TOKEN"));
+
+        if (profile_data.error) { // Token expired
+            cookies.set("MCAUTH_ACCESS_TOKEN", "", { path: "/" })
+            return redirect(302, AUTH_REQ_URL);
+        }
+
+        return redirect(302, `/profile/${rehyphenateUUID(profile_data.id)}`);
+    }
 
     // Client hasnt logged in yet
     if (!SEARCH_PARAMS.get("code")) return redirect(302, AUTH_REQ_URL);
@@ -40,6 +49,6 @@ export const load = async ({ url, cookies }) => {
     const body = await res.json()
     cookies.set("MCAUTH_ACCESS_TOKEN", body.access_token, { path: "/" })
     // Client has successfully logged in.
-
-    redirect(302, `/profile`);
+    const profile_data = await getProfileData(cookies.get("MCAUTH_ACCESS_TOKEN"));
+    return redirect(302, `/profile/${rehyphenateUUID(profile_data.id)}`);
 }

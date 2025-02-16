@@ -8,7 +8,6 @@
     const profile_data = data?.profile_data
     let myWorlds = $state([])
 
-
     onMount(async () => {
         if (profile_data) {
             const res = await fetch(`${SITE_CONFIG.API_ROOT}owner/${rehyphenateUUID(profile_data.id)}`)
@@ -22,22 +21,6 @@
     <p>{ profile_data?.name ?? "u havent logged in yet" }</p>
     <a href="/profile/login">log in</a>
     <a href="/profile/logout">log out</a>
-
-    <h2>ur worlds:</h2>
-    {#each myWorlds as world}
-        <WorldCard
-            world_uuid={world.world_uuid} 
-            icon={world.icon} 
-            raw_name={world.raw_name}
-            owner_uuid={world.owner_uuid}
-            votes={world.votes}
-            visits={world.visits}
-            resource_pack_url={world.resource_pack_url}
-            locked={world.locked}
-            player_count={world.player_count}
-            enforce_whitelist={world.enforce_whitelist}
-        />
-    {/each}
 </div>
 
 <style>

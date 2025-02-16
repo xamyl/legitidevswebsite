@@ -29,7 +29,7 @@
                         {#await getOwnerName(data.world.owner_uuid)}
                             <p class="owner-name">By ...</p>  
                         {:then name}
-                            <p class="owner-name">By {name}</p> 
+                            <p class="owner-name">By <a href="/profile/{data.world.owner_uuid}">{name}</a></p> 
                         {:catch}
                             <p class="owner-name">We couldn't find the owner of this world.</p>
                         {/await}
@@ -221,6 +221,14 @@
         font-style: italic;
         margin: 0;
         font-size: 1.5em;
+
+        > a {
+            font-weight: bold;
+            text-decoration: none;
+            color: inherit;
+
+            &:hover { color: light-dark(rgb(0, 0, 0, 0.8), rgb(255, 255, 255, 0.8)); }
+        }
     }
 
     .back-button, .back-button:visited {

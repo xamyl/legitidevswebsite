@@ -19,3 +19,16 @@ export const getOwnerName = async (uuid) => {
 export const rehyphenateUUID = (uuid) => {
     return uuid.replace(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, "$1-$2-$3-$4-$5");
 }
+
+export const getProfileData = async (access_token) => {
+    const profile_res = await fetch(
+        "https://mc-auth.com/api/v2/profile",
+        {
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+            },
+        }
+    );
+    const profile_data = await profile_res.json();
+    return profile_data
+}

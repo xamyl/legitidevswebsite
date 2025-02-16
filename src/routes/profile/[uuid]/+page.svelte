@@ -5,7 +5,7 @@
 	import { rehyphenateUUID } from '$lib/utils';
 
     const { data } = $props();
-    const IS_ME = data.player_uuid === rehyphenateUUID(data.profile_data.id)
+    const IS_ME = data?.profile_data?.id ? data.player_uuid === rehyphenateUUID(data.profile_data.id) : false
 
     let worlds = $state([])
 
@@ -13,12 +13,27 @@
         const res = await fetch(`${SITE_CONFIG.API_ROOT}owner/${data.player_uuid}`)
         worlds = await res.json()
     })
+
+    async function test() {
+        const res = await fetch(`${SITE_CONFIG.API_ROOT}world/edit`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${data.cookies.MCAUTH_ACCESS_TOKEN}`
+            },
+            body: JSON.stringify({
+                world_uuid: "dea9897f-95a7-409d-b553-646d02e708d5"
+            })
+        })
+
+        console.log(await res.json())
+    }
 </script>
 
 <div class="main-container">
     <h1>{data.player_name}'s Profile</h1>
     {#if IS_ME}
         <p>you own this profile</p>
+        <button onclick={test}>test</button>
     {/if}
     <h2>Owned Worlds:</h2>
     {#each worlds as world}

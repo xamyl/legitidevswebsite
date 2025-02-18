@@ -46,8 +46,9 @@
 		</h2>
 		<div class="text-block">
 			<p>
-				The API currently has five endpoints:
+				The API currently has six endpoints:
 				<code>{`/world/<world_uuid>`}</code>,
+				<code>{`/world/random`}</code>,
 				<code>{`/page/<index>`}</code>,
 				<code>{`/top/<number>`}</code>,
 				<code>{`/owner/<player_uuid>`}</code>,
@@ -59,6 +60,9 @@
 			<p>
 				<code>{`/world/<world_uuid>`}</code> retrieves the data for the world with the
 				specified UUID.
+			</p>
+			<p>
+				<code>{`/world/random`}</code> retrieves the data for a random world
 			</p>
 			<p>
 				<code>{`/page/<index>`}</code> retrieves the data for the 27 worlds in the

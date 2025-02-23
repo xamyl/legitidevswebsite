@@ -10,12 +10,17 @@
     let worlds = $state([])
 
     onMount(async () => {
-        const res = await fetch(`${SITE_CONFIG.API_ROOT}owner/${data.player_uuid}`)
+        const res = await fetch(`${SITE_CONFIG.API_ROOT}owner/${data.player_uuid}`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${data.cookies.MCAUTH_ACCESS_TOKEN}`
+            }
+        })
         worlds = await res.json()
     })
 
     async function test() {
-        const res = await fetch(`${SITE_CONFIG.API_ROOT}world/edit`, {
+        const res = await fetch(`${SITE_CONFIG.API_ROOT}world/edit/unlist`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${data.cookies.MCAUTH_ACCESS_TOKEN}`

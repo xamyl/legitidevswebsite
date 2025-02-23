@@ -1,15 +1,23 @@
 <script>
-	import { onMount } from 'svelte';
-  	import '$lib/global_style.css'
 	import { page } from '$app/stores';
+	import { afterNavigate } from "$app/navigation";
+	import { lastPageURL, currentPageURL } from "$lib/stores.js";
+	import { onMount } from 'svelte';
+	import { SITE_CONFIG } from '$lib/config';
+	import '$lib/global_style.css'
 
   	onMount(async () => {
-  	  await import('$lib/minecraft-text')
+  	  	await import('$lib/minecraft-text')
   	})
 
 	let { children } = $props();
 	const isError = $page.status >= 400;
 
+	// Set the initial page URL
+	afterNavigate((nav) => {
+		lastPageURL.set($currentPageURL); // Store the previous page
+		currentPageURL.set(nav.to?.url || window.location.href); // Update current page
+	});
 </script>
 
 <svelte:head>

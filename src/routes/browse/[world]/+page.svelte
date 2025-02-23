@@ -1,10 +1,20 @@
 <script>
+	import { lastPageURL } from "$lib/stores";
 	import { getItemIcon, getOwnerName } from "$lib/utils.js";
 	import ItemIcon from "../ItemIcon.svelte";
 
     let { data } = $props();
     const worldCommand = `/world ${data.world.world_uuid}`
     const openGraphImage = data.world.icon === "minecraft:player_head" ? `https://mc-heads.net/head/${data.world.owner_uuid}/left` : getItemIcon(data.world.icon)
+
+    let raw_description = $state(data.world.raw_description)
+    if (data.world?.legitidevs?.description) {
+        if (data.world.legitidevs.description[0] != "{" || data.world.legitidevs.description[0] != "[") {
+            raw_description = JSON.stringify({ text: data.world.legitidevs.description })
+        } else {
+            raw_description = data.world.legitidevs.description
+        }
+    }
 </script>
 
 <svelte:head>
@@ -16,7 +26,7 @@
 
 <div class="main-container">
     <div class="main-wrapper">
-        <a class="back-button" href="/browse">&lt; Go back</a>
+        <a class="back-button" href={$lastPageURL}>&lt; Go back</a>
         <div class="center-flex-wrapper">
             <div class="header-container">
                 <div class="title-container">
@@ -25,7 +35,7 @@
                     </div>
                     <div class="title-wrapper">
                         <minecraft-text class="title">{data.world.raw_name}</minecraft-text>
-                        <minecraft-text class="description">{data.world.raw_description}</minecraft-text>
+                        <minecraft-text class="description">{raw_description}</minecraft-text>
                         {#await getOwnerName(data.world.owner_uuid)}
                             <p class="owner-name">By ...</p>  
                         {:then name}
@@ -43,6 +53,9 @@
                     {/if}
                     {#if data.world.enforce_whitelist}
                         <p class="info warning">Whitelisted!</p>
+                    {/if}
+                    {#if data.world?.legitidevs?.unlisted}
+                        <p class="info special">Unlisted</p>
                     {/if}
                 </div>
             </div>
@@ -212,6 +225,7 @@
     .description {
         margin: 0;
         font-size: 1.75em;
+        max-width: 600px;
         paint-order: stroke fill;
         -webkit-text-stroke: black 5px;
     }

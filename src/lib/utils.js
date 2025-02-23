@@ -1,3 +1,5 @@
+import { SITE_CONFIG } from "./config";
+
 let iconCache = {}
 
 export const getItemIcon = (item_id) => {

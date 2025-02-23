@@ -1,19 +1,65 @@
 <script>
+	import { SITE_CONFIG } from "$lib/config";
 	import { lastPageURL } from "$lib/stores";
-	import { getItemIcon, getOwnerName } from "$lib/utils.js";
+	import { getItemIcon, getOwnerName, rehyphenateUUID } from "$lib/utils.js";
 	import ItemIcon from "../ItemIcon.svelte";
 
     let { data } = $props();
     const worldCommand = `/world ${data.world.world_uuid}`
     const openGraphImage = data.world.icon === "minecraft:player_head" ? `https://mc-heads.net/head/${data.world.owner_uuid}/left` : getItemIcon(data.world.icon)
-
+    
+    let unlisted = $state(data.world?.legitidevs?.unlisted)
     let raw_description = $state(data.world.raw_description)
     if (data.world?.legitidevs?.description) {
-        if (data.world.legitidevs.description[0] != "{" || data.world.legitidevs.description[0] != "[") {
+        if (data.world.legitidevs.description[0] != "{" && data.world.legitidevs.description[0] != "[") {
+            console.log(data.world.legitidevs.description[0] != "{" || data.world.legitidevs.description[0] != "[")
             raw_description = JSON.stringify({ text: data.world.legitidevs.description })
         } else {
             raw_description = data.world.legitidevs.description
         }
+    }
+
+    const canEditWorld = data?.profile_data?.id ? data.world.owner_uuid === rehyphenateUUID(data.profile_data.id) : false
+    let isEditing = $state(false)
+    let newDescription = $state("");
+    let isLoading = $state({
+        unlisted: false,
+        description: false
+    })
+
+    async function unlist() {
+        isLoading.unlisted = true
+        const res = await fetch(`${SITE_CONFIG.API_ROOT}world/edit/unlist`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${data.cookies.MCAUTH_ACCESS_TOKEN}`
+            },
+            body: JSON.stringify({ world_uuid: data.world.world_uuid })
+        })
+        const json = await res.json();
+        isLoading.unlisted = false
+
+        console.log(json)
+        if (res.status < 400) unlisted = !unlisted
+    }
+
+    async function editDescription() {
+        isLoading.description = true
+        let content = newDescription;
+        if (newDescription[0] != "{" && newDescription[0] != "[") content = `{ "text": "${newDescription}" }`
+
+        const res = await fetch(`${SITE_CONFIG.API_ROOT}world/edit/description`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${data.cookies.MCAUTH_ACCESS_TOKEN}`
+            },
+            body: JSON.stringify({ world_uuid: data.world.world_uuid, content: content })
+        })
+        const json = await res.json();
+        isLoading.description = false
+        console.log(json)
+
+        if (res.status < 400) raw_description = content
     }
 </script>
 
@@ -35,7 +81,12 @@
                     </div>
                     <div class="title-wrapper">
                         <minecraft-text class="title">{data.world.raw_name}</minecraft-text>
-                        <minecraft-text class="description">{raw_description}</minecraft-text>
+                        {#if !isEditing}
+                            <minecraft-text class="description">{raw_description}</minecraft-text>
+                        {:else}
+                            <textarea bind:value={newDescription}>{raw_description}</textarea>
+                            <button onclick={editDescription} class="edit-button info">submit</button>
+                        {/if}
                         {#await getOwnerName(data.world.owner_uuid)}
                             <p class="owner-name">By ...</p>  
                         {:then name}
@@ -54,8 +105,16 @@
                     {#if data.world.enforce_whitelist}
                         <p class="info warning">Whitelisted!</p>
                     {/if}
-                    {#if data.world?.legitidevs?.unlisted}
+                    {#if unlisted}
                         <p class="info special">Unlisted</p>
+                    {/if}
+                    {#if canEditWorld}
+                        <button class="edit-button info" onclick={() => {isEditing = !isEditing}}><img src="/svg/icons/edit.svg" alt="Edit Icon"></button>
+                        {#if isEditing}
+                            <button class="edit-button info" onclick={unlist} disabled={isLoading.unlisted}>
+                                <img src="{!isLoading.unlisted ? (!unlisted ? '/svg/icons/public.svg' : '/svg/icons/unlisted.svg') : '/img/loading.gif'}" alt="Privacy Icon">
+                            </button>
+                        {/if}
                     {/if}
                 </div>
             </div>
@@ -97,10 +156,11 @@
 
     .main-wrapper {
         margin-top: 15px;
+        margin-bottom: 15px;
         align-self: center;
     }
 
-    .center-flex-wrapper{
+    .center-flex-wrapper {
         @media screen and (max-width: 576px){
             display: flex;
             justify-content: center;
@@ -117,6 +177,7 @@
         padding-block: 30px;
         align-items: center;
         box-shadow: 0px 10px light-dark(#9FA0AD, #111113);
+        transition: 0.1s all ease;
 
         @media screen and (max-width: 576px){
             padding-inline: 0px;
@@ -187,8 +248,34 @@
         align-items: end;
         text-align: right;
         flex-grow: 1;
+
+        > .info:not(:last-child) {
+            margin: 0;
+            margin-bottom: 15px;
+        }
     }
     
+    .edit-button {
+        padding-top: 5px !important; /* Since font is a bit broken, paddings are adjusted but this will get removed once fixed. */
+        border: none;
+        outline: none;
+        font: inherit;
+        margin-bottom: 10px;
+        transition: 0.1s all ease;
+        &:hover:not(:disabled) {
+            scale: 1.05;
+            filter: brightness(1.1);
+        }
+        &:active:not(:disabled) {
+            scale: 0.95;
+            filter: brightness(1.1);
+        }
+        > img {
+            image-rendering: pixelated;
+            height: auto;
+            width: 40px;
+        }
+    }
 
     .hidden-info-container {
         display: inline-flex;

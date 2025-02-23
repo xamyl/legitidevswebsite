@@ -1,8 +1,9 @@
 export const SITE_CONFIG = {
-	API_ROOT: "https://api.legitimoose.net/",
+	API_ROOT: "https://api.legitimoose.net/", // PROD: "https://api.legitimoose.net"
+	SITE_ROOT: "https://legitimoose.net/", // PROD: "https://legitimoose.net/"
 	MCAUTH: {
-		CLIENT_ID: "3547604672392987797",
-		REDIRECT_URI: "http://localhost:5173/profile/login",
+		CLIENT_ID: "3547577294300120212", // PROD: 3547577294300120212
+		REDIRECT_URI: "https://legitimoose.net/profile/login",
 	},
 };
 

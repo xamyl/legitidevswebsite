@@ -37,10 +37,8 @@
 
 <div class="main-container">
     <h1>{data.player_name}'s Profile</h1>
-    {#if IS_ME}
-        <p>you own this profile</p>
-        <button onclick={test}>test</button>
-    {/if}
+    <p>This is currently a public beta to test for vulnerabilities and bugs. Please report to the discord if you find one.</p>
+    <p>If your world did not edit. You might have an expired session and might need to log in or you put garbage json syntax. Check logs.</p>
     <h2>Owned Worlds:</h2>
     {#each worlds as world}
         <WorldCard

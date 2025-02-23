@@ -36,17 +36,17 @@
             },
             body: JSON.stringify({ world_uuid: data.world.world_uuid })
         })
-        const json = await res.json();
         isLoading.unlisted = false
 
-        console.log(json)
         if (res.status < 400) unlisted = !unlisted
     }
 
     async function editDescription() {
         isLoading.description = true
-        let content = newDescription;
-        if (newDescription[0] != "{" && newDescription[0] != "[") content = `{ "text": "${newDescription}" }`
+        let description = newDescription
+        isEditing = false
+        let content = description;
+        if (description[0] != "{" && description[0] != "[") content = `{ "text": "${description}" }`
 
         const res = await fetch(`${SITE_CONFIG.API_ROOT}world/edit/description`, {
             method: 'POST',
@@ -55,9 +55,7 @@
             },
             body: JSON.stringify({ world_uuid: data.world.world_uuid, content: content })
         })
-        const json = await res.json();
         isLoading.description = false
-        console.log(json)
 
         if (res.status < 400) raw_description = content
     }
@@ -81,11 +79,15 @@
                     </div>
                     <div class="title-wrapper">
                         <minecraft-text class="title">{data.world.raw_name}</minecraft-text>
-                        {#if !isEditing}
-                            <minecraft-text class="description">{raw_description}</minecraft-text>
+                        {#if !isLoading.description}
+                            {#if !isEditing}
+                                <minecraft-text class="description">{raw_description}</minecraft-text>
+                            {:else}
+                                <textarea class="edit-description"  bind:value={newDescription}>{raw_description}</textarea>
+                                <button onclick={editDescription} class="edit-button info">Save</button>
+                            {/if}
                         {:else}
-                            <textarea bind:value={newDescription}>{raw_description}</textarea>
-                            <button onclick={editDescription} class="edit-button info">submit</button>
+                            <img src="/img/loading.gif" alt="Loading Icon">
                         {/if}
                         {#await getOwnerName(data.world.owner_uuid)}
                             <p class="owner-name">By ...</p>  
@@ -277,6 +279,17 @@
         }
     }
 
+    .edit-description {
+        margin-bottom: 10px;
+        background-color: light-dark(#f1f0f5, #18181b);
+        box-shadow: inset 0px 5px light-dark(#9FA0AD, #0b0b0c);
+        outline: light-dark(#9FA0AD, #0b0b0c) 5px solid;
+        font-family: inherit;
+        font-size: 1.6em;
+        border: none;
+        resize: none;
+    }
+
     .hidden-info-container {
         display: inline-flex;
         flex-direction: column;
@@ -299,6 +312,12 @@
         > minecraft-text {
             margin: 0px;
             margin-bottom: 10px;
+        }
+
+        > img {
+            height: auto;
+            width: 100px;
+            image-rendering: pixelated;
         }
     }
 

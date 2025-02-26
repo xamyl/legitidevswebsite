@@ -1,26 +1,21 @@
 <script>
-    import { STATUS_CHECKING_CONFIG } from "$lib/config";
     import * as fs from "fs"
 	import { onMount } from "svelte";
 	import UptimeDisplay from "./UptimeDisplay.svelte";
+	import { SITE_CONFIG } from "$lib/config";
 
-    let { data } = $props()
-    const uptimes = data.uptimes
-    let statusMessage = $state("All systems operational.")
+    const { data } = $props();
+    const scraperUptime = data.uptime.scraper_uptime
+    let statusMessage = $state("Scraper is operational.")
     let statusMessageStatus = $state("good")
 
-    for (const uptime in uptimes) {
-        let currentUptime = uptimes[uptime]
-        if (currentUptime[currentUptime.length - 1]?.status ?? 0 == 1) { 
-            statusMessage = "Some systems are having issues.";
-            statusMessageStatus = "warning" 
-            continue
-        }
-        if (currentUptime[currentUptime.length - 1]?.status ?? 0 == 2) { 
-            statusMessage = "Some systems are down";
-            statusMessageStatus = "bad" 
-            continue 
-        }
+    if (scraperUptime[scraperUptime.length - 1]?.status ?? 0 == 1) { 
+        statusMessage = "The scraper is having issues.";
+        statusMessageStatus = "warning" 
+    }
+    if (scraperUptime[scraperUptime.length - 1]?.status ?? 0 == 2) { 
+        statusMessage = "The scraper is down.";
+        statusMessageStatus = "bad" 
     }
 </script>
 
@@ -30,8 +25,7 @@
     </div>
     <div class="uptime-container">
         <p class="status-message {statusMessageStatus}">{statusMessage}</p>
-        <UptimeDisplay title="API" description="Handles requests to get world data from our database." uptime_data={uptimes.api}></UptimeDisplay>
-        <UptimeDisplay title="Scraper" description="Handles info gathering on the server, Discord2MC & MC2Discord chat, and the Discord Bot." uptime_data={uptimes.scraper}></UptimeDisplay>
+        <UptimeDisplay title="Scraper" description="Handles info gathering on the server, Discord2MC & MC2Discord chat, and the Discord Bot." uptime_data={scraperUptime}></UptimeDisplay>
     </div>
 </div>
 

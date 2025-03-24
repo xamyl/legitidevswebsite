@@ -44,14 +44,14 @@
 		<a href="/donate">Donate</a>
 	</div>
 	<div class="right">
-		{#if !data.profile_data}
+		{#if !data.cookies.profile}
 			<a href="/profile/login">Log in</a>
 		{:else}
 			<div class="profile-dropdown">
-				<Dropdown img={`https://mc-heads.net/head/${data.profile_data.id}/left`} options={[
+				<Dropdown img={`https://mc-heads.net/head/${data.cookies.profile.uuid}/left`} options={[
 					{
 						label: "My Profile",
-						link: `/profile/${rehyphenateUUID(data.profile_data.id)}`
+						link: `/profile/${data.cookies.profile.uuid}`
 					},
 					{
 						label: "Log out",

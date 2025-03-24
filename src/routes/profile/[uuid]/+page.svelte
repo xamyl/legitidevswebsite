@@ -33,6 +33,8 @@
 
         console.log(await res.json())
     }
+
+    if (data.cookies.profile) console.log(data.cookies.profile.uuid)
 </script>
 
 <div class="main-container">

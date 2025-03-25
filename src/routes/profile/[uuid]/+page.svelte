@@ -25,8 +25,6 @@
 </script>
 
 <div class="main-container">
-    <button onclick={test}>test</button>
-
     <h1>{data.profileOwnerName}'s Profile</h1>
     <p>If your world did not edit, you might have an expired session and need to re-login or you put garbage json syntax.</p>
     <h2>Owned Worlds:</h2>

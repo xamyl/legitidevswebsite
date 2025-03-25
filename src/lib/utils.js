@@ -1,23 +1,24 @@
 import { redirect } from "@sveltejs/kit";
 import { SITE_CONFIG } from "./config";
-import { alerts } from "./stores";
+import { alerts, iconCache, usernameCache } from "./stores";
 import { invalidateAll } from "$app/navigation";
-
-let iconCache = {}
+import { get } from "svelte/store";
 
 export const getItemIcon = (item_id) => {
-    if (iconCache[item_id]) return iconCache[item_id]
+    if (get(iconCache)[item_id]) return get(iconCache)[item_id]
     let trimmedID = item_id.replace(/^\w+:/, "");
 
     const img = `https://raw.githubusercontent.com/jacobsjo/mcicons/refs/heads/icons/item/${trimmedID}.png`;
-    iconCache[item_id] = img
+    iconCache.set({...get(iconCache), [item_id]: img})
     return img
 }
 
 export const getOwnerName = async (uuid) => {
+    if (get(usernameCache)[uuid]) return get(usernameCache)[uuid]
     const res = await fetch(`https://api.ashcon.app/mojang/v2/user/${uuid}`);
     const profile = await res.json()
 
+    usernameCache.set({...get(usernameCache), [uuid]: profile.username})
     return profile.username
 }
 

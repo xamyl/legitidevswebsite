@@ -11,6 +11,12 @@ const AUTH_REQ_URL =
 	`&response_type=code`;
 
 export const load = async ({ url, cookies }) => {
+
+    // Ur already logged in dum dum.
+    if (cookies.get("profile.uuid")) {
+        return redirect(302, `/profile/${cookies.get("profile.uuid")}`);
+    }
+
     const RAW_SEARCH_PARAMS = url.href.split("?")[1]
     const SEARCH_PARAMS = new URLSearchParams(RAW_SEARCH_PARAMS)
 

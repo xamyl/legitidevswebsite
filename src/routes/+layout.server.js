@@ -39,7 +39,6 @@ export const load = async ({ cookies, fetch }) => {
 		}
 
 		const isValid = await checkSessionRes.json();
-		console.log(isValid);
 		if (!isValid.success) {
 			const refreshed = await refreshSession();
 			if (!refreshed) {

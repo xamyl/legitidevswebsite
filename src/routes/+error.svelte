@@ -35,6 +35,7 @@
     <h1>{$page.status}</h1>
     <code>{$page.error.message}</code>
     <h2>{PICKED_ERROR_MESSAGE}</h2>
+    <a href="/" data-sveltekit-reload>Home</a>
 </div>
 
 <style>

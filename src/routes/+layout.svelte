@@ -1,12 +1,13 @@
 <script>
 	import { page } from '$app/stores';
 	import { afterNavigate } from "$app/navigation";
-	import { lastPageURL, currentPageURL } from "$lib/stores.js";
+	import { lastPageURL, currentPageURL, alerts } from "$lib/stores.js";
 	import { onMount } from 'svelte';
 	import { SITE_CONFIG } from '$lib/config';
 	import Dropdown from '$lib/components/Dropdown.svelte';
 	import '$lib/global_style.css'
 	import { rehyphenateUUID } from '$lib/utils.js';
+	import { fly } from 'svelte/transition';
 
   	onMount(async () => {
   	  	await import('$lib/minecraft-text')
@@ -30,66 +31,72 @@
 	{/if}
 </svelte:head>
 
-<div class="navbar">
-	<div class="left">
-		<a href="/">
-			<img src="/img/legitimoose-api-mark.png" alt="Legitimoose API Mark" />
-		</a>
-		<a href="/">Home</a>
-		<a href="/api">API</a>
-		<a href="/browse">World Browser</a>
-		<a href="/stats">Stats</a>
-		<a href="/status">Status</a>
-		<a href="/team">Meet The Team</a>
-		<a href="/donate">Donate</a>
-	</div>
-	<div class="right">
-		{#if !data.profile_data}
-			<a href="/profile/login">Log in</a>
-		{:else}
-			<div class="profile-dropdown">
-				<Dropdown img={`https://mc-heads.net/head/${data.profile_data.id}/left`} options={[
-					{
-						label: "My Profile",
-						link: `/profile/${rehyphenateUUID(data.profile_data.id)}`
-					},
-					{
-						label: "Log out",
-						reload: true,
-						link: `/profile/logout`
-					}
-				]} />
-			</div>
-		{/if}
-	</div>
-</div>
-
-{@render children()}
-
 {#if !isError}
-	<div class="footer-container">
-		<p>This is not an official Moose project and is made by the community.</p>
-		<p>We have no affiliation with any real-world brands.</p>
-		<p>Not affiliated with Mojang AB or Partners</p>
-		<div class="links-container">
-			<a href="https://store.skyenet.co.in">API Hosted by SkyeNetwork</a>
-			<a href="https://github.com/LegitiDevs/">
-				<img src="/svg/github-mark-white.svg" alt="Github Logo" />
+	<div class="navbar">
+		<div class="left">
+			<a href="/">
+				<img src="/img/legitimoose-api-mark.png" alt="Legitimoose API Mark" />
 			</a>
-			<a href="https://discord.gg/FQUmnbgV5S">
-				<img src="/svg/discord-mark-white.svg" alt="Discord Logo" />
-			</a>
-			<a href="https://store.legitimoose.com">store.legitimoose.com</a>
-		
-			<a href="https://youtube.com/legitimoose">
-				<img src="/img/youtube.png" alt="Legitimoose's Youtube" />
-			</a>
-			<a href="https://bsky.app/profile/legitidevs.bsky.social">
-				<img src="/svg/bsky.svg" alt="LegitiDev BlueSky" />
-			</a>
+			<a href="/">Home</a>
+			<a href="/api">API</a>
+			<a href="/browse">World Browser</a>
+			<a href="/stats">Stats</a>
+			<a href="/status">Status</a>
+			<a href="/team">Meet The Team</a>
+			<a href="/donate">Donate</a>
+		</div>
+		<div class="right">
+			{#if !data.cookies.profile}
+				<a href="/api/profile/login">Log in</a>
+			{:else}
+				<div class="profile-dropdown">
+					<Dropdown img={`https://mc-heads.net/head/${data.cookies.profile.uuid}/left`} options={[
+						{
+							label: "My Profile",
+							link: `/profile/${data.cookies.profile.uuid}`
+						},
+						{
+							label: "Log out",
+							reload: true,
+							link: `/api/profile/logout`
+						}
+					]} />
+				</div>
+			{/if}
 		</div>
 	</div>
 {/if}
+
+{@render children()}
+
+<div class="alerts-container">
+	{#each $alerts as alert}
+		<p class={["alert", alert.level]} transition:fly={{y:-10}}>{alert.message}</p>
+	{/each}
+</div>
+
+<div class="footer-container">
+	<p>This is not an official Moose project and is made by the community.</p>
+	<p>We have no affiliation with any real-world brands.</p>
+	<p>Not affiliated with Mojang AB or Partners</p>
+	<div class="links-container">
+		<a href="https://store.skyenet.co.in">API Hosted by SkyeNetwork</a>
+		<a href="https://github.com/LegitiDevs/">
+			<img src="/svg/github-mark-white.svg" alt="Github Logo" />
+		</a>
+		<a href="https://discord.gg/FQUmnbgV5S">
+			<img src="/svg/discord-mark-white.svg" alt="Discord Logo" />
+		</a>
+		<a href="https://store.legitimoose.com">store.legitimoose.com</a>
+	
+		<a href="https://youtube.com/legitimoose">
+			<img src="/img/youtube.png" alt="Legitimoose's Youtube" />
+		</a>
+		<a href="https://bsky.app/profile/legitidevs.bsky.social">
+			<img src="/svg/bsky.svg" alt="LegitiDev BlueSky" />
+		</a>
+	</div>
+</div>
 
 <style>
 	.navbar {
@@ -135,6 +142,44 @@
 			height: auto;
 			width: 50px;
 			border-radius: 5px;
+		}
+	}
+
+	.alerts-container {
+		position: fixed;
+		top: 10vh;
+		left: 50%;
+		translate: -50%;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		> p {
+			padding-block: 5px;
+			padding-inline: 10px;
+			border-radius: 10px;
+			color: var(--text-main-light);
+			margin: 0;
+
+			&.info {
+				background-color: #61a8f8;
+				box-shadow: 0px 3px #4056e2;
+			}
+
+        	&.success {
+        	    background-color: #70ff44;
+				box-shadow: 0px 3px #1eaf2f;
+        	}
+
+        	&.error {
+        	    background-color: #ff4444;
+				box-shadow: 0px 3px #bb2222;
+        	}
+
+        	&.warning {
+        	    background-color: #fdce34;
+				box-shadow: 0px 3px #f2882a;
+        	}
 		}
 	}
 

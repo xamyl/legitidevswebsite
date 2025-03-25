@@ -1,16 +1,51 @@
-import { getProfileData } from '$lib/utils.js';
+import { SITE_CONFIG } from '$lib/config.js';
+export const load = async ({ cookies, fetch }) => {
+	if (cookies.get("profile.uuid")) {
+		const checkSessionRes = await fetch(`${SITE_CONFIG.API_ROOT}profile/check-session`, {
+			method: "POST",
+			headers: { "Session-Token": cookies.get("authorization.sessionToken") },
+			body: JSON.stringify({ profile_uuid: cookies.get("profile.uuid") }),
+		});
 
-export const load = async ({ cookies }) => {
-	let profile_data = await getProfileData(cookies.get("MCAUTH_ACCESS_TOKEN"))
-	if (profile_data.error) {
-		// Token expired.
-		cookies.set("MCAUTH_ACCESS_TOKEN", "", { path: "/" });
-		profile_data = null;
-	};
-	return {
-		profile_data: profile_data,
-		cookies: {
-			MCAUTH_ACCESS_TOKEN: cookies.get("MCAUTH_ACCESS_TOKEN")
+		if (!checkSessionRes.ok) {
+			const refresed = await (await fetch("/api/profile/refreshSession")).json()
+			if (!refreshed) {
+				cookies.set("authorization.sessionToken", "", { path: "/" });
+				cookies.set("authorization.refreshToken", "", { path: "/" });
+				cookies.set("profile.uuid", "", { path: "/" });
+				return {
+					profile: {},
+					cookies: {},
+				};
+			}
 		}
+
+		const isValid = await checkSessionRes.json();
+		if (!isValid.success) {
+			const refresed = await (await fetch("/api/profile/refreshSession")).json()
+			if (!refreshed) {
+				cookies.set("authorization.sessionToken", "", { path: "/" });
+				cookies.set("authorization.refreshToken", "", { path: "/" });
+				cookies.set("profile.uuid", "", { path: "/" });
+				return {
+					profile: {},
+					cookies: {},
+				};
+			}
+		}
+
+		return {
+			cookies: {
+				profile: { uuid: cookies.get("profile.uuid") },
+				authorization: {
+					sessionToken: cookies.get("authorization.sessionToken"),
+					refreshToken: cookies.get("authorization.refreshToken"),
+				},
+			},
+		};
+	}
+
+	return {
+		cookies: {},
 	};
 };

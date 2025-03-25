@@ -208,7 +208,7 @@
                 {#if !world.legitidevs?.comments || world.legitidevs.comments.length === 0}
                     <p>It's quiet in here.</p>
                 {:else}
-                    {#each comments as comment}
+                    {#each comments as comment (comment.uuid)}
                         <Comment profile_uuid={comment.profile_uuid} content={comment.content} date={comment.date} uuid={comment.uuid} client_uuid={data.cookies?.profile?.uuid} deleteFunction={sendEdit.deleteComment}></Comment>
                     {/each}
                 {/if}

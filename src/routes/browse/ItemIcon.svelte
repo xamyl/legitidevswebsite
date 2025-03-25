@@ -5,7 +5,7 @@
 </script>
 
 {#if item_id === "minecraft:player_head"}
-    <img src="{`https://mc-heads.net/head/${player_uuid}/left`}" alt="Player Head Icon" class="icon">
+    <img src="https://mc-heads.net/head/{player_uuid}/left" alt="Player Head Icon" class="icon">
 {:else}
     <img src="{getItemIcon(item_id)}" alt="Item Icon" class="icon">
 {/if}

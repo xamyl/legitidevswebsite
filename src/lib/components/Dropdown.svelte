@@ -1,4 +1,6 @@
 <script>
+	import { fly } from "svelte/transition";
+
     const { img, options } = $props();
     let isOpen = $state(false);
 </script>
@@ -8,9 +10,9 @@
         <img src={img} alt="Dropdown Icon">
     </button>
     {#if isOpen}
-        <div class="options">
+        <div class="options" transition:fly={{x:10, duration: 200}}>
             {#each options as option}
-                <a href={option.link} data-sveltekit-reload={option?.reload}>{option.label}</a>
+                <a href={option.link} data-sveltekit-reload={option?.reload} onclick={() => { isOpen = !isOpen }}>{option.label}</a>
             {/each}
         </div>
     {/if}
@@ -38,13 +40,28 @@
         position: absolute;
         right: 0;
         display: flex;
-        outline: var(--accent) 1px solid;
-        padding-block: 10px;
-        padding-inline: 15px;
-        background-color: light-dark(var(--secondary-light), var(--secondary-dark));
-        border-radius: 5px;
-        min-width: 100px;
+        min-width: 150px;
         flex-direction: column;
         align-items: end;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+
+        > * {
+            width: 100%;
+            padding: 10px;
+            background-color: light-dark(var(--secondary-light), var(--secondary-dark));
+            text-decoration: none;
+            color: light-dark(var(--text-main-light), var(--text-main-dark));
+            transition: all 0.1s ease;
+
+            &:hover {
+                width: 110%;
+                outline: 1px solid light-dark(black, white);
+                z-index: 1;
+            }
+        }
+
+        > :nth-of-type(even) {
+            background-color: color-mix(in srgb, light-dark(var(--secondary-light), var(--secondary-dark)) 80%, black 20%);
+        }
     }
 </style>

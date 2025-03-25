@@ -1,4 +1,7 @@
+import { redirect } from "@sveltejs/kit";
 import { SITE_CONFIG } from "./config";
+import { alerts } from "./stores";
+import { invalidateAll } from "$app/navigation";
 
 let iconCache = {}
 
@@ -22,15 +25,13 @@ export const rehyphenateUUID = (uuid) => {
     return uuid.replace(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, "$1-$2-$3-$4-$5");
 }
 
-export const getProfileData = async (access_token) => {
-    const profile_res = await fetch(
-        "https://mc-auth.com/api/v2/profile",
-        {
-            headers: {
-                Authorization: `Bearer ${access_token}`,
-            },
-        }
-    );
-    const profile_data = await profile_res.json();
-    return profile_data
+export const showAlert = (message, level, duration) => {
+    alerts.update(running => [...running, { message, level, duration }])
+    setTimeout(() => { alerts.update(running => running.slice(1)) }, duration)
+}
+
+export const refreshSession = async (warn) => {
+    await fetch("/api/profile/refreshSession")
+    await invalidateAll()
+    if (warn) showAlert("Refreshed session, Please try again.", "warning", 2000);
 }

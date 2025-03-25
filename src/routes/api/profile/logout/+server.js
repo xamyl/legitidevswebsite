@@ -1,7 +1,6 @@
-import { invalidateAll } from '$app/navigation';
 import { redirect } from '@sveltejs/kit'
 
-export const load = ({ cookies }) => {
+export const GET = ({ cookies }) => {
     cookies.set("profile.uuid", "", { path: "/"} )
     cookies.set("authorization.sessionToken", "", { path: "/"} )
     cookies.set("authorization.refreshToken", "", { path: "/"} )

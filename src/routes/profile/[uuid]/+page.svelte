@@ -1,7 +1,7 @@
 <script>
 	import { SITE_CONFIG } from '$lib/config.js';
 	import { onMount } from 'svelte';
-	import { rehyphenateUUID } from '$lib/utils';
+	import { rehyphenateUUID, showAlert } from '$lib/utils';
 	import WorldCard from '../../browse/WorldCard.svelte';
 
     const { data } = $props();
@@ -20,13 +20,7 @@
     })
 
     async function test() {
-         const res = await fetch(`${SITE_CONFIG.API_ROOT}world/edit/description`, {
-                method: 'POST',
-                headers: { "Session-Token": "" },
-                body: JSON.stringify({ world_uuid: "dea9897f-95a7-409d-b553-646d02e708d5", content: `{"text":"test"}` })
-            })
-
-        console.log(await res.json())
+        showAlert("what the sigma", "info", 10000)
     }
 </script>
 

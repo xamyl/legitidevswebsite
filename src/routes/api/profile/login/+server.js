@@ -1,8 +1,6 @@
 import "dotenv/config"
 import { SITE_CONFIG } from "$lib/config";
 import { redirect } from "@sveltejs/kit";
-import { getProfileData, rehyphenateUUID } from "$lib/utils.js";
-
 const AUTH_REQ_URL =
 	`https://mc-auth.com/oAuth2/authorize` +
 	`?client_id=${SITE_CONFIG.MCAUTH.CLIENT_ID}` +
@@ -10,7 +8,7 @@ const AUTH_REQ_URL =
 	`&scope=profile` +
 	`&response_type=code`;
 
-export const load = async ({ url, cookies }) => {
+export const GET = async ({ url, cookies }) => {
 
     // Ur already logged in dum dum.
     if (cookies.get("profile.uuid")) {

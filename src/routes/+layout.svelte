@@ -1,12 +1,13 @@
 <script>
 	import { page } from '$app/stores';
 	import { afterNavigate } from "$app/navigation";
-	import { lastPageURL, currentPageURL } from "$lib/stores.js";
+	import { lastPageURL, currentPageURL, alerts } from "$lib/stores.js";
 	import { onMount } from 'svelte';
 	import { SITE_CONFIG } from '$lib/config';
 	import Dropdown from '$lib/components/Dropdown.svelte';
 	import '$lib/global_style.css'
 	import { rehyphenateUUID } from '$lib/utils.js';
+	import { fly } from 'svelte/transition';
 
   	onMount(async () => {
   	  	await import('$lib/minecraft-text')
@@ -46,7 +47,7 @@
 		</div>
 		<div class="right">
 			{#if !data.cookies.profile}
-				<a href="/profile/login">Log in</a>
+				<a href="/api/profile/login">Log in</a>
 			{:else}
 				<div class="profile-dropdown">
 					<Dropdown img={`https://mc-heads.net/head/${data.cookies.profile.uuid}/left`} options={[
@@ -57,7 +58,7 @@
 						{
 							label: "Log out",
 							reload: true,
-							link: `/profile/logout`
+							link: `/api/profile/logout`
 						}
 					]} />
 				</div>
@@ -67,6 +68,12 @@
 {/if}
 
 {@render children()}
+
+<div class="alerts-container">
+	{#each $alerts as alert}
+		<p class={["alert", alert.level]} transition:fly={{y:-10}}>{alert.message}</p>
+	{/each}
+</div>
 
 <div class="footer-container">
 	<p>This is not an official Moose project and is made by the community.</p>
@@ -135,6 +142,44 @@
 			height: auto;
 			width: 50px;
 			border-radius: 5px;
+		}
+	}
+
+	.alerts-container {
+		position: fixed;
+		top: 10vh;
+		left: 50%;
+		translate: -50%;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		> p {
+			padding-block: 5px;
+			padding-inline: 10px;
+			border-radius: 10px;
+			color: var(--text-main-light);
+			margin: 0;
+
+			&.info {
+				background-color: #61a8f8;
+				box-shadow: 0px 3px #4056e2;
+			}
+
+        	&.success {
+        	    background-color: #70ff44;
+				box-shadow: 0px 3px #1eaf2f;
+        	}
+
+        	&.error {
+        	    background-color: #ff4444;
+				box-shadow: 0px 3px #bb2222;
+        	}
+
+        	&.warning {
+        	    background-color: #fdce34;
+				box-shadow: 0px 3px #f2882a;
+        	}
 		}
 	}
 

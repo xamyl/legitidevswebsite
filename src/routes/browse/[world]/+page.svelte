@@ -1,8 +1,9 @@
 <script>
 	import { SITE_CONFIG } from "$lib/config";
 	import { lastPageURL } from "$lib/stores";
-	import { getItemIcon, getOwnerName, rehyphenateUUID } from "$lib/utils.js";
+	import { getItemIcon, getOwnerName, refreshSession, rehyphenateUUID, showAlert } from "$lib/utils.js";
 	import ItemIcon from "../ItemIcon.svelte";
+	import Comment from "./Comment.svelte";
 
     let { data } = $props();
     let world = $state({...data.world})
@@ -16,6 +17,10 @@
 
     const description = $derived(world.legitidevs?.description || world.raw_description)
     const unlisted = $derived(world.legitidevs?.unlisted || false)
+    const comments = $derived.by(() => {
+        if (!world.legitidevs?.comments) return []
+        return world.legitidevs.comments.toSorted((a, b) => b.date - a.date)
+    })
 
     // Editing
     const canEditWorld = data.cookies?.profile ? data.world.owner_uuid === data.cookies.profile.uuid : false
@@ -26,7 +31,11 @@
             content: world.legitidevs?.description || world.raw_description, 
             loading: false
         },
-        unlisted: { loading: false }
+        unlisted: { loading: false },
+        comment: {
+            content: "",
+            loading: false
+        }
     })
 
     const sendEdit = {
@@ -36,14 +45,16 @@
             const res = await fetch(`${SITE_CONFIG.API_ROOT}world/edit/description`, {
                 method: 'POST',
                 headers: { "Session-Token": data.cookies.authorization.sessionToken },
-                body: JSON.stringify({ world_uuid: data.world.world_uuid, content: edits.description.content })
+                body: JSON.stringify({ world_uuid: world.world_uuid, content: edits.description.content })
             })
 
             if (res.ok) {
                 const { edit } = await res.json()
                 world.legitidevs.description = edit
-                edits.description.content = edit 
-            }
+                edits.description.content = edit
+                showAlert("Successfully edited!", "success", 1000) 
+            } else { await refreshSession(true) }
+
             isEditing = false
             edits.description.loading = false
         },
@@ -53,16 +64,53 @@
             const res = await fetch(`${SITE_CONFIG.API_ROOT}world/edit/unlist`, {
                 method: 'POST',
                 headers: { "Session-Token": data.cookies.authorization.sessionToken },
-                body: JSON.stringify({ world_uuid: data.world.world_uuid })
+                body: JSON.stringify({ world_uuid: world.world_uuid })
             })
 
-            if (res.ok) world.legitidevs.unlisted = (await res.json()).edit
+            if (res.ok) {
+                world.legitidevs.unlisted = (await res.json()).edit
+                showAlert("Successfully edited!", "success", 1000) 
+            } else { await refreshSession(true) }
 
             edits.unlisted.loading = false
+        },
+        comment: async () => {
+            edits.comment.loading = true
+            const res = await fetch(`${SITE_CONFIG.API_ROOT}world/comment`, {
+                method: 'POST',
+                headers: { "Session-Token": data.cookies.authorization.sessionToken },
+                body: JSON.stringify({ world_uuid: world.world_uuid, profile_uuid: data.cookies.profile.uuid, content: edits.comment.content })
+            })
+
+            if (res.ok) {
+                const { edit } = await res.json();
+                world.legitidevs.comments ??= []
+                world.legitidevs.comments.push(edit)
+                edits.comment.content = ""
+                showAlert("Sent!", "success", 1000) 
+            } else { await refreshSession(true) }
+
+            edits.comment.loading = false
+        },
+        deleteComment: async (uuid, loading) => {
+            loading = true
+            const res = await fetch(`${SITE_CONFIG.API_ROOT}world/comment/delete`, {
+                method: 'POST',
+                headers: { "Session-Token": data.cookies.authorization.sessionToken },
+                body: JSON.stringify({ uuid: uuid })
+            })
+
+            if (res.ok) {
+                const { edit } = await res.json();
+                world.legitidevs.comments ??= []
+                world.legitidevs.comments = world.legitidevs.comments.filter((comment) => comment.uuid !== edit.removed_uuid)
+                showAlert("Comment deleted.", "success", 1000)
+                return
+            } else { await refreshSession(true) }
+
+            loading = false
         }
     }
-
-
 </script>
 
 <svelte:head>
@@ -75,7 +123,7 @@
 <div class="main-container">
     <div class="main-wrapper">
         <a class="back-button" href={$lastPageURL}>&lt; Go back</a>
-        <div class="center-flex-wrapper">
+        <div class="mobile-center-flex-wrapper">
             <div class="header-container">
                 <div class="title-container">
                     <div class="icon-wrapper">
@@ -87,7 +135,7 @@
                             {#if !isEditing}
                                 <minecraft-text class="description">{description}</minecraft-text>
                             {:else}
-                                <textarea class="edit-description"  bind:value={edits.description.content}>{description}</textarea>
+                                <textarea class="edit-description" bind:value={edits.description.content}>{description}</textarea>
                                 <button onclick={sendEdit.description} class="edit-button info">Save</button>
                             {/if}
                         {:else}
@@ -125,7 +173,7 @@
                 </div>
             </div>
         </div>
-        <div class="center-flex-wrapper">
+        <div class="mobile-center-flex-wrapper">
             <div class="info-container">
                 <p class="info">{world.votes} votes</p>
                 <p class="info">{world.visits} visits</p>
@@ -134,7 +182,7 @@
                 {/if}
             </div>
         </div>
-        <div class="center-flex-wrapper">
+        <div class="mobile-center-flex-wrapper">
             <div class="button-container">
                 <button class="button" onclick={ async () => { await navigator.clipboard.writeText(worldCommand) } }>Copy /world command</button>
                 {#if world.resource_pack_url !== ""}
@@ -147,6 +195,24 @@
             <p>Version: {world.version}</p>
             <p>Created on {new Intl.DateTimeFormat('en-US', { dateStyle: "full", timeStyle: "long" }).format(data.world.creation_date_unix_seconds * 1000)}</p>
             <p>This data was last scraped on {new Intl.DateTimeFormat('en-US', { timeStyle: "long" }).format(data.world.last_scraped * 1000)}</p>
+        </div>
+        <div class="comments-container">
+            <div class="title-wrapper">
+                <p>Comments</p>
+            </div>
+            <div class="comment-bar">
+                    <textarea placeholder="Type your comment here" bind:value={edits.comment.content} disabled={edits.comment.loading || !data.cookies?.profile} onkeypress={(e) => {if (e.key === "Enter") sendEdit.comment()}}></textarea>
+                    <button class={["edit-button info", edits.comment.loading && "hidden"]} onclick={sendEdit.comment} disabled={edits.comment.loading || !data.cookies?.profile}>Send</button>
+            </div>
+            <div class="comments-wrapper">
+                {#if !world.legitidevs?.comments || world.legitidevs.comments.length === 0}
+                    <p>It's quiet in here.</p>
+                {:else}
+                    {#each comments as comment}
+                        <Comment profile_uuid={comment.profile_uuid} content={comment.content} date={comment.date} uuid={comment.uuid} client_uuid={data.cookies?.profile?.uuid} deleteFunction={sendEdit.deleteComment}></Comment>
+                    {/each}
+                {/if}
+            </div>
         </div>
     </div>
 </div>
@@ -166,14 +232,14 @@
         align-self: center;
     }
 
-    .center-flex-wrapper {
+    .mobile-center-flex-wrapper {
         @media screen and (max-width: 576px){
             display: flex;
             justify-content: center;
         }
     }
 
-    .header-container {
+    .header-container, .comments-container {
         display: flex;
         flex-direction: row;
         margin-top: 20px;
@@ -189,7 +255,70 @@
             padding-inline: 0px;
             flex-direction: column;
         }
-    
+    }
+
+    .comments-container {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        background-color: light-dark(#f1f0f5, #2b2b2f);
+        box-shadow: 0px 5px light-dark(#9FA0AD, #111113);
+        padding-inline: 20px;
+        padding-block: 30px;
+        margin-top: 20px;
+        gap: 20px;
+        transition: 0.1s all ease;
+        font-size: 1.5em;
+
+        > .title-wrapper {
+            display: flex;
+            width: 100%;
+            margin-left: 30px;
+            font-size: 1.5em;
+            > p { margin: 0; }
+        }
+    }
+
+    .comment-bar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        width: 100%;
+        > textarea {
+            field-sizing: content;
+            width: 80%;
+            min-height: 1em;
+            max-height: 100px;
+            background-color: light-dark(#f1f0f5, #18181b);
+            box-shadow: inset 0px 3px light-dark(#9FA0AD, #0b0b0c);
+            outline: light-dark(#9FA0AD, #0b0b0c) 3px solid;
+            font-family: inherit;
+            font-size: 1em;
+            padding: 5px;
+            border: none;
+            resize: none;
+        }
+        > button {
+            color: black;
+            font-size: 1.2em;
+            padding-top: 0 !important; /* Since font is a bit broken, paddings are adjusted but this will get removed once fixed. */
+        }
+    }
+
+    .comments-wrapper {
+        display: flex;
+        width: 100%;
+        max-height: 500px;
+        padding-block: 10px;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: scroll;
+        gap: 20px;
+        > p {
+            color: light-dark(rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.5));
+        }
     }
 
     .info-container, .button-container {

@@ -33,6 +33,14 @@
     }
 </script>
 
+
+<svelte:head>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{profileName} said,"/>
+    <meta property="og:description" content={content.length > 128 ? `${content.slice(0, 128)}...` : content}/>
+    <meta property="og:image" content="https://mc-heads.net/head/{profile_uuid}/left">
+</svelte:head>
+
 <div class="main-container" style="background-image: url('{backgroundImagePath}')">
     <div class="main-wrapper">
         {#if loaded}

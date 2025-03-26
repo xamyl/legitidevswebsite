@@ -3,8 +3,8 @@ import { error } from '@sveltejs/kit'
 
 export const load = async ({ params, fetch }) => {
     const worldDataRes = await fetch(`${SITE_CONFIG.API_ROOT}world/${params.world} `)
-    let worldData = await worldDataRes.json();
-    if (!worldData) error(404, { message: `Invalid world UUID.` })
+    if (!worldDataRes.ok) error(404, { message: `Invalid world UUID.` })
+    const worldData = await worldDataRes.json();
 
     return {
         page: {

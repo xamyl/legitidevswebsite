@@ -1,7 +1,7 @@
 <script>
 	import { SITE_CONFIG } from "$lib/config";
 	import { lastPageURL } from "$lib/stores";
-	import { getItemIcon, getOwnerName, refreshSession, rehyphenateUUID, showAlert } from "$lib/utils.js";
+	import { censorText, getItemIcon, getOwnerName, handleError, refreshSession, rehyphenateUUID, sanitizeText, showAlert } from "$lib/utils.js";
 	import ItemIcon from "../ItemIcon.svelte";
 	import Comment from "./Comment.svelte";
 
@@ -53,7 +53,7 @@
                 world.legitidevs.description = edit
                 edits.description.content = edit
                 showAlert("Successfully edited!", "success", 1000) 
-            } else { await refreshSession(true) }
+            } else { await handleError(res.status, "Bad request, description might be too long.") }
 
             isEditing = false
             edits.description.loading = false
@@ -70,16 +70,19 @@
             if (res.ok) {
                 world.legitidevs.unlisted = (await res.json()).edit
                 showAlert("Successfully edited!", "success", 1000) 
-            } else { await refreshSession(true) }
+            } else { await handleError(res.status) }
 
             edits.unlisted.loading = false
         },
         comment: async () => {
             edits.comment.loading = true
+
+            const content = censorText(sanitizeText(edits.comment.content))
+
             const res = await fetch(`${SITE_CONFIG.API_ROOT}world/comment`, {
                 method: 'POST',
                 headers: { "Session-Token": data.cookies.authorization.sessionToken },
-                body: JSON.stringify({ world_uuid: world.world_uuid, profile_uuid: data.cookies.profile.uuid, content: edits.comment.content })
+                body: JSON.stringify({ world_uuid: world.world_uuid, profile_uuid: data.cookies.profile.uuid, content: content })
             })
 
             if (res.ok) {
@@ -88,7 +91,7 @@
                 world.legitidevs.comments.push(edit)
                 edits.comment.content = ""
                 showAlert("Sent!", "success", 1000) 
-            } else { await refreshSession(true) }
+            } else { await handleError(res.status, "Bad request, comment might be too long.") }
 
             edits.comment.loading = false
         },
@@ -135,7 +138,7 @@
                             {#if !isEditing}
                                 <minecraft-text class="description">{description}</minecraft-text>
                             {:else}
-                                <textarea class="edit-description" bind:value={edits.description.content}>{description}</textarea>
+                                <textarea class="edit-description" bind:value={edits.description.content} maxlength="1024">{description}</textarea>
                                 <button onclick={sendEdit.description} class="edit-button info">Save</button>
                             {/if}
                         {:else}
@@ -201,7 +204,7 @@
                 <p>Comments</p>
             </div>
             <div class="comment-bar">
-                    <textarea placeholder="Type your comment here" bind:value={edits.comment.content} disabled={edits.comment.loading || !data.cookies?.profile} onkeypress={(e) => {if (e.key === "Enter") sendEdit.comment()}}></textarea>
+                    <textarea placeholder="Type your comment here" bind:value={edits.comment.content} disabled={edits.comment.loading || !data.cookies?.profile} onkeypress={(e) => {if (e.key === "Enter") sendEdit.comment()}} maxlength="1024"></textarea>
                     <button class={["edit-button info", edits.comment.loading && "hidden"]} onclick={sendEdit.comment} disabled={edits.comment.loading || !data.cookies?.profile}>Send</button>
             </div>
             <div class="comments-wrapper">

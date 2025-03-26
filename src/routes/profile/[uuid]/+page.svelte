@@ -26,7 +26,6 @@
 
 <div class="main-container">
     <h1>{data.profileOwnerName}'s Profile</h1>
-    <p>If your world did not edit, you might have an expired session and need to re-login or you put garbage json syntax.</p>
     <h2>Owned Worlds:</h2>
     {#each worlds as world}
         <WorldCard

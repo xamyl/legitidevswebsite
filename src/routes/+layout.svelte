@@ -31,7 +31,16 @@
 	{/if}
 </svelte:head>
 
-{#if !isError}
+{#if isError || $page.data?.page?.navbar === "small"}
+	<div class="small-navbar">
+		<div class="left">
+			<a href="/" data-sveltekit-reload={isError}>
+				<img src="/img/legitimoose-api-mark.png" alt="Legitimoose API Mark" />
+			</a>
+			<a href="/" data-sveltekit-reload={isError}>Home</a>
+		</div>
+	</div>
+{:else}
 	<div class="navbar">
 		<div class="left">
 			<a href="/">
@@ -129,6 +138,44 @@
 			.profile-dropdown {
 				max-width: 50px;
 			}
+		}
+
+		a,
+		a:visited,
+		a:active {
+			color: light-dark(var(--text-main-light), var(--text-main-dark));
+			text-decoration: none;
+		}
+
+		a > img {
+			height: auto;
+			width: 50px;
+			border-radius: 5px;
+		}
+	}
+
+	.small-navbar {
+		display: flex;
+		position: fixed;
+		flex-wrap: wrap;
+		margin: 0;
+		padding-block: 10px;
+		padding-inline: 20px;
+		border-radius: 0px 0px 20px 0px;
+		background-color: light-dark(var(--secondary-light), var(--secondary-dark));
+		color: light-dark(var(--text-main-light), -var(-text-main-dark));
+
+		div {
+			display: flex;
+			align-items: center;
+			margin: 0;
+			margin-block: 5px;
+		}
+
+		.left {
+			display: flex;
+			flex-direction: row;
+			gap: 40px;
 		}
 
 		a,

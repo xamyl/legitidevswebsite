@@ -1,5 +1,5 @@
 <script>
-	import { getOwnerName, refreshSession } from "$lib/utils";
+	import { censorText, getOwnerName } from "$lib/utils";
 	import { onMount } from "svelte";
 
     const { profile_uuid, date, content, uuid, client_uuid, deleteFunction } = $props()
@@ -25,11 +25,12 @@
             </a>
         </div>
         <div class="right">
+            <a href="/browse/comment/{uuid}">Quote</a>
             <p class="date">{formattedDate}</p>
         </div>
     </div>
     <div class="comment-container">
-        <p class="comment">{content}</p>
+        <p class="comment">{censorText(content)}</p>
     </div>
     {#if canEditComment}
         <div class="edit-container">
@@ -72,9 +73,19 @@
             &:hover > .profile-name { color: light-dark(rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.8)) }
         }
 
-        .date {
+        .right {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
             font-size: 0.8em;
             color: light-dark(rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.5));
+            
+            a {
+                color: light-dark(rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.5));
+                text-decoration: none;
+                &:hover { text-decoration: underline; }
+            }
         }
     }
 

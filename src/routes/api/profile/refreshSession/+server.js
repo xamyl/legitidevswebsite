@@ -15,10 +15,8 @@ export const GET = async ({ url, cookies }) => {
 	if (!refreshRes.ok) return redirect(302, "api/profile/login")
 	
 	const { sessionToken, refreshToken } = await refreshRes.json()
-	console.log(sessionToken)
 	cookies.set("authorization.sessionToken", sessionToken, { path: "/" })
 	cookies.set("authorization.refreshToken", refreshToken, { path: "/" })
-	console.log(cookies.get("authorization.sessionToken"))
 
 	return json({ success: true })
 }

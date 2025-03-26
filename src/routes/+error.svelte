@@ -1,5 +1,7 @@
 <script>
 	import { page } from "$app/stores";
+	import { onMount } from "svelte";
+	import { fade } from "svelte/transition";
     
     const ERROR_MESSAGES = [
         "Error!",
@@ -18,24 +20,34 @@
         "i has meeted the team"
     ]
 
-    const ERROR_ICONS = [
-        "/img/error/evilreefgif.webp",
-        "/img/error/reefsob.webp",
-        "/img/error/unknown_icon.png",
-        "/img/loading.gif",
-        "/img/reefloading.gif",
-    ]
+    let PICKED_ERROR_ICON = $state("")
+    let PICKED_ERROR_MESSAGE = $state("")
+    async function getBackgroundImages() {
+        const images = await import.meta.glob("/static/img/error/*");
+        const paths = Object.keys(images)
+        const path = paths[Math.floor(Math.random() * paths.length)]
+        PICKED_ERROR_ICON = `${path}?url`.replace("/static","")
+    }
 
-    const PICKED_ERROR_MESSAGE = ERROR_MESSAGES[Math.floor(Math.random() * ERROR_MESSAGES.length)]
-    const PICKED_ERROR_ICON = ERROR_ICONS[Math.floor(Math.random() * ERROR_ICONS.length)]
+    let loaded = $state(false)
+    onMount(async () => {
+        PICKED_ERROR_MESSAGE = ERROR_MESSAGES[Math.floor(Math.random() * ERROR_MESSAGES.length)]
+        await getBackgroundImages()
+        loaded = true
+    })
+
+
 </script>
 
 <div class="main-container">
-    <img src="{PICKED_ERROR_ICON}" alt="evilreefgif">
-    <h1>{$page.status}</h1>
-    <code>{$page.error.message}</code>
-    <h2>{PICKED_ERROR_MESSAGE}</h2>
-    <a href="/" data-sveltekit-reload>Home</a>
+    {#if loaded}
+        <div class="main-wrapper" transition:fade={{duration:200}}>
+            <img src="{PICKED_ERROR_ICON}" alt="error icon">
+            <h1>{$page.status}</h1>
+            <code>{$page.error.message}</code>
+            <h2>{PICKED_ERROR_MESSAGE}</h2>
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -70,6 +82,13 @@
 		background-color: light-dark(var(--main-light), var(--main-dark));
 		height: 100vh;
 		align-items: center;
+        justify-content: center;
+    }
+
+    .main-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
     }
 </style>

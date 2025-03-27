@@ -102,7 +102,7 @@
 		<a href="https://youtube.com/legitimoose">
 			<img src="/img/youtube.png" alt="Legitimoose's Youtube" />
 		</a>
-		<a href="https://bsky.app/profile/legitidevs.bsky.social">
+		<a href="https://bsky.app/profile/legitimoose.net">
 			<img src="/svg/bsky.svg" alt="LegitiDev BlueSky" />
 		</a>
 	</div>

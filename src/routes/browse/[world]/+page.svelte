@@ -1,4 +1,5 @@
 <script>
+	import Advertisement from "$lib/components/Advertisement.svelte";
 	import { SITE_CONFIG } from "$lib/config";
 	import { lastPageURL } from "$lib/stores";
 	import { censorText, getItemIcon, getOwnerName, handleError, refreshSession, rehyphenateUUID, sanitizeText, showAlert } from "$lib/utils.js";
@@ -177,44 +178,63 @@
             </div>
         </div>
         <div class="mobile-center-flex-wrapper">
-            <div class="info-container">
-                <p class="info">{world.votes} votes</p>
-                <p class="info">{world.visits} visits</p>
-                {#if world.resource_pack_url !== ""}
-                    <p class="info special">Has resource pack</p>
-                {/if}
+            <div class="subheader-container">
+                <div class="left">
+                    <div class="mobile-center-flex-wrapper">
+                        <div class="info-container">
+                            <p class="info">{world.votes} votes</p>
+                            <p class="info">{world.visits} visits</p>
+                            {#if world.resource_pack_url !== ""}
+                                <p class="info special">Has resource pack</p>
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="mobile-center-flex-wrapper">
+                        <div class="button-container">
+                            <button class="button" onclick={ async () => { await navigator.clipboard.writeText(worldCommand) } }>Copy /world command</button>
+                            {#if world.resource_pack_url !== ""}
+                                <a class="button" href="{world.resource_pack_url}" target="_blank">Download resource pack</a>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <!-- LINKS GO HERE -->
+                </div>
             </div>
         </div>
-        <div class="mobile-center-flex-wrapper">
-            <div class="button-container">
-                <button class="button" onclick={ async () => { await navigator.clipboard.writeText(worldCommand) } }>Copy /world command</button>
-                {#if world.resource_pack_url !== ""}
-                    <a class="button" href="{world.resource_pack_url}" target="_blank">Download resource pack</a>
-                {/if}
+
+        <div class="line"></div>
+
+        <div class="other-container">
+            <div class="left">
+                <div class="comments-container">
+                    <div class="title-wrapper">
+                        <p>Comments</p>
+                    </div>
+                    <div class="comment-bar">
+                            <textarea placeholder="Type your comment here" bind:value={edits.comment.content} disabled={edits.comment.loading || !data.cookies?.profile} onkeypress={(e) => {if (e.key === "Enter") sendEdit.comment()}} maxlength="1024"></textarea>
+                            <button class={["edit-button info", edits.comment.loading && "hidden"]} onclick={sendEdit.comment} disabled={edits.comment.loading || !data.cookies?.profile}>Send</button>
+                    </div>
+                    <div class="comments-wrapper">
+                        {#if !world.legitidevs?.comments || world.legitidevs.comments.length === 0}
+                            <p>It's quiet in here.</p>
+                        {:else}
+                            {#each comments as comment (comment.uuid)}
+                                <Comment profile_uuid={comment.profile_uuid} content={comment.content} date={comment.date} uuid={comment.uuid} client_uuid={data.cookies?.profile?.uuid} deleteFunction={sendEdit.deleteComment}></Comment>
+                            {/each}
+                        {/if}
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="hidden-info-container">
-            <p>World UUID: {world.world_uuid}</p>
-            <p>Version: {world.version}</p>
-            <p>Created on {new Intl.DateTimeFormat('en-US', { dateStyle: "full", timeStyle: "long" }).format(data.world.creation_date_unix_seconds * 1000)}</p>
-            <p>This data was last scraped on {new Intl.DateTimeFormat('en-US', { timeStyle: "long" }).format(data.world.last_scraped * 1000)}</p>
-        </div>
-        <div class="comments-container">
-            <div class="title-wrapper">
-                <p>Comments</p>
-            </div>
-            <div class="comment-bar">
-                    <textarea placeholder="Type your comment here" bind:value={edits.comment.content} disabled={edits.comment.loading || !data.cookies?.profile} onkeypress={(e) => {if (e.key === "Enter") sendEdit.comment()}} maxlength="1024"></textarea>
-                    <button class={["edit-button info", edits.comment.loading && "hidden"]} onclick={sendEdit.comment} disabled={edits.comment.loading || !data.cookies?.profile}>Send</button>
-            </div>
-            <div class="comments-wrapper">
-                {#if !world.legitidevs?.comments || world.legitidevs.comments.length === 0}
-                    <p>It's quiet in here.</p>
-                {:else}
-                    {#each comments as comment (comment.uuid)}
-                        <Comment profile_uuid={comment.profile_uuid} content={comment.content} date={comment.date} uuid={comment.uuid} client_uuid={data.cookies?.profile?.uuid} deleteFunction={sendEdit.deleteComment}></Comment>
-                    {/each}
-                {/if}
+            <div class="right">
+                <div class="hidden-info-container">
+                    <p>World UUID: {world.world_uuid}</p>
+                    <p>Version: {world.version}</p>
+                    <p>Created on {new Intl.DateTimeFormat('en-US', { dateStyle: "full", timeStyle: "long" }).format(data.world.creation_date_unix_seconds * 1000)}</p>
+                    <p>This data was last scraped on {new Intl.DateTimeFormat('en-US', { timeStyle: "long" }).format(data.world.last_scraped * 1000)}</p>
+                </div>
+                <Advertisement />
             </div>
         </div>
     </div>
@@ -260,15 +280,54 @@
         }
     }
 
+    .subheader-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .info-container, .button-container {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .other-container {
+        display: flex;
+        flex-direction: row;
+        gap: 60px;
+
+        .left, .right {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 20px;
+        }
+
+        .right {
+            align-items: end;
+            @media screen and (max-width: 576px){
+                align-items: center;
+            }
+        }
+
+        @media screen and (max-width: 576px){
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+
     .comments-container {
         display: flex;
         justify-content: center;
         flex-direction: column;
+        width: 100%;
+        margin: 0;
         background-color: light-dark(#f1f0f5, #2b2b2f);
         box-shadow: 0px 5px light-dark(#9FA0AD, #111113);
         padding-inline: 20px;
         padding-block: 30px;
-        margin-top: 20px;
         gap: 20px;
         transition: 0.1s all ease;
         font-size: 1.5em;
@@ -279,6 +338,10 @@
             margin-left: 30px;
             font-size: 1.5em;
             > p { margin: 0; }
+        }
+
+        @media screen and (max-width: 576px){
+            padding-inline: 0px;
         }
     }
 
@@ -321,16 +384,6 @@
         gap: 20px;
         > p {
             color: light-dark(rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.5));
-        }
-    }
-
-    .info-container, .button-container {
-        display: flex;
-        flex-direction: row;
-
-        > * {
-            margin-right: 10px;
-            margin-bottom: 20px;
         }
     }
 
@@ -427,10 +480,10 @@
     }
 
     .hidden-info-container {
-        display: inline-flex;
+        display: flex;
         flex-direction: column;
-        padding-block: 10px;
-        padding-inline: 20px;
+        gap: 20px;
+        padding: 20px;
         background-color: light-dark(#f1f0f5, #2b2b2f);
         box-shadow: 0px 5px light-dark(#9FA0AD, #111113);
         font-size: 1.5em;
@@ -438,7 +491,6 @@
 
         > p {
             margin: 0;
-            margin-block: 10px;
         }
     }
 

@@ -1,7 +1,8 @@
 export const load = async () => {
     return {
         page: {
-            title: "Donate"
+            title: "Donate",
+            navbar: "small"
         },
     }
 }

@@ -1,6 +1,7 @@
 import "dotenv/config"
 import { SITE_CONFIG } from "$lib/config";
 import { redirect } from "@sveltejs/kit";
+import { showAlert } from "$lib/utils.js";
 const AUTH_REQ_URL =
 	`https://mc-auth.com/oAuth2/authorize` +
 	`?client_id=${SITE_CONFIG.MCAUTH.CLIENT_ID}` +
@@ -37,13 +38,16 @@ export const GET = async ({ url, cookies }) => {
         body: JSON.stringify(mcAuthPostRequestBody)
 	})).json();
 
+    if (mcAuthResponse.error) {
+        showAlert("Internal error occured.", "error", 5000)
+        return redirect(302, `/`);
+    }
+
     // Give the access token to the server and get the session and refresh tokens.
     const tokenResponse = await fetch(`${SITE_CONFIG.API_ROOT}profile/login`, {
         method: "POST",
         body: JSON.stringify({ access_token: mcAuthResponse.access_token })
     });
-
-    console.log(mcAuthResponse)
     
     // make the user confused on why they didnt log in cuz why not
     if (!tokenResponse.ok) return redirect(302, `/`)

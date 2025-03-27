@@ -3,6 +3,7 @@
 	import { onMount } from "svelte";
 	import UptimeDisplay from "./UptimeDisplay.svelte";
 	import { SITE_CONFIG } from "$lib/config";
+	import Advertisement from "$lib/components/Advertisement.svelte";
 
     const { data } = $props();
     const scraperUptime = data.uptime.scraper_uptime
@@ -27,16 +28,19 @@
         <p class="status-message {statusMessageStatus}">{statusMessage}</p>
         <UptimeDisplay title="Scraper" description="Handles info gathering on the server, Discord2MC & MC2Discord chat, and the Discord Bot." uptime_data={scraperUptime}></UptimeDisplay>
     </div>
+    <Advertisement />
 </div>
 
 <style>
     .main-container {
         display: flex;
         flex-direction: column;
+        gap: 20px;
 		background-color: light-dark(var(--main-light), var(--main-dark));
 		min-height: 100vmin;
         max-width: 100vw;
 		align-items: center;
+        padding-bottom: 20px;
     }
 
     .title-container {

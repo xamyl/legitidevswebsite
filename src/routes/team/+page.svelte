@@ -1,4 +1,6 @@
 <script>
+	import Advertisement from "$lib/components/Advertisement.svelte";
+
   let users = [
     {
       pfp: '/img/pfps/trplnr.png',
@@ -67,6 +69,7 @@
       </div>
     {/each}
   </div>
+  <Advertisement />
 </div>
 
 <style>
@@ -76,6 +79,7 @@
     background-color: light-dark(var(--main-light), var(--main-dark));
     min-height: 100vmin;
     max-width: 100vw;
+    padding-bottom: 20px;
     align-items: center;
   }
 

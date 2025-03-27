@@ -2,6 +2,8 @@
 	import { onMount } from 'svelte';
 	import WorldCard from './WorldCard.svelte';
 	import { SITE_CONFIG } from '$lib/config';
+	import Advertisement from '$lib/components/Advertisement.svelte';
+	import { get, writable } from 'svelte/store';
 
     // These stores all the worlds we fetched
     let worlds = $state([])
@@ -29,7 +31,7 @@
 
     async function fetchPage() {
         isLoading = true
-        const res = await fetch(`${SITE_CONFIG.API_ROOT}page/${pageIndex}?sort=${sort}?sortDirection=${sortDirection}`)
+        const res = await fetch(`${SITE_CONFIG.API_ROOT}page/${pageIndex}?sort=${sort}&sortDirection=${sortDirection}`)
         const newWorlds = await res.json()
         worlds = [...worlds, ...newWorlds]
         pageIndex++
@@ -96,124 +98,199 @@
 </svelte:head>
 
 <div class="main-container">
-    <div class="search-container">
-        <input 
-            type="text"
-            placeholder="Search worlds..." 
-            bind:value={searchQuery} 
-            oninput={searchWorlds}
-            class="search-input"
-        />
-        <!-- <select bind:value={sort} onchange={refreshWorlds}>
-            <option value="default">Online</option>
-            <option value="votes">Votes</option>
-            <option value="visits">Visits</option>
-            <option value="recently_created">Recently Created</option>
-            <option value="recently_scraped">Recently Scraped</option>
-        </select>
-        <div class="sort-direction-container">
-            <button onclick={() => {sortDirection = "ascending"; console.log(sortDirection)}}>^</button>
-            <button onclick={() => {sortDirection = "descending"; console.log(sortDirection)}}>&#8964;</button>
-        </div> -->
-    </div>
-    <div class="world-container">
-        {#if !isSearching}
-            {#each worlds as world}
-                <WorldCard
-                    world_uuid={world.world_uuid} 
-                    icon={world.icon} 
-                    raw_name={world.raw_name}
-                    owner_uuid={world.owner_uuid}
-                    votes={world.votes}
-                    visits={world.visits}
-                    resource_pack_url={world.resource_pack_url}
-                    locked={world.locked}
-                    player_count={world.player_count}
-                    enforce_whitelist={world.enforce_whitelist}
-                    unlisted={world?.legitidevs?.unlisted}
+    <div class="main-wrapper">
+        <div class="left">
+            <Advertisement />
+            <div class="facet">
+                <div>
+                    <p>Sort</p>
+                    <select bind:value={sortDirection} onchange={refreshWorlds}>
+                         <option value="ascending">Ascending</option>
+                         <option value="descending">Descending</option>
+                    </select>
+                    <p>Prioritize</p>
+                    <select bind:value={sort} onchange={refreshWorlds}>
+                         <option value="default">Default</option>
+                         <option value="votes">Votes</option>
+                         <option value="visits">Visits</option>
+                         <option value="recently_scraped">Recently scraped</option>
+                         <option value="recently_created">Recently created</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="search-container">
+                <input 
+                    type="text"
+                    placeholder="Search worlds..." 
+                    bind:value={searchQuery} 
+                    oninput={searchWorlds}
+                    class="search-input"
                 />
-            {/each}
-        {:else}
-            {#each searchedWorlds as world}
-                <WorldCard
-                    world_uuid={world.world_uuid} 
-                    icon={world.icon} 
-                    raw_name={world.raw_name}
-                    owner_uuid={world.owner_uuid}
-                    votes={world.votes}
-                    visits={world.visits}
-                    resource_pack_url={world.resource_pack_url}
-                    locked={world.locked}
-                    player_count={world.player_count}
-                    enforce_whitelist={world.enforce_whitelist}
-                />
-            {/each}
-        {/if}
+            </div>
+            <div class="world-container">
+                {#if !isSearching}
+                    {#each worlds as world}
+                        <WorldCard
+                            world_uuid={world.world_uuid} 
+                            icon={world.icon} 
+                            raw_name={world.raw_name}
+                            owner_uuid={world.owner_uuid}
+                            votes={world.votes}
+                            visits={world.visits}
+                            resource_pack_url={world.resource_pack_url}
+                            locked={world.locked}
+                            player_count={world.player_count}
+                            enforce_whitelist={world.enforce_whitelist}
+                            unlisted={world?.legitidevs?.unlisted}
+                        />
+                    {/each}
+                {:else}
+                    {#each searchedWorlds as world}
+                        <WorldCard
+                            world_uuid={world.world_uuid} 
+                            icon={world.icon} 
+                            raw_name={world.raw_name}
+                            owner_uuid={world.owner_uuid}
+                            votes={world.votes}
+                            visits={world.visits}
+                            resource_pack_url={world.resource_pack_url}
+                            locked={world.locked}
+                            player_count={world.player_count}
+                            enforce_whitelist={world.enforce_whitelist}
+                        />
+                    {/each}
+                {/if}
+            </div>
+            <button bind:this={sentinel} class="sentinel" onclick={async () => { await fetchPage() }}>
+                {#if isLoading}
+                    <img src="/img/reefloading.gif" alt="Loading Icon" class="loading-icon">
+                {:else}
+                    ...Load more...
+                {/if}
+            </button>
+            {#if isSearching && isLoading}
+                <img src="/img/reefloading.gif" alt="Loading Icon" class="loading-icon">
+            {/if}
+        </div>
     </div>
-    <button bind:this={sentinel} class="sentinel" onclick={async () => { await fetchPage() }}>
-        {#if isLoading}
-            <img src="/img/reefloading.gif" alt="Loading Icon" class="loading-icon">
-        {:else}
-            ...Load more...
-        {/if}
-    </button>
-    {#if isSearching && isLoading}
-        <img src="/img/reefloading.gif" alt="Loading Icon" class="loading-icon">
-    {/if}
 </div>
 
 <style>
     .main-container {
         display: flex;
-        flex-direction: column;
 		background-color: light-dark(var(--main-light), var(--main-dark));
 		min-height: 100vmin;
         max-width: 100vw;
-		align-items: center;
+        font-family: 'Crafted';
+    }
+
+    .main-wrapper {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        gap: 20px;
+        margin: 20px;
+
+        @media screen and (max-width: 576px){
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    .left {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 400px;
+
+        @media screen and (max-width: 576px){
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    .right {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 20px;
+    }
+
+    .facet {
+        position: sticky;
+        display: flex;
+        flex-direction: column;
+        top: 20px;
+        background-color: light-dark(#f1f0f5, #2b2b2f);
+        box-shadow: 0px 5px light-dark(#9FA0AD, #111113);
+        padding: 20px;
+        padding-top: 10px;
+        font-family: 'Crafted';
+        font-size: 2em;
+        gap: 10px;
+
+        p { margin: 0; }
+
+        > div {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        > div > p:not(:first-of-type) { 
+            color: light-dark(rgb(0, 0, 0, 0.5), rgb(255, 255, 255, 0.5));
+            font-size: 0.8em;
+        }
+
+        select {
+            background-color: light-dark(#d8d8dc, #555559);
+            box-shadow: 0px 5px light-dark(#c1c0c4, #18181a);
+            padding: 8px;
+            padding-top: 0px;
+            font: inherit;
+            font-size: 0.8em;
+            border: none;
+
+            &:focus, &:focus-visible { outline: none; }
+        }
+
+        option:nth-of-type(even) {
+            background-color: light-dark(#c1c1ca, #424247);
+            color: light-dark(var(--text-main-light), var(--text-main-dark));
+        }
     }
 
     .search-container {
         display: flex;
-        margin-top: 20px;
         width: 100%;
         justify-content: center;
     }
 
     
     .search-input {
-        background-color: #a09172;
         color: white;
         font-family: 'Crafted', 'Poppins', Arial, Helvetica, sans-serif;
         font-size: 2em;
         border: none;
-        box-shadow: 
-            -2px -2px 0px 2px #e0ca9f,
-            2px 2px 0px 2px #544c3b,
-            2px -2px 0px 2px #a09172,
-            -2px 2px 0px 2px #a09172,
-            -2px -2px 0px 6px var(--outline),
-            2px 2px 0px 6px var(--outline),
-            2px -2px 0px 6px var(--outline),
-            -2px 2px 0px 6px var(--outline);
-        text-shadow: 3px 3px rgb(0, 0, 0, 0.5);
-        padding-inline: 20px;
+        background-color: light-dark(#f1f0f5, #18181b);
+        box-shadow: inset 0px 3px light-dark(#9FA0AD, #0b0b0c);
+        outline: light-dark(#9FA0AD, #0b0b0c) 3px solid;
+        width: 100%;
+        padding-inline: 15px;
         padding-bottom: 10px;
 
-        &:focus, &:focus-visible {
-            outline: none;
-        }
-
         &::placeholder {
-            color: #d0c8b9;
+            color: light-dark(rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.5));
         }
     }
 
     .world-container {
         max-width: 100%;
-        margin: 20px;
         display: grid;
         gap: 20px;
-        grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
         @media screen and (max-width: 680px) {
             grid-template-columns: 100%;
         }

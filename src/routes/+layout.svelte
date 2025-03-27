@@ -29,6 +29,7 @@
 	{:else}
 		<title>{$page.data?.page?.title ?? "Unknown"} | LegitiDevs</title>
 	{/if}
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2384425323311779" crossorigin="anonymous"></script>
 </svelte:head>
 
 {#if isError || $page.data?.page?.navbar === "small"}

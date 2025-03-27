@@ -50,12 +50,13 @@
         text-decoration: none;
         flex-direction: column;
         background-color: light-dark(#f1f0f5, #2b2b2f);
-        padding-inline: 20px;
-        padding-block: 10px;
+        padding: 20px;
+        padding-top: 10px;
         box-shadow: 0px 10px light-dark(#9FA0AD, #111113);
         font-family: "Crafted", "Poppins", Arial, Helvetica, sans-serif;
         transition: all 0.1s ease;
         cursor: pointer;
+        gap: 20px;
 
         &:hover {
             scale: 1.02;
@@ -70,25 +71,28 @@
     .top, .bottom {
         display: flex;
         flex-direction: row;
+
+        p {
+            margin: 0;
+        }
     }
 
-    @media screen and (max-width: 680px){
-        .top{
+    .top {
+        justify-content: space-between;
+        @media screen and (max-width: 680px){
             flex-direction: column;
         }
     }
 
     .bottom {
+        gap: 10px;
         align-items: center;
-    }
-
-    .bottom > p {
-        margin-right: 10px;
     }
 
     .title-container {
         display: flex;
         flex-direction: row;
+        gap: 10px;
         max-width: 70%;
 
         @media screen and (max-width: 680px) {
@@ -101,7 +105,6 @@
         flex-direction: column;
         justify-content: center;
         max-width: 100%;
-        margin-left: 10px;
     }
 
     .icon-wrapper {
@@ -113,29 +116,20 @@
     .status-container {
         display: flex;
         flex-direction: column;
-        flex-grow: 1; 
+        gap: 10px;
         justify-content: center;
         align-items: end;
-
-        > p {
-            margin: 0;
-            &:not(:first-child) {
-                margin-top: 10px;
-            } 
-        }
 
         @media screen and (max-width: 680px) {
             align-items: start;
             justify-content: left;
             align-items: center;
             flex-direction: row;
-            > p:first-child { margin-top: 10px; margin-right: 10px; }
         }
     }
 
     .name {
         font-size: 2em;
-        margin: 0;
         paint-order: stroke fill;
         -webkit-text-stroke: black 5px;
     }
@@ -143,7 +137,6 @@
     .owner-name {
         color: light-dark(rgb(0, 0, 0, 0.5), rgb(255, 255, 255, 0.5));
         font-style: italic;
-        margin: 0;
         font-size: 1.5em;
     }
 

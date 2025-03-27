@@ -1,5 +1,4 @@
 <script>
-	import { read } from "$app/server";
 	import { currentPageURL } from "$lib/stores.js";
 	import { getOwnerName, showAlert } from "$lib/utils";
 	import { onMount } from "svelte";

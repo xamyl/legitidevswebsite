@@ -43,6 +43,8 @@ export const GET = async ({ url, cookies }) => {
         body: JSON.stringify({ access_token: mcAuthResponse.access_token })
     });
 
+    console.log(mcAuthResponse)
+    
     // make the user confused on why they didnt log in cuz why not
     if (!tokenResponse.ok) return redirect(302, `/`)
     

@@ -32,8 +32,8 @@
 
 <svelte:head>
     <meta property="og:type" content="website"/>
-    <meta property="og:title" content="{profile_name} said,"/>
-    <meta property="og:description" content={content.length > 128 ? `${content.slice(0, 128)}...` : content}/>
+    <meta property="og:title" content="{profile_name} said"/>
+    <meta property="og:description" content={content.length > 256 ? `"${content.slice(0, 256)}..."` : `"${content}"`}/>
     <meta property="og:image" content="https://mc-heads.net/head/{profile_uuid}/left">
 </svelte:head>
 

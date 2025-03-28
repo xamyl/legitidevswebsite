@@ -69,7 +69,7 @@
     .main-container {
         display: flex;
 		flex-direction: column;
-        height: 100vh;
+        min-height: 100vh;
         background-repeat: no-repeat;
         background-size: cover;
         align-items: center;
@@ -104,6 +104,8 @@
         p {
             font-size: 1.5em;
             text-align: center;
+            word-wrap: break-word;
+            word-break: break-all;
             margin: 0;
         }
     }
@@ -116,6 +118,7 @@
             margin: 0;
             text-decoration: none;
         }
+        margin-bottom: 20px;
 
         button {
             background: none;

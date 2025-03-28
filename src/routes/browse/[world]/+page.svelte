@@ -322,7 +322,7 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
-        width: 100%;
+        max-width: 40vw;
         margin: 0;
         background-color: light-dark(#f1f0f5, #2b2b2f);
         box-shadow: 0px 5px light-dark(#9FA0AD, #111113);
@@ -350,8 +350,8 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        gap: 20px;
         width: 100%;
+        gap: 20px;
         > textarea {
             field-sizing: content;
             width: 80%;

@@ -94,9 +94,11 @@
         margin-inline: 10px;
         margin-left: 75px;
         max-width: 75%;
-        > p {
+        .comment {
             margin: 0;
             margin-bottom: 20px;
+            word-wrap: break-word;
+            word-break: break-all;
         }
     }
 

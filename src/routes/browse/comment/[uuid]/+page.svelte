@@ -1,11 +1,11 @@
 <script>
 	import { currentPageURL } from "$lib/stores.js";
-	import { getOwnerName, showAlert } from "$lib/utils";
+	import { showAlert } from "$lib/utils";
 	import { onMount } from "svelte";
 	import { fly } from "svelte/transition";
 
     const { data } = $props();
-    const { profile_uuid, content, uuid, date, from } = data.comment
+    const { profile_uuid, profile_name, content, uuid, date, from } = data.comment
 
     let backgroundImagePath = $state("")
 
@@ -15,12 +15,9 @@
         const path = paths[Math.floor(Math.random() * paths.length)]
         backgroundImagePath = `${path}?url`.replace("/static","")
     }
-
-    let profileName = $state("Herobrine");
     let formattedDate = $state("");
     let loaded = $state(false)
     onMount(async () => {
-        profileName = await getOwnerName(profile_uuid);
         formattedDate = new Intl.DateTimeFormat('en-US', { dateStyle: "medium", timeStyle: "short" }).format(date * 1000)
         await getBackgroundImages()
         loaded = true
@@ -35,7 +32,7 @@
 
 <svelte:head>
     <meta property="og:type" content="website"/>
-    <meta property="og:title" content="{profileName} said,"/>
+    <meta property="og:title" content="{profile_name} said,"/>
     <meta property="og:description" content={content.length > 128 ? `${content.slice(0, 128)}...` : content}/>
     <meta property="og:image" content="https://mc-heads.net/head/{profile_uuid}/left">
 </svelte:head>
@@ -51,7 +48,7 @@
             </div>
             <div class="info-container" transition:fly={{y:60,duration:2500}}>
                 <a href="/profile/{profile_uuid}" class="profile-name">
-                    - {profileName}
+                    - {profile_name}
                 </a>
                 <div class="meta-container">
                     <p>from</p>
